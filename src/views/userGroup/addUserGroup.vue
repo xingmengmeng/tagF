@@ -172,11 +172,14 @@
                 n: '0', /*选择的标签数*/
                 savaError: '', /*创建用户群保存确定后的接口状态  错误提示*/
                 statisUsers: {rate: "0%", count: 0},
-                showLoading: false
+                showLoading: false,
+                addGroupUrl:'/api/userGroup/save.gm',//添加用户群接口
+                addGroupGotoPage:'/#/userGroup',//添加成功后跳转地址
             }
         },
         mounted(){
             this.getData();
+            this.getUrlPage();//地址栏参数判断
             this.saveGroup();
             /*提交按钮样式*/
             LayOut.setHeight.init();
@@ -512,9 +515,9 @@
                     this.savaError='最多输入20个字符';
                     return false;
                 }
-                this.$http.post('/api/userGroup/save.gm',{"name":this.userGroupName,"tagRelations":JSON.stringify(this.tagRelations)},{emulateJSON:true}).then(function (response) {
+                this.$http.post(this.addGroupUrl,{"name":this.userGroupName,"tagRelations":JSON.stringify(this.tagRelations)},{emulateJSON:true}).then(function (response) {
                     if(response.data.code==200){
-                        window.location.href='userGroup.html';
+                        window.location.href=this.addGroupGotoPage;
                     }
                     if(response.data.status=='error') {
                         this.savaError = response.data.msg;
@@ -576,7 +579,23 @@
                     btnsave.style.cursor='pointer';
                     btnsave.removeAttribute('disabled');
                 }
-            }
+            },
+            //得到地址栏中的当前页码数  history设置
+            getUrlPage(){
+                var url=window.location.href,
+                        urlReg=/([^?=&#]+)=([^?=&#]+)/g,
+                        urlObj={};
+                url.replace(urlReg,function ($0,$1,$2) {
+                    urlObj[$1]=$2;
+                });
+                if(urlObj['flag']){//从宏观新建 按钮点击来的页面标志  添加到宏观弹框中的用户群
+                    this.addGroupUrl='/api/userGroupPortrait/save.gm';
+                    this.addGroupGotoPage='/#/macroView/groupPic';
+                }else{//其他页面点击而来  添加到总用户群中
+                    this.addGroupUrl='/api/userGroup/save.gm';
+                    this.addGroupGotoPage='/#/userGroup';
+                }
+            },
         }
     }
 </script>
