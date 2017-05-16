@@ -36,6 +36,14 @@
         padding: 0 10px;
       }
     }
+    i{
+      float: left;
+      margin:5px 0 0 25px;
+      width: 32px;
+      height: 30px;
+      background: url("../../assets/images/vadd_2.png");
+      cursor: pointer;
+    }
   }
 }
 /*地域分布、年龄分布、性别分布*/
@@ -179,13 +187,36 @@
       overflow:hidden;
       position: relative;
       box-sizing: border-box;
-      span{
-        display: inline-block;
-        margin:15px 5px 0 0;
-        padding: 5px 10px;
-        background: #F7FAFE;
-        border: 1px solid #BDDBFF;
-        border-radius: 35px;
+      .spanAndClose{
+        float: left;
+        position: relative;
+
+        span{
+          display: inline-block;
+          margin:15px 5px 0 0;
+          padding: 5px 10px;
+          background: #F7FAFE;
+          border: 1px solid #BDDBFF;
+          border-radius: 35px;
+          color:#333;
+          cursor: pointer;
+
+          &.active{
+            background: #1078F5;
+            border: 1px solid #1078F5;
+            border-radius: 57px;
+            color:#fff;
+          }
+        }
+        i{
+          position: absolute;
+          top: 10px;
+          right: 0;
+          width: 15px;
+          height: 15px;
+          background: url("../../assets/images/vclose.png");
+          cursor: pointer;
+        }
       }
     }
   }

@@ -26,30 +26,34 @@
         },
         methods:{
             drawChart(data,mymax){
-                this.chart = echarts.init(document.getElementById(this.curId));
-                this.chart.setOption({
-                    color: ['#477bfc','#6fc1ff','#cfe8fc'],
-                    tooltip: {
-                        trigger: 'item'
-                    },
-                    visualMap: {
-                        min: 0,
-                        max: mymax,
-                        x: 'left',
-                        y: 'bottom',
-                        text:['高','低'],
-                        calculable : true,
-                        color: ['#477bfc','#6fc1ff','#cfe8fc'],
-                    },
-                    grid:{
-                        top:'0'
-                    },
-                    legend: {
-                        orient: 'horizontal',
-                        bottom:'20',
-                        data:this.nameAry,
-                    },
-                    series: [
+                /*配置series*/
+                var temSeries=new Array();
+                if(this.ids.length==1){
+                    temSeries=[
+                        {
+                            name: this.nameAry[0],
+                            type: 'map',
+                            showLegendSymbol: false,
+                            mapType: 'china',
+                            roam: false,
+                            data: data[this.ids[0]],
+                            label: {
+                                normal: {
+                                    show:false
+                                },
+                                emphasis: {
+                                    show: false
+                                }
+                            },
+                            itemStyle:{
+                                emphasis:{
+                                    areaColor:'#FF99F3',
+                                }
+                            },
+                        }
+                    ];
+                }else if(this.ids.length==2){
+                    temSeries=[
                         {
                             name: this.nameAry[0],
                             type: 'map',
@@ -92,7 +96,33 @@
                                 }
                             },
                         }
-                    ]
+                    ];
+                }
+
+                this.chart = echarts.init(document.getElementById(this.curId));
+                this.chart.setOption({
+                    color: ['#477bfc','#6fc1ff','#cfe8fc'],
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: mymax,
+                        x: 'left',
+                        y: 'bottom',
+                        text:['高','低'],
+                        calculable : true,
+                        color: ['#477bfc','#6fc1ff','#cfe8fc'],
+                    },
+                    grid:{
+                        top:'0'
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        bottom:'20',
+                        data:this.nameAry,
+                    },
+                    series: temSeries,
                 });
             }
         }

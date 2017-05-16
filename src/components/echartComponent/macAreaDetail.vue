@@ -30,8 +30,39 @@
                 for(var key in data){
                     yData.unshift(key);
                     series1.unshift(data[key][this.ids[0]]);
-                    series2.unshift(data[key][this.ids[1]]);
+                    if(this.ids[1]){
+                        series2.unshift(data[key][this.ids[1]]);
+                    }
                 }
+
+                /*配置series*/
+                var temSeries=new Array();
+                if(this.ids.length==1){
+                    temSeries=[
+                        {
+                            name:this.nameAry[0],
+                            type:'bar',
+                            data:series1,
+                            barWidth:6
+                        }
+                    ];
+                }else if(this.ids.length==2){
+                    temSeries=[
+                        {
+                            name:this.nameAry[0],
+                            type:'bar',
+                            data:series1,
+                            barWidth:6
+                        },
+                        {
+                            name:this.nameAry[1],
+                            type:'bar',
+                            data:series2,
+                            barWidth:6
+                        }
+                    ];
+                }
+                console.log(this.nameAry);
                 this.chart = echarts.init(document.getElementById(this.curId));
                 this.chart.setOption({
                     color: ['#769df5','#81c0fa'],

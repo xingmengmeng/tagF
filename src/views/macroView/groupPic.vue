@@ -10,6 +10,7 @@
                 <!--<div class="biSpanWrap">
                     <span>男，18-21，投资100起</span>
                 </div>-->
+                <i @click="addGroupFn"></i>
             </div>
         </div>
         <!--地域分布  年龄分布  性别分布 start-->
@@ -110,8 +111,8 @@
         </div>
 
         <!--选择对比人群弹框 start-->
-        <div class="overlayNew"></div>
-        <div class="addMark">
+        <div class="overlayNew" v-show="showMarker"></div>
+        <div class="addMark" v-show="showMarker">
             <div class="markTitle clearfix">
                 <h5>添加对比人群（最多勾选2项）</h5>
                 <i class="right close" @click="hideMark">关闭</i>
@@ -120,13 +121,16 @@
                 <span class="newAdd" @click="gotoAddNewGorup">+新建</span>
                 <div class="spanWrap">
                     <div class="scroll_wrap">
-                        <span v-for="item in proAry">{{item.name}}</span>
+                        <div class="spanAndClose" v-for="item in proAry">
+                            <span @click="selectSpanFn(item.id)" :class="temIds.indexOf(item.id)!=-1?'active':''">{{item.name}}</span>
+                            <i v-if="!item.flag" @click="delectGroup(item.id)"></i>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="btnWrap">
-                <input type="button" class="btn" value="取消"/>
-                <input type="button" class="btn" value="确定"/>
+                <input type="button" class="btn" value="取消" @click="hideMark"/>
+                <input type="button" class="btn" value="确定" @click="changeIds"/>
             </div>
         </div>
         <!--选择对比人群弹框 end-->
@@ -143,9 +147,11 @@
             return{
                 resData:[],
                 ids:[],
+                temIds:[],
                 nameAry:[],
                 proAry:[],//可选人群
                 addUserRightScroll:null,
+                showMarker:0,
             }
         },
         components:{
@@ -169,6 +175,7 @@
                         /*得到ids 用户群名*/
                         resData.forEach( (item)=> {
                             this.ids.push(item.id);
+                            this.temIds.push(item.id);
                             this.nameAry.push(item.name);
                         });
 
@@ -246,11 +253,53 @@
                     }
                 })
             },
+            /*点击新增 对比人群 按钮*/
+            addGroupFn(){
+                this.showMarker=1;
+            },
             /*隐藏弹框*/
-            hideMark(){},
+            hideMark(){
+                this.showMarker=0;
+            },
             /*点击  新建  跳转*/
             gotoAddNewGorup(){
                 window.location.href='/#/userGroup/addUserGroup?flag=new';
+            },
+            /*点击 弹框中 用户群*/
+            selectSpanFn(id){
+                var con=this.temIds.filter( (item)=> {
+                    return item==id;
+                });
+                if(con.length==0){
+                    if(this.temIds.length>=2){
+                        return;
+                    }else{
+                        this.temIds.push(id);
+                    }
+                }else {
+                    this.temIds=this.temIds.filter( (item)=> {
+                        return item!=id;
+                    })
+                }
+                console.log(this.temIds);
+            },
+            /*删除新增的用户群*/
+            delectGroup(id){
+                this.$http.delete('/api/userGroupPortrait/delete.gm?id='+id).then(function(res){
+                    if(res.data.code==200){
+                        this.getSelectPro();
+                    }
+                })
+            },
+            /*切换对比*/
+            changeIds(){
+                this.ids=this.temIds;
+                this.getAreaData();/*地域分布模块加载*/
+                this.getAgeData();/*年龄分布加载*/
+                this.picData();/*客户类型*/
+                this.proData();/*投资产品类型*/
+                this.ctData();/*充值提现偏好*/
+                this.laData();/*当前客户等级与总资产*/
             }
         }
     }
