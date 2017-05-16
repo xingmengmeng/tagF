@@ -1,0 +1,81 @@
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+import VueRouter from 'vue-router'
+
+Vue.use(VueResource);
+Vue.use(VueRouter);
+
+import App from './views/app.vue'
+
+import Index from './views/index/indexMain.vue';
+/*宏观*/
+import macroView from './views/macroView/macroView.vue';
+import groupPic from './views/macroView/groupPic.vue';
+import trend from './views/macroView/trend.vue';
+import needs from './views/macroView/needs.vue';
+import customer from './views/macroView/customer.vue';
+/*微观*/
+import microView from './views/microView/microView.vue';
+
+import tagView from './views/tagView/tagView.vue';
+import addUserGroup from './views/userGroup/addUserGroup.vue';
+import userGroup from './views/userGroup/userGroup.vue';
+import userDetail from './views/userGroup/userDetail.vue';
+import userDetailMain from './views/userGroup/userDetailMain.vue';
+import userLabel from './views/userGroup/userLabel.vue';
+import downloadLink from './views/userGroup/downloadLink.vue';
+import liabry from './views/userGroup/liabry.vue';
+import userList from './views/userGroup/userList.vue';
+import pushActivities from './views/activity/pushActivities.vue';
+
+const router = new VueRouter({
+    hashbang:true,//路径已#/开头  防止刷新报404
+    history:true,
+    linkActiveClass:'active',//当前页的选中状态
+    routes: [
+        { path: '/', redirect:'/index'},
+        { path: '/index', component: Index},
+        { path: '/pushActivities', component: pushActivities},
+        { path: '/macroView',component:macroView,redirect:'macroView/groupPic',/*宏观*/
+            children:[
+                { path:'groupPic',component:groupPic},/*人群画像*/
+                { path: 'trend', component: trend},/*趋势研究*/
+                { path:'needs',component:needs},/*需求洞察*/
+                { path:'customer',component:customer},/*客户关系*/
+            ]
+        },
+        { path: '/microView',component:microView},
+        { path: '/tagView',component:tagView},
+        { path: '/userGroup', component: userGroup,
+            children:[
+                { path:'',component:userList},
+                { path: 'addUserGroup', component: addUserGroup},
+                { path:'userDetail',component:userDetail,
+                    children:[
+                        { path:'groupMain',component:userDetailMain},
+                        { path:'userLabel',component:userLabel},
+                        { path:'downloadLink',component:downloadLink},
+                        { path:'liabry',component:liabry},
+                    ]
+                },
+            ]
+        },
+    ]
+})
+
+Vue.http.interceptors.push(function(request, next) {
+    next(function(response) {
+        if(response.status==200){
+            if(response.body.code==203||response.body.code==undefined){
+                window.location.href='login.html';
+            }
+        }
+        return response;
+    });
+});
+
+new Vue({
+    el: '#app',
+    router:router,
+    components: { App }
+})

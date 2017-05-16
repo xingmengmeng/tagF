@@ -1,0 +1,84 @@
+<template>
+    <div :id="curId">省份</div>
+</template>
+
+<script type="text/ecmascript-6">
+    const echarts = require('echarts');
+    export default {
+        props: ['curId'],/*放传递过来的参数*/
+        data(){
+            return{
+                resData:[],
+                ids:[],
+                nameAry:[],
+            }
+        },
+        mounted(){
+            this.$on('changeData', (ids,res,data)=> {
+                this.ids=ids;
+                this.resData=res;
+                this.nameAry.length=0;
+                this.resData.forEach( (item)=> {
+                    this.nameAry.push(item.name);
+                });
+                this.drawChart(data.provinceTopTen);
+            })
+        },
+        methods:{
+            drawChart(data){
+                var yData=[],series1=[],series2=[];
+                for(var key in data){
+                    yData.unshift(key);
+                    series1.unshift(data[key][this.ids[0]]);
+                    series2.unshift(data[key][this.ids[1]]);
+                }
+                this.chart = echarts.init(document.getElementById(this.curId));
+                this.chart.setOption({
+                    color: ['#769df5','#81c0fa'],
+                    tooltip : {
+                        trigger: 'axis',
+                    },
+                    legend: {
+                        top:10,
+                        data:this.nameAry
+                    },
+                    grid:{
+                        top:50,
+                        left:'50px',
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            show:false,
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            data : yData,
+                            axisLine: {
+                                show:false,
+                            },
+                            axisTick:{
+                                show:false
+                            }
+                        }
+                    ],
+                    series : [
+                        {
+                            name:this.nameAry[0],
+                            type:'bar',
+                            data:series1,
+                            barWidth:6
+                        },
+                        {
+                            name:this.nameAry[1],
+                            type:'bar',
+                            data:series2,
+                            barWidth:6
+                        }
+                    ]
+                });
+            }
+        },
+    }
+</script>

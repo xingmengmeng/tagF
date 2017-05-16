@@ -1,0 +1,125 @@
+.picH3{
+  font-size: 16px;
+  color: #666666;
+  font-weight:normal;
+}
+/*图表宽、高*/
+#areaShow,#areaDetail,#ageId,#picId{
+  width: 100%;
+  height: 100%;
+}
+
+.selectGroup{
+  margin:20px 0;
+  padding: 27px 20px;
+  background: #fff;
+  box-sizing: border-box;
+  .grSpan{
+    float:left;
+    font-size:16px;
+    height: 40px;
+    line-height: 40px;
+  }
+  .groupNameWrap{
+    float: left;
+    .biSpanWrap{
+      padding: 0 20px;
+      float: left;
+      margin-left:20px;
+      background: #F7FAFE;
+      border: 1px solid #9CC9FF;
+      border-radius: 35px;
+      span{
+        display:inline-block;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 10px;
+      }
+    }
+  }
+}
+/*地域分布、年龄分布、性别分布*/
+.areaWrap{
+  width: 58%;
+  padding-right: 10px;
+  box-sizing: border-box;
+
+  .areas{
+    padding: 10px 20px;
+    height: 550px;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    .areasWrap{
+      width: 60%;
+      height: 500px;
+    }
+    .areaDetailWrap{
+      width: 30%;
+      float: right;
+      height: 500px;
+    }
+  }
+}
+.personWrap{
+  width: 42%;
+  .agesWrap{
+    padding: 10px 20px;
+    height: 270px;
+    background: #fff;
+    box-sizing: border-box;
+  }
+  .sexWrap{
+    .agesWrap;
+    margin-top: 10px;
+  }
+}
+
+/*下方四块切换 切换总数部分*/
+.lineNav{
+  margin-top: 10px;
+  height: 60px;
+  line-height: 60px;
+  background: #F7FAFE;
+
+  span{
+    padding-bottom: 5px;
+    margin: 0 60px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    i{
+      font-size: 13px;
+      font-weight: normal;
+      font-style: normal;
+    }
+    &.active{
+      border-bottom: 2px #1078F5 solid;
+    }
+  }
+}
+
+/*下方四块*/
+.picWrap{
+  float: left;
+  margin-top: 10px;
+  width: 50%;
+  padding-left: 0;
+  padding-right: 5px;
+  box-sizing: border-box;
+  &.right{
+    padding-left: 5px;
+    padding-right: 0;
+  }
+  .wrapMainDiv{
+    width: 100%;
+    padding:10px 20px;
+    background: #fff;
+    box-sizing: border-box;
+    .chartWrap{
+      width: 100%;
+      height: 330px;
+    }
+  }
+}
