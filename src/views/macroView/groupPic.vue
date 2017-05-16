@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="chartWrap">
-                        图表
+                        <mac-age cur-id="proId" ref="prorefId"></mac-age>
                     </div>
                 </div>
 
@@ -86,7 +86,9 @@
                             <input type="radio" name="ctStyle"><label>提现</label>
                         </div>
                     </div>
-                    <div class="chartWrap">图表</div>
+                    <div class="chartWrap">
+                        <mac-age cur-id="ctId" ref="ctrefId"></mac-age>
+                    </div>
                 </div>
             </div>
             <!--当前客户等级与总资产-->
@@ -100,16 +102,38 @@
                         </div>
                     </div>
                     <div class="chartWrap">
-                        图表
+                        <mac-age cur-id="laId" ref="larefId"></mac-age>
                     </div>
                 </div>
 
             </div>
         </div>
 
+        <!--选择对比人群弹框 start-->
+        <div class="overlayNew"></div>
+        <div class="addMark">
+            <div class="markTitle clearfix">
+                <h5>添加对比人群（最多勾选2项）</h5>
+                <i class="right close" @click="hideMark">关闭</i>
+            </div>
+            <div class="mainDiv clearfix">
+                <span class="newAdd" @click="gotoAddNewGorup">+新建</span>
+                <div class="spanWrap">
+                    <div class="scroll_wrap">
+                        <span v-for="item in proAry">{{item.name}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="btnWrap">
+                <input type="button" class="btn" value="取消"/>
+                <input type="button" class="btn" value="确定"/>
+            </div>
+        </div>
+        <!--选择对比人群弹框 end-->
     </div>
 </template>
 <script type="text/ecmascript-6">
+    const IScroll = require('iscroll');
     require('../../assets/css/groupPic.less');
     import areas from '../../components/echartComponent/areas.vue';//地图
     import macArea from '../../components/echartComponent/macAreaDetail.vue';//地图右侧省份
@@ -120,6 +144,8 @@
                 resData:[],
                 ids:[],
                 nameAry:[],
+                proAry:[],//可选人群
+                addUserRightScroll:null,
             }
         },
         components:{
@@ -129,6 +155,7 @@
         },
         mounted(){
             this.getData();
+            this.getSelectPro();
         },
         methods:{
             //初始化  得到当前的id数组、用户群名数组
@@ -152,8 +179,24 @@
                         this.ctData();/*充值提现偏好*/
                         this.laData();/*当前客户等级与总资产*/
                     }
+                });
+            },
+            /*得到可选人群*/
+            getSelectPro(){
+                this.$http.get('/api/userGroupPortrait/queryList.gm').then(function (res) {
+                    if(res.data.code==200){
+                        this.proAry=res.data.dataInfo;
+                        this.addUserRightScroll=new IScroll('.spanWrap',{
+                            mouseWheel: true,
+                            scrollbars: true,
+                            checkDOMChanges:true,
+                            bounce: false,
+                            interactiveScrollbars:true
+                        });
+                    }
                 })
             },
+            /*地域分布*/
             getAreaData(){
                 this.$http.get('/api/userGroupPortrait/getAreaChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
@@ -175,7 +218,7 @@
                 //picrefId
                 this.$http.get('/api/userGroupPortrait/getCusTypeChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.picrefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.cusType);
+                        this.$refs.picrefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.cusType,17);
                     }
                 })
             },
@@ -183,7 +226,7 @@
             proData(){
                 this.$http.get('/api/userGroupPortrait/getInvestProductTypeChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        //this.$refs.picrefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.cusType);
+                        this.$refs.prorefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.productType,17);
                     }
                 })
             },
@@ -191,7 +234,7 @@
             ctData(){
                 this.$http.get('/api/userGroupPortrait/getRechargeAndWithdrawChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        //this.$refs.picrefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.cusType);
+                        this.$refs.ctrefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.recharge,17);
                     }
                 })
             },
@@ -199,9 +242,15 @@
             laData(){
                 this.$http.get('/api/userGroupPortrait/getCusGradeAndAssetChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        //this.$refs.picrefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.cusType);
+                        this.$refs.larefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.totalAsset,17);
                     }
                 })
+            },
+            /*隐藏弹框*/
+            hideMark(){},
+            /*点击  新建  跳转*/
+            gotoAddNewGorup(){
+                window.location.href='/#/userGroup/addUserGroup?flag=new';
             }
         }
     }

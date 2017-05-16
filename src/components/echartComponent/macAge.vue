@@ -10,16 +10,22 @@
                 resData:[],
                 ids:[],
                 nameAry:[],
+                serWidth:11,
             }
         },
         mounted(){
-            this.$on('changeData', (ids,res,data)=> {
+            this.$on('changeData', (ids,res,data,serWidth)=> {//用户群id，传递过来的返回值，子接口返回值，bar宽度
                 this.ids=ids;
                 this.resData=res;
                 this.nameAry.length=0;
                 this.resData.forEach( (item)=> {
                     this.nameAry.push(item.name);
                 });
+                /*设置bar宽度*/
+                if(serWidth){
+                    this.serWidth=serWidth;
+                }
+                /*画图*/
                 this.drawChart(data);
             })
         },
@@ -79,7 +85,7 @@
                             name:this.nameAry[0],
                             type:'bar',
                             data:series1,
-                            barWidth:11,
+                            barWidth:this.serWidth,
                             tooltip : {trigger: 'item'},
                             itemStyle: {
                                 normal: {
@@ -108,7 +114,7 @@
                             name:this.nameAry[1],
                             type:'bar',
                             data:series2,
-                            barWidth:11,
+                            barWidth:this.serWidth,
                             tooltip : {trigger: 'item'},
                             itemStyle: {
                                 normal: {
