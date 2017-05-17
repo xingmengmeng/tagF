@@ -86,7 +86,6 @@
         },
         methods:{
             drawChart(data){
-                console.log(JSON.stringify(data));
                 var xData=[],series1=[],series2=[],valuess0=[],valuess1=[];
                 if(data[this.ids[0]]){
                     data[this.ids[0]].forEach( (item)=> {

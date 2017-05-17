@@ -219,8 +219,12 @@
             getAreaData(){
                 this.$http.get('/api/userGroupPortrait/getAreaChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.areaId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo);
-                        this.$refs.areaDetailId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo);
+                        if(this.$refs.areaId){
+                            this.$refs.areaId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo);
+                        }
+                        if(this.$refs.areaDetailId){
+                            this.$refs.areaDetailId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo);
+                        }
                     }
                 })
             },
@@ -228,7 +232,9 @@
             getAgeData(){
                 this.$http.get('/api/userGroupPortrait/getAgeChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.agerefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.age);
+                        if(this.$refs.agerefId){
+                            this.$refs.agerefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.age);
+                        }
                     }
                 })
             },
@@ -245,7 +251,9 @@
                 //picrefId
                 this.$http.get('/api/userGroupPortrait/getCusTypeChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.picrefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.cusType,17);
+                        if(this.$refs.picrefId){
+                            this.$refs.picrefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.cusType,17);
+                        }
                     }
                 })
             },
@@ -255,7 +263,9 @@
                     this.$http.get('/api/userGroupPortrait/getInvestProductTypeChart.gm?ids='+this.ids).then(function (res) {
                         if(res.data.code==200){
                             this.proResData=res.data.dataInfo;
-                            this.$refs.prorefId.$emit('changeData',this.ids,this.nameAry,this.proResData[this.proStyle],17);
+                            if(this.$refs.prorefId){
+                                this.$refs.prorefId.$emit('changeData',this.ids,this.nameAry,this.proResData[this.proStyle],17);
+                            }
                         }
                     })
                 }else{
@@ -269,7 +279,9 @@
                     this.$http.get('/api/userGroupPortrait/getRechargeAndWithdrawChart.gm?ids='+this.ids).then(function (res) {
                         if(res.data.code==200){
                             this.ctResData=res.data.dataInfo;
-                            this.$refs.ctrefId.$emit('changeData',this.ids,this.nameAry,this.ctResData[this.ctStyle],17);
+                            if(this.$refs.ctrefId){
+                                this.$refs.ctrefId.$emit('changeData',this.ids,this.nameAry,this.ctResData[this.ctStyle],17);
+                            }
                         }
                     })
                 }else{
@@ -282,7 +294,9 @@
                     this.$http.get('/api/userGroupPortrait/getCusGradeAndAssetChart.gm?ids='+this.ids).then(function (res) {
                         if(res.data.code==200){
                             this.laResData=res.data.dataInfo;
-                            this.$refs.larefId.$emit('changeData',this.ids,this.nameAry,this.laResData[this.laStyle],17);
+                            if(this.$refs.larefId){
+                                this.$refs.larefId.$emit('changeData',this.ids,this.nameAry,this.laResData[this.laStyle],17);
+                            }
                         }
                     })
                 }else{
