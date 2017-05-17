@@ -1,6 +1,7 @@
 <template>
-    <div>
-        微观
+    <div class="micWrap">
+        <router-view></router-view>
     </div>
 </template>
+
 

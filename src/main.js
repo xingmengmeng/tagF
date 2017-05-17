@@ -16,6 +16,8 @@ import needs from './views/macroView/needs.vue';
 import customer from './views/macroView/customer.vue';
 /*微观*/
 import microView from './views/microView/microView.vue';
+import micDetail from './views/microView/micDetail.vue';
+import micSearch from './views/microView/micSearch.vue';
 
 import tagView from './views/tagView/tagView.vue';
 import addUserGroup from './views/userGroup/addUserGroup.vue';
@@ -44,7 +46,12 @@ const router = new VueRouter({
                 { path:'customer',component:customer},/*客户关系*/
             ]
         },
-        { path: '/microView',component:microView},
+        { path: '/microView',component:microView,redirect:'microView/micSearch',/*微观搜索页面*/
+            children:[
+                { path:'micSearch',component:micSearch},/*微观详情页面*/
+                { path:'micDetail',component:micDetail}
+            ]
+        },
         { path: '/tagView',component:tagView},
         { path: '/userGroup', component: userGroup,
             children:[
