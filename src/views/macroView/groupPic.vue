@@ -4,8 +4,8 @@
         <div class="selectGroup clearfix">
             <span class="grSpan">筛选人群：</span>
             <div class="groupNameWrap">
-                <div class="biSpanWrap" v-for="item in resData">
-                    <span>{{item.name}}</span>
+                <div class="biSpanWrap" v-for="item in nameAry">
+                    <span>{{item}}</span>
                 </div>
                 <!--<div class="biSpanWrap">
                     <span>男，18-21，投资100起</span>
@@ -66,9 +66,9 @@
                     <div class="clearfix">
                         <h3 class="left picH3">投资产品类型</h3>
                         <div class="right">
-                            <input type="radio" name="proStyle"><label>类型</label>
-                            <input type="radio" name="proStyle"><label>年化率</label>
-                            <input type="radio" name="proStyle"><label>期限</label>
+                            <input type="radio" value="productType" v-model="proStyle" @click="proData('changeStyle')"><label>类型</label>
+                            <input type="radio" value="annualRate" v-model="proStyle" @click="proData('changeStyle')"><label>年化率</label>
+                            <input type="radio" value="term" v-model="proStyle" @click="proData('changeStyle')"><label>期限</label>
                         </div>
                     </div>
                     <div class="chartWrap">
@@ -83,8 +83,8 @@
                     <div class="clearfix">
                         <h3 class="left picH3">充值、提现偏好</h3>
                         <div class="right">
-                            <input type="radio" name="ctStyle"><label>充值</label>
-                            <input type="radio" name="ctStyle"><label>提现</label>
+                            <input type="radio" value="recharge" v-model="ctStyle" @click="ctData('changeStyle')"><label>充值</label>
+                            <input type="radio" value="withdraw" v-model="ctStyle" @click="ctData('changeStyle')"><label>提现</label>
                         </div>
                     </div>
                     <div class="chartWrap">
@@ -98,8 +98,8 @@
                     <div class="clearfix">
                         <h3 class="left picH3">当前客户等级与总资产</h3>
                         <div class="right">
-                            <input type="radio" name="laStyle"><label>客户等级</label>
-                            <input type="radio" name="laStyle"><label>总资产</label>
+                            <input type="radio" value="cusGrade" v-model="laStyle" @click="laData('changeStyle')"><label>客户等级</label>
+                            <input type="radio" value="totalAsset" v-model="laStyle" @click="laData('changeStyle')"><label>总资产</label>
                         </div>
                     </div>
                     <div class="chartWrap">
@@ -128,6 +128,7 @@
                     </div>
                 </div>
             </div>
+            <p class='errorP'>{{error}}</p>
             <div class="btnWrap">
                 <input type="button" class="btn" value="取消" @click="hideMark"/>
                 <input type="button" class="btn" value="确定" @click="changeIds"/>
@@ -153,6 +154,13 @@
                 proAry:[],//可选人群
                 addUserRightScroll:null,
                 showMarker:0,
+                error:'',
+                proStyle:'productType',//投资产品类型
+                proResData:[],//接口返回值
+                ctStyle:'recharge',//充值、提现偏好
+                ctResData:[],//接口返回值
+                laStyle:'cusGrade',//当前客户等级与总资产
+                laResData:[],//接口返回值
             }
         },
         components:{
@@ -231,32 +239,49 @@
                 })
             },
             /*投资产品类型*/
-            proData(){
-                this.$http.get('/api/userGroupPortrait/getInvestProductTypeChart.gm?ids='+this.ids).then(function (res) {
-                    if(res.data.code==200){
-                        this.$refs.prorefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.productType,17);
-                    }
-                })
+            proData(changeStyle){
+                if(!changeStyle){
+                    this.$http.get('/api/userGroupPortrait/getInvestProductTypeChart.gm?ids='+this.ids).then(function (res) {
+                        if(res.data.code==200){
+                            this.proResData=res.data.dataInfo;
+                            this.$refs.prorefId.$emit('changeData',this.ids,this.nameAry,this.proResData[this.proStyle],17);
+                        }
+                    })
+                }else{
+                    this.$refs.prorefId.$emit('changeData',this.ids,this.nameAry,this.proResData[this.proStyle],17);
+                }
+
             },
             /*充值提现偏好*/
-            ctData(){
-                this.$http.get('/api/userGroupPortrait/getRechargeAndWithdrawChart.gm?ids='+this.ids).then(function (res) {
-                    if(res.data.code==200){
-                        this.$refs.ctrefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.recharge,17);
-                    }
-                })
+            ctData(changeStyle){
+                if(!changeStyle){
+                    this.$http.get('/api/userGroupPortrait/getRechargeAndWithdrawChart.gm?ids='+this.ids).then(function (res) {
+                        if(res.data.code==200){
+                            this.ctResData=res.data.dataInfo;
+                            this.$refs.ctrefId.$emit('changeData',this.ids,this.nameAry,this.ctResData[this.ctStyle],17);
+                        }
+                    })
+                }else{
+                    this.$refs.ctrefId.$emit('changeData',this.ids,this.nameAry,this.ctResData[this.ctStyle],17);
+                }
             },
             /*当前客户等级与总资产*/
-            laData(){
-                this.$http.get('/api/userGroupPortrait/getCusGradeAndAssetChart.gm?ids='+this.ids).then(function (res) {
-                    if(res.data.code==200){
-                        this.$refs.larefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.totalAsset,17);
-                    }
-                })
+            laData(changeStyle){
+                if(!changeStyle){
+                    this.$http.get('/api/userGroupPortrait/getCusGradeAndAssetChart.gm?ids='+this.ids).then(function (res) {
+                        if(res.data.code==200){
+                            this.laResData=res.data.dataInfo;
+                            this.$refs.larefId.$emit('changeData',this.ids,this.nameAry,this.laResData[this.laStyle],17);
+                        }
+                    })
+                }else{
+                    this.$refs.larefId.$emit('changeData',this.ids,this.nameAry,this.laResData[this.laStyle],17);
+                }
             },
             /*点击新增 对比人群 按钮*/
             addGroupFn(){
                 this.showMarker=1;
+                this.error='';
             },
             /*隐藏弹框*/
             hideMark(){
@@ -293,6 +318,7 @@
             },
             /*切换对比*/
             changeIds(){
+                //得到新用户群ids及选中的用户群名称nameAry
                 this.ids=this.temIds;
                 this.nameAry.length=0;
                 this.proAry.forEach( (item)=> {
@@ -302,13 +328,19 @@
                         }
                     })
                 });
-                console.log(this.nameAry);
+                if(this.ids.length==0){
+                    this.error='对比人群不能为空';
+                    return;
+                }else {
+                    this.error='';
+                }
                 this.getAreaData();/*地域分布模块加载*/
                 this.getAgeData();/*年龄分布加载*/
                 this.picData();/*客户类型*/
                 this.proData();/*投资产品类型*/
                 this.ctData();/*充值提现偏好*/
                 this.laData();/*当前客户等级与总资产*/
+                this.hideMark();//隐藏弹框
             }
         }
     }
