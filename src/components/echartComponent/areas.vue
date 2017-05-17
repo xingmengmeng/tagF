@@ -14,13 +14,9 @@
             }
         },
         mounted(){
-            this.$on('changeData', (ids,res,data)=> {
+            this.$on('changeData', (ids,resName,data)=> {
                 this.ids=ids;
-                this.resData=res;
-                this.nameAry.length=0;
-                this.resData.forEach( (item)=> {
-                    this.nameAry.push(item.name);
-                });
+                this.nameAry=resName;
                 this.drawChart(data.province,data.max);
             })
         },

@@ -14,13 +14,9 @@
             }
         },
         mounted(){
-            this.$on('changeData', (ids,res,data,serWidth)=> {//用户群id，传递过来的返回值，子接口返回值，bar宽度
+            this.$on('changeData', (ids,resName,data,serWidth)=> {//用户群id，传递过来的返回值，子接口返回值，bar宽度
                 this.ids=ids;
-                this.resData=res;
-                this.nameAry.length=0;
-                this.resData.forEach( (item)=> {
-                    this.nameAry.push(item.name);
-                });
+                this.nameAry=resName;
                 /*设置bar宽度*/
                 if(serWidth){
                     this.serWidth=serWidth;

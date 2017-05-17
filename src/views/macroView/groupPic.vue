@@ -146,9 +146,10 @@
         data(){
             return{
                 resData:[],
-                ids:[],
+                ids:[],//用户群id数组
+                resNameAry:[],
                 temIds:[],
-                nameAry:[],
+                nameAry:[],//得到的用户群名称数组
                 proAry:[],//可选人群
                 addUserRightScroll:null,
                 showMarker:0,
@@ -207,8 +208,8 @@
             getAreaData(){
                 this.$http.get('/api/userGroupPortrait/getAreaChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.areaId.$emit('changeData',this.ids,this.resData,res.data.dataInfo);
-                        this.$refs.areaDetailId.$emit('changeData',this.ids,this.resData,res.data.dataInfo);
+                        this.$refs.areaId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo);
+                        this.$refs.areaDetailId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo);
                     }
                 })
             },
@@ -216,7 +217,7 @@
             getAgeData(){
                 this.$http.get('/api/userGroupPortrait/getAgeChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.agerefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.age);
+                        this.$refs.agerefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.age);
                     }
                 })
             },
@@ -225,7 +226,7 @@
                 //picrefId
                 this.$http.get('/api/userGroupPortrait/getCusTypeChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.picrefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.cusType,17);
+                        this.$refs.picrefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.cusType,17);
                     }
                 })
             },
@@ -233,7 +234,7 @@
             proData(){
                 this.$http.get('/api/userGroupPortrait/getInvestProductTypeChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.prorefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.productType,17);
+                        this.$refs.prorefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.productType,17);
                     }
                 })
             },
@@ -241,7 +242,7 @@
             ctData(){
                 this.$http.get('/api/userGroupPortrait/getRechargeAndWithdrawChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.ctrefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.recharge,17);
+                        this.$refs.ctrefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.recharge,17);
                     }
                 })
             },
@@ -249,7 +250,7 @@
             laData(){
                 this.$http.get('/api/userGroupPortrait/getCusGradeAndAssetChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
-                        this.$refs.larefId.$emit('changeData',this.ids,this.resData,res.data.dataInfo.totalAsset,17);
+                        this.$refs.larefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.totalAsset,17);
                     }
                 })
             },
@@ -281,7 +282,6 @@
                         return item!=id;
                     })
                 }
-                console.log(this.temIds);
             },
             /*删除新增的用户群*/
             delectGroup(id){
@@ -294,6 +294,15 @@
             /*切换对比*/
             changeIds(){
                 this.ids=this.temIds;
+                this.nameAry.length=0;
+                this.proAry.forEach( (item)=> {
+                    this.ids.forEach( (curId)=> {
+                        if(item.id==curId){
+                            this.nameAry.push(item.name);
+                        }
+                    })
+                });
+                console.log(this.nameAry);
                 this.getAreaData();/*地域分布模块加载*/
                 this.getAgeData();/*年龄分布加载*/
                 this.picData();/*客户类型*/
