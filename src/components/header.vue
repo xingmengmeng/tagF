@@ -3,7 +3,7 @@
         <a href="javascript:;" class="logo left">logo</a>
         <div class="logoF">用户标签管理系统</div>
         <div class="right headRight">
-            <!--<a href="#" class="set-mes">设置</a>-->
+            <router-link to="/setting" class="set-mes">设置</router-link>
             <div class="ad-center" @mouseenter="toolEnter" @mouseleave="toolLeave">
                 <div class="right userMess">
                     <span v-cloak>{{userName}}</span>

@@ -19,6 +19,11 @@ import microView from './views/microView/microView.vue';
 import micDetail from './views/microView/micDetail.vue';
 import micSearch from './views/microView/micSearch.vue';
 
+/*设置*/
+import setting from './views/setting/setting.vue';
+import setUser from './views/setting/setUser.vue';
+import loginHistory from './views/setting/loginHistory.vue';
+
 import tagView from './views/tagView/tagView.vue';
 import addUserGroup from './views/userGroup/addUserGroup.vue';
 import userGroup from './views/userGroup/userGroup.vue';
@@ -65,6 +70,13 @@ const router = new VueRouter({
                         { path:'liabry',component:liabry},
                     ]
                 },
+            ]
+        },
+        { path: '/setting', component: setting,redirect:'setting/setUser',
+            children:[
+
+                { path:'setUser',component:setUser},/*用户*/
+                { path:'loginHistory',component:loginHistory}/*登录历史*/
             ]
         },
     ]
