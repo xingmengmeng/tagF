@@ -97,7 +97,7 @@
 
                 this.chart = echarts.init(document.getElementById(this.curId));
                 this.chart.setOption({
-                    color: ['#477bfc','#6fc1ff','#cfe8fc'],
+                    color: ['#6ea1fc','#2fcacc'],
                     tooltip: {
                         trigger: 'item'
                     },

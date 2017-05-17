@@ -60,7 +60,7 @@
                 }
                 this.chart = echarts.init(document.getElementById(this.curId));
                 this.chart.setOption({
-                    color: ['#769df5','#81c0fa'],
+                    color: ['#6ea1fc','#2fcacc'],
                     tooltip : {
                         trigger: 'axis',
                     },

@@ -35,7 +35,7 @@
                 </div>
                 <div class="sexWrap">
                     <h3 class="picH3">性别分布</h3>
-                    <div>图表</div>
+                    <mac-sex ref="sexrefId"></mac-sex>
                 </div>
             </div>
         </div>
@@ -143,6 +143,7 @@
     import areas from '../../components/echartComponent/areas.vue';//地图
     import macArea from '../../components/echartComponent/macAreaDetail.vue';//地图右侧省份
     import macAge from '../../components/echartComponent/macAge.vue';//年龄分布
+    import macSex from '../../components/macSex.vue';/*性别分布*/
     export default {
         data(){
             return{
@@ -167,6 +168,7 @@
             'areas':areas,
             'macArea':macArea,
             'macAge':macAge,
+            'macSex':macSex,
         },
         mounted(){
             this.getData();
@@ -190,6 +192,7 @@
 
                         this.getAreaData();/*地域分布模块加载*/
                         this.getAgeData();/*年龄分布加载*/
+                        this.getSexData();/*性别分布加载*/
                         this.picData();/*客户类型*/
                         this.proData();/*投资产品类型*/
                         this.ctData();/*充值提现偏好*/
@@ -226,6 +229,14 @@
                 this.$http.get('/api/userGroupPortrait/getAgeChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
                         this.$refs.agerefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.age);
+                    }
+                })
+            },
+            /*性别分布*/
+            getSexData(){
+                this.$http.get('/api/userGroupPortrait/getSexChart.gm?ids='+this.ids).then(function (res) {
+                    if(res.data.code==200){
+                        this.$refs.sexrefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.sex);
                     }
                 })
             },
@@ -336,6 +347,7 @@
                 }
                 this.getAreaData();/*地域分布模块加载*/
                 this.getAgeData();/*年龄分布加载*/
+                this.getSexData();/*性别分布加载*/
                 this.picData();/*客户类型*/
                 this.proData();/*投资产品类型*/
                 this.ctData();/*充值提现偏好*/
