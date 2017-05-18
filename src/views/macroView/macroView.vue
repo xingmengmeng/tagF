@@ -2,9 +2,9 @@
     <div>
         <div class="macroHeader">
             <router-link to="groupPic"><span>人群画像</span></router-link>
-            <router-link to="trend"><span class="span2">趋势研究</span></router-link>
+            <!--<router-link to="trend"><span class="span2">趋势研究</span></router-link>
             <router-link to="needs"><span class="span3">需求洞察</span></router-link>
-            <router-link to="customer"><span class="span4">客户关系</span></router-link>
+            <router-link to="customer"><span class="span4">客户关系</span></router-link>-->
         </div>
         <router-view></router-view>
     </div>

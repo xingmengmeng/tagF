@@ -3,9 +3,9 @@
         <!--left side start-->
         <section class="leftSide">
             <ul id="leftMenu">
-                <li>
+                <!--<li>
                     <router-link to="/tagGroup">标签体系</router-link>
-                </li>
+                </li>-->
                 <li>
                     <router-link to="/tagView">标签画像</router-link>
                 </li>
