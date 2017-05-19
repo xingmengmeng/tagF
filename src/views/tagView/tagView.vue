@@ -113,9 +113,9 @@
                             <!--表格 end-->
                         </div>
                     </div>
-                    <div>
-                        <input type="button" value="清空" @click="clearAry">
-                        <input type="button" value="计算" @click="computedFn" :class="btnShow==1?'comBtn':'comBtnUnabel'" id="comBtn">
+                    <div class="tagbtnWrap clearfix">
+                        <input type="button" value="清空" @click="clearAry" class="left comBtnUnabel">
+                        <input type="button" value="计算" @click="computedFn" class="right" :class="btnShow==1?'comBtn':'comBtnUnabel'" id="comBtn">
                     </div>
                 </div>
                 <!--右侧表格 end-->
@@ -123,6 +123,8 @@
         </section>
         <!--右侧大块 end-->
         <my-foot></my-foot>
+
+        <over-box v-show="noSelectP==1" @hideOverFn="hideMarkWrap" :mark-con="pushMsg"></over-box>
     </section>
 </template>
 <style scoped lang="less">
@@ -222,7 +224,7 @@
     }
     .tagRight{
         float: right;
-        padding:67px 0 0 10px;
+        padding:10px 0 0 10px;
         width: 50%;
         height: 100%;
         box-sizing:border-box;
@@ -297,6 +299,10 @@
             border-left: 1px solid #D0E6FF;
         }
     }
+    .tagbtnWrap{
+        width: 250px;
+        margin: 5px auto 0 auto;
+    }
 
 </style>
 <script type='text/ecmascript-6'>
@@ -304,6 +310,7 @@
     require('../../assets/css/userGroup.less');
     import LayOut from '../../assets/js/layout';
     import Footer from '../../components/footer.vue';
+    import overBox from '../../components/overBoxOneLine.vue';
     export default{
         data(){
             return{
@@ -322,13 +329,15 @@
 
                 temTD1:[],
                 temTH:[],
-                temfilCheckName:[],
-                temoutCheckName:[],
-                showTab:1,
+
+                showTab:1,/*显示哪个表*/
+                noSelectP:0,//alert弹框遮罩
+                pushMsg:'',//alert中的错误提示信息
             }
         },
         components:{
             'my-foot':Footer,
+            'over-box':overBox,
         },
         mounted(){
             LayOut.setHeight.init();
@@ -364,6 +373,25 @@
                 })
             },
             getSendData(curTag){
+                this.showTab=1;//显示临时表格
+                /**
+                 * 根据临时数组渲染临时表格
+                 * 1.清空临时数组后面的''项
+                 * 2.根据选项id数组得到存储的name数组
+                 * 3.根据限制长度补全''项
+                 * 4.完成渲染
+                 * /
+                /*超出最大限制控制*/
+                if(this.checkedNames.length>4){
+                    this.pushMsg='筛选标签选择最多限制勾选4项'
+                    this.noSelectP=1;
+                    this.checkedNames.pop();
+                }
+                if(this.outChecks.length>10){
+                    this.pushMsg='输出标签选择最多限制勾选10项'
+                    this.noSelectP=1;
+                    this.outChecks.pop();
+                }
                 /*计算按钮样式控制*/
                 if(this.checkedNames.length==0||this.checkedNames.length>4||this.outChecks.length==0||this.outChecks.length>10){
                     this.btnShow=0;
@@ -371,23 +399,35 @@
                     this.btnShow=1;
                 }
                 /*清空‘’*/
-                this.temfilCheckName=this.temfilCheckName.filter( (item)=> {
+                this.temTH=this.temTH.filter( (item)=> {
+                    return item!='';
+                });
+                this.temTD1=this.temTD1.filter( (item)=> {
                     return item!='';
                 })
                 /*点击计算标签名数组*/
                 if(this.checkedNames.indexOf(curTag.id)!=-1){
-                    this.temfilCheckName.push(curTag.name);
+                    this.temTH.push(curTag.name);
                 }else{
-                    this.temfilCheckName=this.temfilCheckName.filter( (item)=> {
+                    this.temTH=this.temTH.filter( (item)=> {
+                        return item!=curTag.name;
+                    })
+                }
+                if(this.outChecks.indexOf(curTag.id)!=-1){
+                    this.temTD1.push(curTag.name);
+                }else{
+                    this.temTD1=this.temTD1.filter( (item)=> {
                         return item!=curTag.name;
                     })
                 }
                 /*补齐数组*/
-                while (this.temfilCheckName.length<4){
-                    this.temfilCheckName.push('');
+                while (this.temTH.length<4){
+                    this.temTH.push('');
                 }
-                this.temTH=this.temfilCheckName;
-                console.log(JSON.stringify(this.temfilCheckName));
+                while (this.temTD1.length<10){
+                    this.temTD1.push('');
+                }
+                //this.temTH=this.temfilCheckName;
             },
             computedFn(){
                 if(this.btnShow==0){
@@ -440,9 +480,12 @@
             },
             clearAry(){
                 this.showTab=1;
+                this.btnShow=0;
                 this.comTem();
-                this.tabHead.length=0;
-                this.tabData.length=0;
+                this.checkedNames.length=this.outChecks.length=this.tabHead.length=this.tabData.length=0;
+            },
+            hideMarkWrap(){
+                this.noSelectP=0;
             }
         }
     }

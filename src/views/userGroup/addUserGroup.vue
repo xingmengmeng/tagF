@@ -489,7 +489,7 @@
             },
             /*两个取消按钮*/
             goList(){
-                window.location.href='userGroup.html';
+                window.location.href='/#/userGroup';
             },
             /*清空列表*/
             clearList(){
