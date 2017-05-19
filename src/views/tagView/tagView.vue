@@ -74,10 +74,10 @@
                                 <table class="indexTab" width="100%">
                                     <thead>
                                     <tr>
-                                        <th width="120" class="lsTh">
+                                        <th width="24%" class="lsTh">
                                             &nbsp;
                                         </th>
-                                        <th v-for="index in temTH">{{index}}</th>
+                                        <th v-for="index in temTH" width="19%">{{index}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -95,10 +95,10 @@
                                 <table class="indexTab" width="100%">
                                     <thead>
                                     <tr>
-                                        <th width="120" class="lsTh">
+                                        <th width="24%" class="lsTh">
                                             &nbsp;
                                         </th>
-                                        <th v-for="index in tabHead">{{index}}</th>
+                                        <th v-for="index in tabHead" width="19%">{{index}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
