@@ -51,6 +51,8 @@
     #loginId{
         width: 100%;
         height: 300px;
+        box-sizing: border-box;
+        overflow: hidden;
     }
     .messWrap{
         padding: 0 20px;
