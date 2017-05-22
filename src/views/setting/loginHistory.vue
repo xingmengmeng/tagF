@@ -38,6 +38,7 @@
         </table>
     </div>
 </template>
+
 <style scoped lang="less">
     h4{
        padding: 10px 20px;
@@ -119,7 +120,7 @@ export default {
               seriesAry.push(obj);
               tempData.push(dataTime);
           }
-          xData=['李慧敏','邢萌萌'];
+          //xData=['李慧敏','邢萌萌'];
           console.log(JSON.stringify(seriesAry));
 
           this.chart.setOption({
