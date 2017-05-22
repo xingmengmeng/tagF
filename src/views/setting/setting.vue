@@ -5,8 +5,8 @@
             <div id="leftMenu">
                 <h4>设置</h4>
                 <div>
-                    <h5>用户访问控制</h5>
-                    <ul>
+                    <h5 @click="navShow('yh')" id='yh' :class="showMenu=='yh'?'active':''">用户访问控制</h5>
+                    <ul v-show="showMenu=='yh'">
                         <li>
                             <router-link to="/setting/setUser">用户</router-link>
                         </li>
@@ -49,7 +49,14 @@
             padding-left: 20px;
             box-sizing: border-box;
             font-weight: normal;
-            background:#E5F1FF url("../../assets/images/vtoBot.png") 5px center no-repeat;
+            background:#eef url("../../assets/images/vtoRight.png") 5px center no-repeat;
+            border-bottom: 1px solid #ECECEC;
+            box-sizing: border-box;
+            cursor: pointer;
+            &.active{
+                background:#E5F1FF url("../../assets/images/vtoBot.png") 5px center no-repeat;
+                border: 0;
+            }
         }
         a{
             padding-left:30px;
@@ -68,7 +75,7 @@
     export default{
         data(){
             return{
-
+                showMenu:'yh',//默认值
             }
         },
         components:{
@@ -77,6 +84,15 @@
         mounted(){
             LayOut.setHeight.init();
         },
+        methods: {
+            navShow(id){
+                if(this.showMenu==id){/*同一个*/
+                    this.showMenu=-1;
+                }else{/*不同个*/
+                    this.showMenu=id;
+                }
+            },
+        }
     }
 </script>
 
