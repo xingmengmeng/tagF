@@ -115,6 +115,9 @@
                             this.$http.post('/api/dologin.gm',{"userName":usernm,"userPwd":userpsw,"isRemember":true,"isCookerLogin":this.isCookerLogin},{emulateJSON:true}).then(function (response) {
                                 if(response.data.code!='200'){
                                     this.errorMessage=response.data.msg;
+                                    if(response.data.code=='WA10000'){
+                                        this.setCookie("","");
+                                    }
                                     return;
                                 }
                                 if(this.isCookerLogin==false){
@@ -135,10 +138,13 @@
                             this.$http.post('/api/dologin.gm',{"userName":usernm,"userPwd":userpsw,"isRemember":true,"isCookerLogin":this.isCookerLogin},{emulateJSON:true}).then(function (response) {
                                 if(response.data.code!='200'){
                                     this.errorMessage=response.data.msg;
+                                    if(response.data.code=='WA10000'){
+                                        this.setCookie("","");
+                                    }
                                     return;
                                 }
                                 if(response.data.dataInfo.responseCode&&(response.data.dataInfo.responseCode=='10000')){
-                                    this.setCookie(usernm,userpsw);
+                                    //this.setCookie(usernm,userpsw);
                                     window.location.href='/#/index';
                                 }else{
                                     console.log(response.data.dataInfo.responseMsg);
