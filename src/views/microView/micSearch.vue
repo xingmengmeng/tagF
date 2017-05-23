@@ -1,19 +1,28 @@
 <template>
-    <div class="searchBody">
-        <div class="searchWrap">
-            <p class="ptitle">客户查询入口</p>
-            <p>
-                <img src="../../assets/images/vbg.png">
-            </p>
-            <div class="searchWrap2">
-                <input type="text" class="txt" v-model="shContent" placeholder="输入手机号/身份证号" @keyup.enter="searchFun(shContent)">
-                <button class="searchBtn" @click="searchFun(shContent)"></button>
+    <transition name="fade">
+        <div class="searchBody" v-show="serchAlready==0">
+            <div class="searchWrap">
+                <p class="ptitle">客户查询入口</p>
+                <p>
+                    <img src="../../assets/images/vbg.png">
+                </p>
+                <div class="searchWrap2">
+                    <input type="text" class="txt" v-model="shContent" placeholder="输入手机号/身份证号" @keyup.enter="searchFun(shContent)">
+                    <button class="searchBtn" @click="searchFun(shContent)"></button>
+                </div>
+                <span class="errorF">{{error}}</span>
             </div>
-            <span class="errorF">{{error}}</span>
         </div>
-    </div>
+    </transition>
 </template>
 <style scoped lang="less">
+    .fade-enter-active, .fade-leave-active {
+        transition: all .5s;
+    }
+    .fade-enter, .fade-leave-active {
+        transform: translateY(-50px);
+    }
+
     .searchBody{
         width: 100%;
         margin:0 auto;
@@ -70,6 +79,7 @@
             return{
                 error:'查询结果没空！',
                 shContent:'',
+                serchAlready:0,
             }
         },
         mounted(){
@@ -82,9 +92,12 @@
                 searchBody.style.height=winHeight-50+'px';
             },
             searchFun(){
-                console.log('搜索');
-                window.location.href='/#/microView/micDetail';
-                //this.$http.get().then(function (res) {});
+                //window.location.href='/#/microView/micDetail';
+                this.$http.get('/api/microPortrait/getMicroPortrait.gm?searchContent='+this.shContent).then(function (res) {
+                    if(res.data.code==200){
+                        this.serchAlready=1;
+                    }
+                });
             }
         }
     }
