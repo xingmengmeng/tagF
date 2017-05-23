@@ -134,7 +134,9 @@
                     },
                     grid:{
                         top:20,
-                        bottom:80
+                        bottom:80,
+                        left: '20',
+			            right: '40',
                     },
                     legend: {
                         data:this.nameAry,
@@ -144,7 +146,13 @@
                     xAxis : [
                         {
                             type : 'category',
-                            data : xData
+                            data : xData,
+                            axisTick:{
+                                show:false
+                            },
+                            axisLine:{
+                                show:false
+                            }
                         }
                     ],
                     yAxis : [
@@ -159,7 +167,7 @@
                                     color: '#8e8e8e',
                                     width:1,
                                 }
-                            }
+                            },
                         }
                     ],
                     series : temSeries,

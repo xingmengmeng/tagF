@@ -143,48 +143,50 @@ export default {
                             },
                             emphasis:{
                                 textStyle:{
-                                    color:'#18D2F9'
+                                    color:'#6ea1fc'
                                 }
                             }
                         },
                         lineStyle:{
-                            color:'#18D2F9',
+                            color:'#6ea1fc',
                             type:'dashed',
                         },
                         itemStyle:{
                             normal: {
-                                color: '#18D2F9',
-                                borderColor:'#18D2F9',
+                                color: '#6ea1fc',
+                                borderColor:'#6ea1fc',
                             },
                             emphasis: {
-                                color: '#18D2F9',
-                                borderColor:'#18D2F9',
+                                color: '#6ea1fc',
+                                borderColor:'#6ea1fc',
                             },
                         },
                         checkpointStyle:{
-                            color:'#18D2F9',
+                            color:'#6ea1fc',
                             borderWidth:0,
                             symbol: 'circle',
                             symbolSize: 8,
                         },
                         controlStyle:{
                             normal: {
-                                color: '#18D2F9',
-                                borderColor:'#18D2F9',
+                                color: '#6ea1fc',
+                                borderColor:'#6ea1fc',
                             },
                             emphasis: {
-                                color: '#18D2F9',
-                                borderColor:'#18D2F9',
+                                color: '#6ea1fc',
+                                borderColor:'#6ea1fc',
                             },
                         },
                     },
                     tooltip: {
                     },
-                    color:['#18D2F9'],
+                    color:['#6ea1fc'],
                     calculable : true,
                     grid: {
                         top: 20,
                         bottom: 100,
+                        left: '60',
+			            right: '60',
                         tooltip: {
                             trigger: 'axis',
                             axisPointer: {
@@ -203,12 +205,24 @@ export default {
                             'type':'category',
                             'axisLabel':{'interval':0},
                             'data':xData,
-                            splitLine: {show: false}
+                            splitLine: {show: false},
+                            axisTick:{
+                                show:false
+                            },
+                            axisLine:{
+                                show:false
+                            }
                         }
                     ],
                     yAxis: [
                         {
                             type: 'value',
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#8e8e8e',
+                                    width:1,
+                                }
+                            },
                         }
                     ],
                     series: [
