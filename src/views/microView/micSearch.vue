@@ -273,6 +273,7 @@
                 serchAlready:0,
                 resId:'111111',
                 resData:[],
+                scrollAry:['scrollWrap0','scrollWrap1','scrollWrap2','scrollWrap3','scrollWrap4']
             }
         },
         mounted(){
@@ -300,13 +301,19 @@
                             }
                             /*加滚动条*/
                             for(var i=0;i<4;i++){
-                                new IScroll('.scrollDiv'+i,{
-                                    mouseWheel: true,
-                                    scrollbars: true,
-                                    checkDOMChanges:true,
-                                    bounce: false,
-                                    interactiveScrollbars:true
-                                })
+                                //console.log(typeof this.scrollAry[i]);
+                                if(typeof this.scrollAry[i]=='string'){
+                                    this.scrollAry[i]=new IScroll('.scrollDiv'+i,{
+                                        mouseWheel: true,
+                                        scrollbars: true,
+                                        checkDOMChanges:true,
+                                        bounce: false,
+                                        interactiveScrollbars:true
+                                    })
+                                }else{
+                                    this.scrollAry[i].refresh();
+                                }
+                                //console.log(typeof this.scrollAry[i]);
                             }
                         })
                     }
