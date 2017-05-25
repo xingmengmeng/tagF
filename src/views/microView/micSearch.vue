@@ -273,7 +273,6 @@
                 serchAlready:0,
                 resId:'111111',
                 resData:[],
-                tagAry:[{tagScroll0:null},{tagScroll1:null},{tagScroll2:null},{tagScroll3:null},{tagScroll4:null}],
             }
         },
         mounted(){
@@ -301,7 +300,7 @@
                             }
                             /*加滚动条*/
                             for(var i=0;i<4;i++){
-                                this.tagAry[i]=new IScroll('.scrollDiv'+i,{
+                                new IScroll('.scrollDiv'+i,{
                                     mouseWheel: true,
                                     scrollbars: true,
                                     checkDOMChanges:true,
