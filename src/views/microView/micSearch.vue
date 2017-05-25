@@ -23,6 +23,7 @@
                     <input type="text" class="txt" v-model="shContent" placeholder="输入手机号/身份证号" @keyup.enter="searchFun(shContent)">
                     <button class="searchBtn" @click="searchFun(shContent)"></button>
                 </div>
+                <span class="errorF">{{error}}</span>
             </div>
             
             <div class="clearfix getIdWrap">
@@ -137,6 +138,12 @@
 
     .resDiv{
         padding: 15px 10px;
+        .errorF{
+            float:left;
+            margin: 8px 0 0 10px;
+            font-size: 12px;
+            color: rgb(180, 6, 6);
+        }
         .cusSpan{
             height: 30px;
             line-height: 30px;
@@ -294,7 +301,8 @@
                 //window.location.href='/#/microView/micDetail';
                 this.$http.get('/api/microPortrait/getMicroPortrait.gm?searchContent='+this.shContent).then(function (res) {
                     if(res.data.code==200){
-                        this.serchAlready=1;
+                        this.error='';//清空错误信息
+                        this.serchAlready=1;//隐藏入口 显示查询结果
                         this.resId=res.data.dataInfo.passportId;
                         this.resData=res.data.dataInfo.detail;
                         this.$nextTick(function(){
