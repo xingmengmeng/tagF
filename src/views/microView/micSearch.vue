@@ -159,6 +159,9 @@
                 flex: 1;
                 border-right: 1px solid #BED4FF;
                 box-sizing: border-box;
+                &:nth-of-type(2n){
+                    background: #FAFBFE;
+                }
 
                 .ulWrapScroll{
                     position: relative;
@@ -167,10 +170,12 @@
                 ul{
                     padding: 0 10px;
                     li{
+                        padding:0 10px;
                         height: 35px;
                         line-height: 35px;
                         border-bottom:1px solid #F1F4FA;
                         font-size:13px;
+                        box-sizing: border-box;
                     }
                 }
                 h5{
