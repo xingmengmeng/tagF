@@ -64,6 +64,7 @@
                 selected:'',
                 querySystemList:null,/*对接系统列表*/
                 counts:'',/*覆盖用户数*/
+                status:'',
             }
         },
         components:{
@@ -107,6 +108,11 @@
                 overlay.style.display=markDown.style.display='none';
             },
             downCsv(){
+                this.getLocalStatus();
+                if(this.status==2){
+                    this.downError='当前用户群已失效';
+                    return;
+                }
                 if(this.psw==''){
                     this.downError='授权密码不能为空';
                     return;
@@ -157,6 +163,9 @@
                         return;
                     }
                 },1000);
+            },
+            getLocalStatus(){
+                this.status=localStorage.thisGroupStatus;
             }
         }
     }

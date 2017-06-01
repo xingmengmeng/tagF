@@ -72,6 +72,8 @@
     import gmzx from '../../assets/images/gmzx.png';
     import myc from '../../assets/images/myc.png';
     import myfang from '../../assets/images/myfang.png';
+    import myfen from '../../assets/images/myfen.png';
+    import meijie from '../../assets/images/meijie.png';
 
     const Slide=slide.Slide;
 
@@ -89,6 +91,8 @@
                     'gmzx':gmzx,
                     'myc':myc,
                     'myfang':myfang,
+                    'myfen':myfen,
+                    'meijie':meijie,
                 },
             }
         },

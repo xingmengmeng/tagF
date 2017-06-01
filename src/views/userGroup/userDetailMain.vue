@@ -21,10 +21,11 @@
                                 </li>
                                 <li>
                                     <label>状态</label>
-                                    <select id="stateControl" v-model="selectedStatus" @change="selectChange">
+                                    <!--<select id="stateControl" v-model="selectedStatus" @change="selectChange">
                                         <option>启用</option>
                                         <option>禁用</option>
-                                    </select>
+                                    </select>-->
+                                    <span v-cloak>{{selectedStatus}}</span>
                                 </li>
                                 <li>
                                     <label>创建人</label>
@@ -169,7 +170,7 @@
             this.getLocal();
             this.getData();
             LayOut.setHeight.init();
-            this.status=this.selectedStatus=='启用'?1:0;
+            this.status=this.selectedStatus=='启用'?1:2;
         },
         components:{
             'right-menu':rightMenu,
@@ -180,7 +181,7 @@
                 /*标签具体信息*/
                 this.$http.get('/api/userGroup/getById.gm?id='+this.gropId).then(function (response) {
                     this.resData=response.data.dataInfo;
-                    this.selectedStatus=this.resData.status==0?'禁用':'启用';
+                    this.selectedStatus=this.resData.status==1?'启用':'失效';
                 });
 
                 /*用户标签*/
@@ -200,14 +201,12 @@
                 editInput.removeAttribute('disabled');
             },
             /*改变状态*/
-            selectChange(){
-                this.status=this.selectedStatus=='启用'?1:0;
+            /*selectChange(){
+                this.status=this.selectedStatus=='启用'?1:2;
                 this.editMess();
-            },
+            },*/
             /*失去焦点  修改并改状态*/
             editMess(){
-                /*var editInput=document.querySelector('#editInput');
-                 editInput.setAttribute('disabled',true);*/
                 var val=this.resData.name;
                 localStorage.thisGroupStatus=this.status;
                 this.$http.post('/api/userGroup/update.gm',{"id":this.gropId,"name":val,"status":this.status},{emulateJSON:true}).then(function (response) {
@@ -248,15 +247,11 @@
                 })
             },
             downCsv(){
-                /*this.$http.get('/api/csv/'+this.downLodeUrl+'.gm?authPassword='+this.psw+'&userGroupId='+this.gropId+'&isFirst=true').then(function (res) {
-                 if(res.data.status=='error'){
-                 this.downError=res.data.msg;
-                 }else if(res.data.dataInfo=='true'){
-                 window.location.href='/api/csv/'+this.downLodeUrl+'.gm?authPassword='+this.psw+'&userGroupId='+this.gropId+'&isFirst=false';
-                 this.getLib();
-                 this.hideMark();
-                 }
-                 })*/
+                this.getLocalStatus();
+                if(this.status==2){
+                    this.downError='当前用户群已失效';
+                    return;
+                }
                 if(this.psw==''){
                     this.downError='授权密码不能为空';
                     return;
@@ -302,6 +297,9 @@
                         return;
                     }
                 },1000);
+            },
+            getLocalStatus(){
+                this.status=localStorage.thisGroupStatus;
             }
 
         }

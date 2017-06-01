@@ -84,8 +84,8 @@
             /*提交事件*/
             addUserGroupFn(){
                 this.getLocalStatus();
-                if(this.status==0){
-                    this.saveError='当前用户群已被禁用';
+                if(this.status==2){
+                    this.saveError='当前用户群已失效';
                     return;
                 }
                 if(this.systemId==''||this.subject==''){

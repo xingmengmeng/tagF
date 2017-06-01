@@ -52,7 +52,7 @@
                         <td v-cloak>{{item.sno}}</td>
                         <td v-cloak>{{item.name}}</td>
                         <td v-cloak>{{item.tagCount}}</td>
-                        <td v-cloak>{{item.status==0?'禁用':'启用'}}</td>
+                        <td v-cloak>{{item.status==2?'失效':'启用'}}</td>
                         <td v-cloak>{{item.creater}}</td>
                         <td v-cloak>{{item.createrLine}}</td>
                         <td v-cloak>{{item.createTime}}</td>
