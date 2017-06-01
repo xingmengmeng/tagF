@@ -122,8 +122,8 @@
                 <div class="spanWrap">
                     <div class="scroll_wrap">
                         <div class="spanAndClose" v-for="item in proAry">
-                            <span @click="selectSpanFn(item.id)" :class="temIds.indexOf(item.id)!=-1?'active':''">{{item.name}}</span>
-                            <i v-if="!item.flag" @click="delectGroup(item.id)"></i>
+                            <span @click="selectSpanFn(item.id,item.flag)" :class="temIds.indexOf(item.id)!=-1?'active':''">{{item.name}}</span>
+                            <i v-if="item.flag!='default'" @click="delectGroup(item.id)"></i>
                         </div>
                     </div>
                 </div>
@@ -204,6 +204,7 @@
             getSelectPro(){
                 this.$http.get('/api/userGroupPortrait/queryList.gm').then(function (res) {
                     if(res.data.code==200){
+                        this.error='';
                         this.proAry=res.data.dataInfo;
                         this.addUserRightScroll=new IScroll('.spanWrap',{
                             mouseWheel: true,
@@ -317,7 +318,13 @@
                 window.location.href='/#/userGroup/addUserGroup?flag=new';
             },
             /*点击 弹框中 用户群*/
-            selectSpanFn(id){
+            selectSpanFn(id,curFlag){
+                if(curFlag=='invalid'){
+                    this.error='提示：当前用户群已失效，建议重新创建。';
+                    return;
+                }else{
+                    this.error='';
+                }
                 var con=this.temIds.filter( (item)=> {
                     return item==id;
                 });
@@ -325,6 +332,7 @@
                     if(this.temIds.length>=2){
                         return;
                     }else{
+                        this.error='';
                         this.temIds.push(id);
                     }
                 }else {
