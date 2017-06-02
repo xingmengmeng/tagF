@@ -66,9 +66,9 @@
                     <div class="clearfix">
                         <h3 class="left picH3">投资产品类型</h3>
                         <div class="right">
-                            <input type="radio" value="productType" v-model="proStyle" @click="proData('changeStyle')"><label>类型</label>
-                            <input type="radio" value="annualRate" v-model="proStyle" @click="proData('changeStyle')"><label>年化率</label>
-                            <input type="radio" value="term" v-model="proStyle" @click="proData('changeStyle')"><label>期限</label>
+                            <input type="radio" id="productType" value="productType" v-model="proStyle" @click="proData('changeStyle')"><label for="productType">类型</label>
+                            <input type="radio" id="annualRate" value="annualRate" v-model="proStyle" @click="proData('changeStyle')"><label for="annualRate">年化率</label>
+                            <input type="radio" id="term" value="term" v-model="proStyle" @click="proData('changeStyle')"><label for="term">期限</label>
                         </div>
                     </div>
                     <div class="chartWrap">
@@ -83,8 +83,8 @@
                     <div class="clearfix">
                         <h3 class="left picH3">充值、提现偏好</h3>
                         <div class="right">
-                            <input type="radio" value="recharge" v-model="ctStyle" @click="ctData('changeStyle')"><label>充值</label>
-                            <input type="radio" value="withdraw" v-model="ctStyle" @click="ctData('changeStyle')"><label>提现</label>
+                            <input type="radio" id="recharge" value="recharge" v-model="ctStyle" @click="ctData('changeStyle')"><label for="recharge">充值</label>
+                            <input type="radio" id="withdraw" value="withdraw" v-model="ctStyle" @click="ctData('changeStyle')"><label for="withdraw">提现</label>
                         </div>
                     </div>
                     <div class="chartWrap">
@@ -98,8 +98,8 @@
                     <div class="clearfix">
                         <h3 class="left picH3">当前客户等级与总资产</h3>
                         <div class="right">
-                            <input type="radio" value="cusGrade" v-model="laStyle" @click="laData('changeStyle')"><label>客户等级</label>
-                            <input type="radio" value="totalAsset" v-model="laStyle" @click="laData('changeStyle')"><label>总资产</label>
+                            <input type="radio" id="cusGrade" value="cusGrade" v-model="laStyle" @click="laData('changeStyle')"><label for="cusGrade">客户等级</label>
+                            <input type="radio" id="totalAsset" value="totalAsset" v-model="laStyle" @click="laData('changeStyle')"><label for="totalAsset">总资产</label>
                         </div>
                     </div>
                     <div class="chartWrap">
