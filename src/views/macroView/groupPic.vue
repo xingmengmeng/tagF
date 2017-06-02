@@ -10,7 +10,7 @@
                 <!--<div class="biSpanWrap">
                     <span>男，18-21，投资100起</span>
                 </div>-->
-                <i @click="addGroupFn"></i>
+                <i @click="addGroupFn" v-if="!groupId"></i>
             </div>
         </div>
         <!--地域分布  年龄分布  性别分布 start-->
@@ -162,6 +162,7 @@
                 ctResData:[],//接口返回值
                 laStyle:'cusGrade',//当前客户等级与总资产
                 laResData:[],//接口返回值
+                groupId:'',//当前用户群id  由用户群列表得来
             }
         },
         components:{
@@ -171,10 +172,54 @@
             'macSex':macSex,
         },
         mounted(){
-            this.getData();
-            this.getSelectPro();
+            this.getUrl();
         },
         methods:{
+            //得到url中的参数值  判断是来自用户群页面还是导航直接点击到的
+            getUrl(){
+                var url=window.location.href,
+                        urlReg=/([^?=&#]+)=([^?=&#]+)/g,
+                        urlObj={};
+                url.replace(urlReg,function ($0,$1,$2) {
+                    urlObj[$1]=$2;
+                });
+                if(urlObj['id']){//来自用户群列表页面
+                    
+                    this.groupId=urlObj['id'];
+                    console.log(this.groupId);
+                    this.getIdData(urlObj['id']);
+                }else{//来自导航点击
+                    this.getData();
+                    this.getSelectPro();
+                }
+            },
+            //来自用户群列表页的初始逻辑
+            getIdData(id){
+                var temAry=[];
+                temAry.push(Number(id));
+                this.$http.get('/api/userGroupPortrait/queryUserGroupList.gm?ids='+temAry).then(function (res) {
+                    var resData=res.data.dataInfo;
+                    this.resData=resData;
+                    if(res.data.code==200){
+                        this.ids.length=0;
+                        this.nameAry.length=0;
+                        /*得到ids 用户群名*/
+                        resData.forEach( (item)=> {
+                            this.ids.push(item.id);
+                            this.temIds.push(item.id);
+                            this.nameAry.push(item.name);
+                        });
+
+                        this.getAreaData();/*地域分布模块加载*/
+                        this.getAgeData();/*年龄分布加载*/
+                        this.getSexData();/*性别分布加载*/
+                        this.picData();/*客户类型*/
+                        this.proData();/*投资产品类型*/
+                        this.ctData();/*充值提现偏好*/
+                        this.laData();/*当前客户等级与总资产*/
+                    }
+                });
+            },
             //初始化  得到当前的id数组、用户群名数组
             getData(){
                 this.$http.get('/api/userGroupPortrait/queryDefaultList.gm').then(function (res) {
