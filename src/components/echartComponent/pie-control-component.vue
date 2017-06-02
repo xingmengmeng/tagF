@@ -32,29 +32,31 @@
                 });
             },
             drawPie (id) {
-                this.chart = echarts.init(document.getElementById(id))
-                this.chart.setOption({
-                    color:['#fcf002','#0b95e1','#00a852','#0690a4','#a0cd3b','#1078f5','#37b647','#34b2f5'],
-                    calculable : false,
-                    tooltip : {
-                        trigger: 'item',
-                        formatter: "{b} : {c} 个"
-                    },
-                    series : [
-                        {
-                            name:'标签来源',
-                            type:'pie',
-                            radius : [80, 110],
+                if(document.getElementById(id)){
+                    this.chart = echarts.init(document.getElementById(id))
+                    this.chart.setOption({
+                        color:['#fcf002','#0b95e1','#00a852','#0690a4','#a0cd3b','#1078f5','#37b647','#34b2f5'],
+                        calculable : false,
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: "{b} : {c} 个"
+                        },
+                        series : [
+                            {
+                                name:'标签来源',
+                                type:'pie',
+                                radius : [80, 110],
 
-                            // for funnel
-                            x: '60%',
-                            width: '35%',
-                            funnelAlign: 'left',
-                            max: 1048,
-                            data:this.tagData
-                        }
-                    ]
-                })
+                                // for funnel
+                                x: '60%',
+                                width: '35%',
+                                funnelAlign: 'left',
+                                max: 1048,
+                                data:this.tagData
+                            }
+                        ]
+                    })
+                }
             }
         }
     }

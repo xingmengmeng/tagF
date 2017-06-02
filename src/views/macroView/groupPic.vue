@@ -274,7 +274,7 @@
             /*性别分布*/
             getSexData(){
                 this.$http.get('/api/userGroupPortrait/getSexChart.gm?ids='+this.ids).then(function (res) {
-                    if(res.data.code==200){
+                    if(res.data.code==200&&this.$refs.sexrefId){
                         this.$refs.sexrefId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo.sex);
                     }
                 })

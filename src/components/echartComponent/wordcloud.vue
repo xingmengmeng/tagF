@@ -59,25 +59,27 @@
                 this.drawPie('wordcloud');
             },
             drawPie (id) {
-                this.chart = echarts.init(document.getElementById(id))
-                this.chart.setOption({
-                    color:['#91aff3'],
-                    tooltip: {
-                        show: true
-                    },
-                    series: [{
-                        /*name: 'Google Trends',*/
-                        type: 'wordCloud',
-                        size: ['100%', '100%'],
-                        /*textRotation : [0, 45, 90, -45],*/
-                        textPadding: 0,
-                        autoSize: {
-                            enable: true,
-                            minSize: 14
+                if(document.getElementById(id)){
+                    this.chart = echarts.init(document.getElementById(id))
+                    this.chart.setOption({
+                        color:['#91aff3'],
+                        tooltip: {
+                            show: true
                         },
-                        data:this.cloudData,
-                    }]
-                })
+                        series: [{
+                            /*name: 'Google Trends',*/
+                            type: 'wordCloud',
+                            size: ['100%', '100%'],
+                            /*textRotation : [0, 45, 90, -45],*/
+                            textPadding: 0,
+                            autoSize: {
+                                enable: true,
+                                minSize: 14
+                            },
+                            data:this.cloudData,
+                        }]
+                    })
+                }
             }
         }
     }

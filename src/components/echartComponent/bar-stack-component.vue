@@ -34,71 +34,73 @@
                 });
             },
             drawPie (id) {
-                this.chart = echarts.init(document.getElementById(id))
-                this.chart.setOption({
-                    color:['#b9caf6','#8eb2f6'],
-                    tooltip : {
-                        trigger: 'axis',
-                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                        }
-                    },
-                    legend: {
-                        data:this.legendData,
-                        bottom:'10px',
-                    },
-                    calculable : true,
-                    grid:{
-                        top:'15px',
-                        left:'80px',
-                    },
-                    xAxis : [
-                        {
-                            type : 'value',
-                            axisLine: {
-                                lineStyle: {
-                                    color: '#8e8e8e',
-                                    width:1,
+                if(document.getElementById(id)){
+                    this.chart = echarts.init(document.getElementById(id))
+                    this.chart.setOption({
+                        color:['#b9caf6','#8eb2f6'],
+                        tooltip : {
+                            trigger: 'axis',
+                            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            data:this.legendData,
+                            bottom:'10px',
+                        },
+                        calculable : true,
+                        grid:{
+                            top:'15px',
+                            left:'80px',
+                        },
+                        xAxis : [
+                            {
+                                type : 'value',
+                                axisLine: {
+                                    lineStyle: {
+                                        color: '#8e8e8e',
+                                        width:1,
+                                    }
                                 }
                             }
-                        }
-                    ],
-                    yAxis : [
-                        {
-                            type : 'category',
-                            data : this.yAxisData,
-                            axisLabel:{
-                                textStyle:{
-                                    fontSize:10,
+                        ],
+                        yAxis : [
+                            {
+                                type : 'category',
+                                data : this.yAxisData,
+                                axisLabel:{
+                                    textStyle:{
+                                        fontSize:10,
+                                    }
+                                },
+                                axisLine: {
+                                    lineStyle: {
+                                        color: '#8e8e8e',
+                                        width:1,
+                                    }
                                 }
+                            }
+                        ],
+                        series : [
+                            {
+                                name:this.legendData[0],
+                                type:'bar',
+                                stack: '总量',
+                                itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
+                                data:this.activityCountData,
+                                barWidth : 48,
                             },
-                            axisLine: {
-                                lineStyle: {
-                                    color: '#8e8e8e',
-                                    width:1,
-                                }
-                            }
-                        }
-                    ],
-                    series : [
-                        {
-                            name:this.legendData[0],
-                            type:'bar',
-                            stack: '总量',
-                            itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
-                            data:this.activityCountData,
-                            barWidth : 48,
-                        },
-                        {
-                            name:this.legendData[1],
-                            type:'bar',
-                            stack: '总量',
-                            itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
-                            data:this.pushCountData,
-                            barWidth : 48,
-                        },
-                    ]
-                })
+                            {
+                                name:this.legendData[1],
+                                type:'bar',
+                                stack: '总量',
+                                itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
+                                data:this.pushCountData,
+                                barWidth : 48,
+                            },
+                        ]
+                    })
+                }
             }
         }
     }

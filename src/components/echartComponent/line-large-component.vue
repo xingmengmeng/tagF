@@ -115,61 +115,63 @@
                 });
             },
             drawPie (id) {
-                this.chart = echarts.init(document.getElementById(id))
-                this.chart.setOption({
-                    color:['#91aff3',
-                        '#789cf0',
-                        '#28c9f1',
-                        '#268ca5',
-                        '#105b6e',
-                        '#1ce8b1',
-                        '#ba55d3',
-                        '#cd5c5c',
-                        '#ffa500',
-                        '#40e0d0'],
-                    tooltip : {
-                        trigger: 'axis'
-                    },
-                    grid:{
-                        top:40,
-                        left:'70px',
-                    },
-                    calculable : true,
-                    xAxis : [
-                        {
-                            type : 'category',
-                            boundaryGap : false,
-                            data : this.dateList,
-                            axisLine: {
-                                lineStyle: {
-                                    color: '#8e8e8e',
-                                    width:1,
+                if(document.getElementById(id)){
+                    this.chart = echarts.init(document.getElementById(id))
+                    this.chart.setOption({
+                        color:['#91aff3',
+                            '#789cf0',
+                            '#28c9f1',
+                            '#268ca5',
+                            '#105b6e',
+                            '#1ce8b1',
+                            '#ba55d3',
+                            '#cd5c5c',
+                            '#ffa500',
+                            '#40e0d0'],
+                        tooltip : {
+                            trigger: 'axis'
+                        },
+                        grid:{
+                            top:40,
+                            left:'70px',
+                        },
+                        calculable : true,
+                        xAxis : [
+                            {
+                                type : 'category',
+                                boundaryGap : false,
+                                data : this.dateList,
+                                axisLine: {
+                                    lineStyle: {
+                                        color: '#8e8e8e',
+                                        width:1,
+                                    }
                                 }
                             }
-                        }
-                    ],
-                    yAxis : [
-                        {
-                            type : 'value',
-                            axisLine: {
-                                lineStyle: {
-                                    color: '#8e8e8e',
-                                    width:1,
-                                }
-                            },
-                            min:850000
-                        }
-                    ],
-                    series : [
-                        {
-                            name:'用户数',
-                            type:'line',
-                            smooth:true,
-                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                            data:this.cusCountList
-                        }
-                    ]
-                })
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value',
+                                axisLine: {
+                                    lineStyle: {
+                                        color: '#8e8e8e',
+                                        width:1,
+                                    }
+                                },
+                                min:850000
+                            }
+                        ],
+                        series : [
+                            {
+                                name:'用户数',
+                                type:'line',
+                                smooth:true,
+                                itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                                data:this.cusCountList
+                            }
+                        ]
+                    })
+                } 
             }
         }
     }
