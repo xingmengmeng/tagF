@@ -270,6 +270,8 @@
     }
     .tabDiv{
         width: 100%;
+        padding-right: 3px;
+        box-sizing: border-box;
     }
     .indexTab{
         border: 1px solid #D0E6FF;

@@ -63,6 +63,9 @@
             border-radius: 2px;
         }
     }
+    #messSelect{
+        width: 120px;
+    }
     
 </style>
 <script>
