@@ -174,6 +174,9 @@
         mounted(){
             this.getUrl();
         },
+        watch: {
+            '$route':'getUrl',//url发生变化从新请求数据并且渲染页面
+        },
         methods:{
             //得到url中的参数值  判断是来自用户群页面还是导航直接点击到的
             getUrl(){
@@ -187,6 +190,7 @@
                     this.groupId=urlObj['id'];
                     this.getIdData(urlObj['id']);
                 }else{//来自导航点击
+                    this.groupId='';
                     this.getData();
                     this.getSelectPro();
                 }
