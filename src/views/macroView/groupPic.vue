@@ -184,9 +184,7 @@
                     urlObj[$1]=$2;
                 });
                 if(urlObj['id']){//来自用户群列表页面
-                    
                     this.groupId=urlObj['id'];
-                    console.log(this.groupId);
                     this.getIdData(urlObj['id']);
                 }else{//来自导航点击
                     this.getData();
@@ -198,52 +196,37 @@
                 var temAry=[];
                 temAry.push(Number(id));
                 this.$http.get('/api/userGroupPortrait/queryUserGroupList.gm?ids='+temAry).then(function (res) {
-                    var resData=res.data.dataInfo;
-                    this.resData=resData;
-                    if(res.data.code==200){
-                        this.ids.length=0;
-                        this.nameAry.length=0;
-                        /*得到ids 用户群名*/
-                        resData.forEach( (item)=> {
-                            this.ids.push(item.id);
-                            this.temIds.push(item.id);
-                            this.nameAry.push(item.name);
-                        });
-
-                        this.getAreaData();/*地域分布模块加载*/
-                        this.getAgeData();/*年龄分布加载*/
-                        this.getSexData();/*性别分布加载*/
-                        this.picData();/*客户类型*/
-                        this.proData();/*投资产品类型*/
-                        this.ctData();/*充值提现偏好*/
-                        this.laData();/*当前客户等级与总资产*/
-                    }
+                    this.doneResData(res);
                 });
             },
             //初始化  得到当前的id数组、用户群名数组
             getData(){
                 this.$http.get('/api/userGroupPortrait/queryDefaultList.gm').then(function (res) {
-                    var resData=res.data.dataInfo;
-                    this.resData=resData;
-                    if(res.data.code==200){
-                        this.ids.length=0;
-                        this.nameAry.length=0;
-                        /*得到ids 用户群名*/
-                        resData.forEach( (item)=> {
-                            this.ids.push(item.id);
-                            this.temIds.push(item.id);
-                            this.nameAry.push(item.name);
-                        });
-
-                        this.getAreaData();/*地域分布模块加载*/
-                        this.getAgeData();/*年龄分布加载*/
-                        this.getSexData();/*性别分布加载*/
-                        this.picData();/*客户类型*/
-                        this.proData();/*投资产品类型*/
-                        this.ctData();/*充值提现偏好*/
-                        this.laData();/*当前客户等级与总资产*/
-                    }
+                    this.doneResData(res);
                 });
+            },
+            //处理初始化得来的数据 函数
+            doneResData(res){
+                var resData=res.data.dataInfo;
+                this.resData=resData;
+                if(res.data.code==200){
+                    this.ids.length=0;
+                    this.nameAry.length=0;
+                    /*得到ids 用户群名*/
+                    resData.forEach( (item)=> {
+                        this.ids.push(item.id);
+                        this.temIds.push(item.id);
+                        this.nameAry.push(item.name);
+                    });
+
+                    this.getAreaData();/*地域分布模块加载*/
+                    this.getAgeData();/*年龄分布加载*/
+                    this.getSexData();/*性别分布加载*/
+                    this.picData();/*客户类型*/
+                    this.proData();/*投资产品类型*/
+                    this.ctData();/*充值提现偏好*/
+                    this.laData();/*当前客户等级与总资产*/
+                }
             },
             /*得到可选人群*/
             getSelectPro(){
