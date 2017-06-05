@@ -299,6 +299,11 @@
             },
             searchFun(){
                 //window.location.href='/#/microView/micDetail';
+                if(this.shContent==''){//搜索内容为空  判断不查询
+                    this.error='搜索内容不能为空！';
+                    return;
+                }
+                this.error='';
                 this.$http.get('/api/microPortrait/getMicroPortrait.gm?searchContent='+this.shContent).then(function (res) {
                     if(res.data.code==200){
                         this.error='';//清空错误信息
@@ -314,7 +319,6 @@
                             }
                             /*加滚动条*/
                             for(var i=0;i<4;i++){
-                                //console.log(typeof this.scrollAry[i]);
                                 if(typeof this.scrollAry[i]=='string'){
                                     this.scrollAry[i]=new IScroll('.scrollDiv'+i,{
                                         mouseWheel: true,
@@ -326,7 +330,6 @@
                                 }else{
                                     this.scrollAry[i].refresh();
                                 }
-                                //console.log(typeof this.scrollAry[i]);
                             }
                         })
                     }
