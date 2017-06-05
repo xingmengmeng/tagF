@@ -10,7 +10,8 @@
                 <!--<div class="biSpanWrap">
                     <span>男，18-21，投资100起</span>
                 </div>-->
-                <i @click="addGroupFn" v-if="!groupId"></i>
+                <!--<i @click="addGroupFn" v-if="!groupId"></i>-->
+                <span @click="addGroupFn" v-if="!groupId" class="addGroupSapn">添加对比+</span>
             </div>
         </div>
         <!--地域分布  年龄分布  性别分布 start-->

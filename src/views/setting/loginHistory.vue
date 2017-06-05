@@ -111,7 +111,7 @@ export default {
                   xAxis: [
                         {
                             'type':'category',
-                            'axisLabel':{'interval':0},
+                            'axisLabel':{'interval':0,rotate:45},
                             'data':temXdata,
                             splitLine: {show: false}
                         }
