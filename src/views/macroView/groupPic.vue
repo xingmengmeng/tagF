@@ -224,7 +224,7 @@
                         this.temIds.push(item.id);
                         this.nameAry.push(item.name);
                     });
-                    this.getPersonNum();
+                    this.getPersonNum();/*得到理财投资 计算的人数*/
                     this.getAreaData();/*地域分布模块加载*/
                     this.getAgeData();/*年龄分布加载*/
                     this.getSexData();/*性别分布加载*/
@@ -409,6 +409,7 @@
                 }else {
                     this.error='';
                 }
+                this.getPersonNum();/*得到理财投资 计算的人数*/
                 this.getAreaData();/*地域分布模块加载*/
                 this.getAgeData();/*年龄分布加载*/
                 this.getSexData();/*性别分布加载*/
