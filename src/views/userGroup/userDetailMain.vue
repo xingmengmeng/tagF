@@ -170,7 +170,7 @@
             this.getLocal();
             this.getData();
             LayOut.setHeight.init();
-            this.status=this.selectedStatus=='启用'?1:2;
+            this.status=this.selectedStatus=='禁用'?0:(this.selectedStatus=='启用'?1:2);
         },
         components:{
             'right-menu':rightMenu,
@@ -181,7 +181,7 @@
                 /*标签具体信息*/
                 this.$http.get('/api/userGroup/getById.gm?id='+this.gropId).then(function (response) {
                     this.resData=response.data.dataInfo;
-                    this.selectedStatus=this.resData.status==1?'启用':'失效';
+                    this.selectedStatus=this.resData.status==0?'禁用':(this.resData.status==1?'启用':'失效');
                 });
 
                 /*用户标签*/
