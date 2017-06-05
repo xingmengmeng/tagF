@@ -3,7 +3,7 @@
         <a href="javascript:;" class="logo left">logo</a>
         <div class="logoF">用户标签管理系统</div>
         <div class="right headRight">
-            <router-link to="/setting" class="set-mes">设置</router-link>
+            <router-link to="/setting" class="set-mes" v-if="isAdmin">设置</router-link>
             <div class="ad-center" @mouseenter="toolEnter" @mouseleave="toolLeave">
                 <div class="right userMess">
                     <span v-cloak>{{userName}}</span>
@@ -38,13 +38,17 @@
                 timer:null,
                 menuData:[],
                 pageData:[],
-                userName:'index'
+                userName:'index',
+                isAdmin:true,
             }
         },
         components:{
 
         },
         mounted(){
+            if(localStorage.isAdmin){
+                this.isAdmin=localStorage.isAdmin;
+            }
             this.getData();
         },
         methods:{

@@ -126,6 +126,7 @@
                                 if(response.data.dataInfo.responseCode&&(response.data.dataInfo.responseCode=='10000')){
                                     //console.log(usernm,userpsw);
                                     this.setCookie(usernm,userpsw);
+                                    localStorage.isAdmin=response.data.dataInfo.isAdmin;
                                     window.location.href='/#/index';
                                 }else{
 
@@ -145,6 +146,7 @@
                                 }
                                 if(response.data.dataInfo.responseCode&&(response.data.dataInfo.responseCode=='10000')){
                                     //this.setCookie(usernm,userpsw);
+                                    localStorage.isAdmin=response.data.dataInfo.isAdmin;
                                     window.location.href='/#/index';
                                 }else{
                                     console.log(response.data.dataInfo.responseMsg);
