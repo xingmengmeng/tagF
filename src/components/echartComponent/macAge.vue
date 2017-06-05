@@ -30,16 +30,16 @@
                 var xData=[],series1=[],series2=[],valuess0=[],valuess1=[];
                 if(data[this.ids[0]]){
                     data[this.ids[0]].forEach( (item)=> {
-                        xData.unshift(item.name);
-                        series1.unshift(item.rate);
-                        valuess0.unshift(item.value);
+                        xData.push(item.name);
+                        series1.push(item.rate);
+                        valuess0.push(item.value);
                     });
                 }
 
                 if(data[this.ids[1]]){
                     data[this.ids[1]].forEach( (item)=> {
-                        series2.unshift(item.rate);
-                        valuess1.unshift(item.value);
+                        series2.push(item.rate);
+                        valuess1.push(item.value);
                     });
                 }
 
