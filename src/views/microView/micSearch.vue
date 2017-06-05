@@ -300,7 +300,6 @@
             searchFun(){
                 //window.location.href='/#/microView/micDetail';
                 if(this.shContent==''){//搜索内容为空  判断不查询
-                    this.error='搜索内容不能为空！';
                     return;
                 }
                 this.error='';
