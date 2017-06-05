@@ -43,7 +43,7 @@
         <!--地域分布  年龄分布  性别分布 end-->
 
         <div class="lineNav clearfix">
-            <span class="active">理财投资 <i>(21,212人)</i></span>
+            <span class="active">理财投资 <i>({{personNum}})</i></span>
             <!--<span>美易分 <i>(12人)</i></span>
             <span>美借 <i>(212人)</i></span>-->
         </div>
@@ -164,6 +164,7 @@
                 laStyle:'cusGrade',//当前客户等级与总资产
                 laResData:[],//接口返回值
                 groupId:'',//当前用户群id  由用户群列表得来
+                personNum:'',
             }
         },
         components:{
@@ -223,7 +224,7 @@
                         this.temIds.push(item.id);
                         this.nameAry.push(item.name);
                     });
-
+                    this.getPersonNum();
                     this.getAreaData();/*地域分布模块加载*/
                     this.getAgeData();/*年龄分布加载*/
                     this.getSexData();/*性别分布加载*/
@@ -232,6 +233,14 @@
                     this.ctData();/*充值提现偏好*/
                     this.laData();/*当前客户等级与总资产*/
                 }
+            },
+            /*得到理财投资 共有人数*/
+            getPersonNum(){
+                this.$http.get('/api/userGroupPortrait/getLineTotal.gm?ids='+this.ids).then(function(res){
+                    if(res.data.code==200){
+                        this.personNum=res.data.dataInfo['美易理财'];
+                    }
+                })
             },
             /*得到可选人群*/
             getSelectPro(){
