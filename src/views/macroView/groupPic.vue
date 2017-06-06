@@ -350,9 +350,11 @@
             addGroupFn(){
                 this.showMarker=1;
                 this.error='';
+                this.temIds=this.ids.slice(0);
             },
             /*隐藏弹框*/
             hideMark(){
+                this.temIds=this.ids.slice(0);
                 this.showMarker=0;
             },
             /*点击  新建  跳转*/
@@ -394,7 +396,13 @@
             /*切换对比*/
             changeIds(){
                 //得到新用户群ids及选中的用户群名称nameAry
-                this.ids=this.temIds;
+                if(this.temIds.length==0){
+                    this.error='对比人群不能为空';
+                    return;
+                }else {
+                    this.error='';
+                }
+                this.ids=this.temIds.slice(0);
                 this.nameAry.length=0;
                 this.ids.forEach( (curId)=> {
                     this.proAry.forEach( (item)=> {
@@ -403,12 +411,7 @@
                         }
                     })
                 })
-                if(this.ids.length==0){
-                    this.error='对比人群不能为空';
-                    return;
-                }else {
-                    this.error='';
-                }
+                
                 this.getPersonNum();/*得到理财投资 计算的人数*/
                 this.getAreaData();/*地域分布模块加载*/
                 this.getAgeData();/*年龄分布加载*/
