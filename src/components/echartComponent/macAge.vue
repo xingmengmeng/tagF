@@ -128,8 +128,7 @@
                     //color: ['#6ea6fc','#2fcacc'],
                     tooltip : {
                         trigger: 'axis',
-                        formatter: function (data,b,c) {
-                            console.log(c);
+                        formatter: function (data) {
                             if(_this.nameAry[1]){
                                 return data.name+'<br/>'+_this.nameAry[0]+'：'+valuess0[data.dataIndex]+'<br/>'+_this.nameAry[1]+'：'+valuess1[data.dataIndex];
                             }else{

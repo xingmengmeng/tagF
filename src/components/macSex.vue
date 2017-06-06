@@ -91,10 +91,11 @@
                     data[this.ids[0]].forEach( (item)=> {
                         if(item.name=='男'){
                             series1.push(item.rate);
+                            valuess0.push(item.value);
                         }else if(item.name=='女'){
                             series2.push(item.rate);
+                            valuess1.push(item.value);
                         }
-                        //valuess0.unshift(item.value);
                     });
                 }
 
@@ -102,18 +103,26 @@
                     data[this.ids[1]].forEach( (item)=> {
                         if(item.name=='男'){
                             series1.push(item.rate);
+                            valuess0.push(item.value);
                         }else if(item.name=='女'){
                             series2.push(item.rate);
+                            valuess1.push(item.value);
                         }
-                        //valuess1.unshift(item.value);
                     });
                 }
-
                 this.chartBoy = echarts.init(document.getElementById('boyChart'));
                 this.chartGirl = echarts.init(document.getElementById('girlChart'));
+                var _this=this;
                 this.chartBoy.setOption({
                     tooltip: {
-                        trigger: 'item'
+                        trigger: 'item',
+                        formatter:function(data){
+                            if(_this.nameAry[1]){
+                                return '男<br/>'+_this.nameAry[0]+'：'+valuess0[0]+'<br/>'+_this.nameAry[1]+'：'+valuess0[1];
+                            }else{
+                                return '男<br/>'+_this.nameAry[0]+'：'+valuess0[0];
+                            }
+                        }
                     },
                     calculable: true,
                     grid: {
@@ -170,7 +179,14 @@
                 });
                 this.chartGirl.setOption({
                     tooltip: {
-                        trigger: 'item'
+                        trigger: 'item',
+                        formatter:function(data){
+                            if(_this.nameAry[1]){
+                                return '女<br/>'+_this.nameAry[0]+'：'+valuess1[0]+'<br/>'+_this.nameAry[1]+'：'+valuess1[1];
+                            }else{
+                                return '女<br/>'+_this.nameAry[0]+'：'+valuess1[0];
+                            }
+                        }
                     },
                     calculable: true,
                     grid: {
