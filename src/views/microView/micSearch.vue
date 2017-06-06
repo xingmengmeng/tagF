@@ -304,7 +304,7 @@
                 }
                 this.error='';
                 this.$http.get('/api/microPortrait/getMicroPortrait.gm?searchContent='+this.shContent).then(function (res) {
-                    if(res.data.code==200){
+                    if(res.data.code==200&&res.data.dataInfo.detail.length!=0){
                         this.error='';//清空错误信息
                         this.serchAlready=1;//隐藏入口 显示查询结果
                         this.resId=res.data.dataInfo.passportId;
@@ -331,6 +331,9 @@
                                 }
                             }
                         })
+                    }else if(res.data.code==200&&res.data.dataInfo.detail.length==0){
+                        this.error=res.data.dataInfo.msg;
+                        return;
                     }
                 });
             }
