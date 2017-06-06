@@ -52,9 +52,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="item in list" @click="showActDetail(item.id,$event)">
+                                <tr v-for="item in list" @click="showActDetail(item,$event)">
                                     <td v-cloak>{{item.sno}}</td>
-                                    <td v-cloak>{{item.userGroupName}}</td>
+                                    <td v-cloak title="用户群名称">{{item.userGroupName}}</td>
                                     <td v-cloak>{{item.systemName}}</td>
                                     <td v-cloak>{{item.subject}}</td>
                                     <td v-cloak>{{item.coverUserCount}}</td>
@@ -320,15 +320,20 @@
                 }
             },
             /*活动详情*/
-            showActDetail(id,e){
+            showActDetail(item,e){
                 var event=window.event||e;
-                if(event.target.innerHTML!='活动分析'&&event.target.innerHTML!='删除'){
+                console.log(e.target.title);
+                if(event.target.innerHTML!='活动分析'&&event.target.innerHTML!='删除'&&e.target.title!='用户群名称'){
                     var overlay=document.querySelector('.overlay'),
                             markActDetail=document.querySelector('.markActDetail');
                     overlay.style.display=markActDetail.style.display='block';
-                    this.$http.get('/api/marketActivity/getById.gm?id='+id).then(function (res) {
+                    this.$http.get('/api/marketActivity/getById.gm?id='+item.id).then(function (res) {
                         this.actDetail=res.data.dataInfo;
                     })
+                }
+                if(e.target.title=='用户群名称'){
+                    this.$router.push({path:'userGroup/userDetail/groupMain'});
+                    localStorage.thisGroupId=item.userGroupId;
                 }
             },
             deleteUserGroup(id){

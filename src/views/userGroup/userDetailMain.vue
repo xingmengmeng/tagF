@@ -182,6 +182,8 @@
                 this.$http.get('/api/userGroup/getById.gm?id='+this.gropId).then(function (response) {
                     this.resData=response.data.dataInfo;
                     this.selectedStatus=this.resData.status==0?'禁用':(this.resData.status==1?'启用':'失效');
+                    localStorage.thisGroupName=this.resData.name;
+                    localStorage.thisGroupStatus=this.resData.status;
                 });
 
                 /*用户标签*/
