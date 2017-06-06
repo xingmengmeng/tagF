@@ -396,13 +396,20 @@
                 //得到新用户群ids及选中的用户群名称nameAry
                 this.ids=this.temIds;
                 this.nameAry.length=0;
-                this.proAry.forEach( (item)=> {
+                /*this.proAry.forEach( (item)=> {
                     this.ids.forEach( (curId)=> {
                         if(item.id==curId){
                             this.nameAry.push(item.name);
                         }
                     })
-                });
+                });*/
+                this.ids.forEach( (curId)=> {
+                    this.proAry.forEach( (item)=> {
+                        if(curId==item.id){
+                            this.nameAry.push(item.name);
+                        }
+                    })
+                })
                 if(this.ids.length==0){
                     this.error='对比人群不能为空';
                     return;

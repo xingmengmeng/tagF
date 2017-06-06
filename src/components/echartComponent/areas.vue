@@ -25,6 +25,9 @@
                 /*配置series*/
                 var temSeries=new Array();
                 if(this.ids.length==1){
+                    var obj={name:'南海诸岛',value:0};
+                    var temData=data[this.ids[0]];
+                    temData.push(obj);
                     temSeries=[
                         {
                             name: this.nameAry[0],
@@ -32,7 +35,7 @@
                             showLegendSymbol: false,
                             mapType: 'china',
                             roam: false,
-                            data: data[this.ids[0]],
+                            data: temData,
                             label: {
                                 normal: {
                                     show:false
@@ -49,6 +52,10 @@
                         }
                     ];
                 }else if(this.ids.length==2){
+                    var obj={name:'南海诸岛',value:0};
+                    var temData=data[this.ids[0]],temData2=data[this.ids[1]];
+                    temData.push(obj);
+                    temData2.push(obj);
                     temSeries=[
                         {
                             name: this.nameAry[0],
@@ -56,7 +63,7 @@
                             showLegendSymbol: false,
                             mapType: 'china',
                             roam: false,
-                            data: data[this.ids[0]],
+                            data: temData,
                             label: {
                                 normal: {
                                     show:false
@@ -77,7 +84,7 @@
                             showLegendSymbol: false,
                             mapType: 'china',
                             roam: false,
-                            data: data[this.ids[1]],
+                            data: temData2,
                             label: {
                                 normal: {
                                     show:false
