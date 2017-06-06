@@ -122,14 +122,20 @@
                         }
                     ];
                 }
-
+                var _this=this;
                 this.chart = echarts.init(document.getElementById(this.curId));
                 this.chart.setOption({
                     //color: ['#6ea6fc','#2fcacc'],
                     tooltip : {
                         trigger: 'axis',
-                        formatter: function (data) {
-                            return data.seriesName+' '+data.name+':<br/>('+(data.seriesIndex==0?valuess0[data.dataIndex]:valuess1[data.dataIndex])+')'+data.value+'%';
+                        formatter: function (data,b,c) {
+                            console.log(c);
+                            if(_this.nameAry[1]){
+                                return data.name+'<br/>'+_this.nameAry[0]+'：'+valuess0[data.dataIndex]+'<br/>'+_this.nameAry[1]+'：'+valuess1[data.dataIndex];
+                            }else{
+                                return data.name+'<br/>'+_this.nameAry[0]+'：'+valuess0[data.dataIndex];
+                            }
+                            
                         }
                     },
                     grid:{

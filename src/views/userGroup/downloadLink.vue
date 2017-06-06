@@ -110,7 +110,7 @@
             downCsv(){
                 this.getLocalStatus();
                 if(this.status==2){
-                    this.downError='当前用户群已失效';
+                    this.downError='该用户群已失效，不支持csv下载。';
                     return;
                 }
                 if(this.psw==''){

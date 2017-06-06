@@ -85,7 +85,7 @@
             addUserGroupFn(){
                 this.getLocalStatus();
                 if(this.status==2){
-                    this.saveError='当前用户群已失效';
+                    this.saveError='该用户群已失效，不支持创建活动。';
                     return;
                 }
                 if(this.systemId==''||this.subject==''){

@@ -47,7 +47,7 @@
                 </div>
                 <!--国美保险-->
                 <div class="everyTagWrap clearfix">
-                    <h5><span>国美保险</span></h5>
+                    <h5><span>美借</span></h5>
                     <div class="countWrap">
                         <span>0/0</span>
                         <div class="lineWrap">
