@@ -86,7 +86,7 @@
             <div class="echarts-wraper">
                 <div class="div-title">
                     <h5 class="ic6">标签关联画像</h5>
-                    <a href="/#/tagView" class="right tagDetailLink">详情</a>
+                    <!--<a href="/#/tagView" class="right tagDetailLink">详情</a>-->
                 </div>
                 <!--图表 start-->
                 <div>
