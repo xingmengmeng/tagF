@@ -239,7 +239,14 @@
             getPersonNum(){
                 this.$http.get('/api/userGroupPortrait/getLineTotal.gm?ids='+this.ids).then(function(res){
                     if(res.data.code==200){
-                        this.personNum=res.data.dataInfo['美易理财'];
+                        /*this.personNum=res.data.dataInfo['美易理财'];*/
+                        this.personNum='';
+                        if(res.data.dataInfo){
+                            for(var item in res.data.dataInfo){
+                                this.personNum+=res.data.dataInfo[item][0].valueStr+' / ';
+                            }
+                        }
+                        this.personNum=this.personNum.replace(/\s\/\s$/,'');
                     }
                 })
             },
