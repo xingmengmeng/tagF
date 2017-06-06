@@ -6,11 +6,12 @@
             <div class="groupNameWrap">
                 <div class="biSpanWrap" v-for="item in nameAry">
                     <span>{{item}}</span>
+                    <!--<i v-if="nameAry.length==2" @click="delectGroup(item.id)"></i>-->
+                    <i v-if="nameAry.length==2" @click="delectGroupName(item)"></i>
                 </div>
                 <!--<div class="biSpanWrap">
                     <span>男，18-21，投资100起</span>
                 </div>-->
-                <!--<i @click="addGroupFn" v-if="!groupId"></i>-->
                 <span @click="addGroupFn" v-if="!groupId" class="addGroupSapn">添加对比+</span>
             </div>
         </div>
@@ -392,6 +393,18 @@
                         this.getSelectPro();
                     }
                 })
+            },
+            delectGroupName(curName){
+                var id='';
+                this.proAry.forEach((item)=>{
+                    if(item.name==curName){
+                        id=item.id;
+                    }
+                });
+                this.temIds=this.temIds.filter( (item)=> {
+                    return item!=id;
+                });
+                this.changeIds();
             },
             /*切换对比*/
             changeIds(){
