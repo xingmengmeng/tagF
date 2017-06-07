@@ -123,8 +123,7 @@ export default {
               seriesAry.push(obj);
               tempData.push(dataTime);
           }
-          //xData=['李慧敏','邢萌萌'];
-          var attributeCount = function(obj) {
+          /*var attributeCount = function(obj) {
               var count = 0;
               for(var i in obj) {
                     if(obj.hasOwnProperty(i)) {  // 建议加上判断,如果没有扩展对象属性可以不加
@@ -133,9 +132,8 @@ export default {
                }
             return count;
            }
-          var resDataNum=attributeCount(resData);
-          //console.log(resDataNum);
-
+          var resDataNum=attributeCount(resData);*/
+          var resDataNum=Object.getOwnPropertyNames(resData).length;
           this.chart.setOption({
                 baseOption: {
                     timeline: {
