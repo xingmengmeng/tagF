@@ -124,7 +124,17 @@ export default {
               tempData.push(dataTime);
           }
           //xData=['李慧敏','邢萌萌'];
-          console.log(JSON.stringify(seriesAry));
+          var attributeCount = function(obj) {
+              var count = 0;
+              for(var i in obj) {
+                    if(obj.hasOwnProperty(i)) {  // 建议加上判断,如果没有扩展对象属性可以不加
+                        count++;
+                    }
+               }
+            return count;
+           }
+          var resDataNum=attributeCount(resData);
+          //console.log(resDataNum);
 
           this.chart.setOption({
                 baseOption: {
@@ -134,7 +144,7 @@ export default {
                         // realtime: false,
                         // loop: false,
                         autoPlay: false,
-                        // currentIndex: 2,
+                        currentIndex: resDataNum-1,
                         playInterval: 2000,
                         // controlStyle: {
                         //     position: 'left'
