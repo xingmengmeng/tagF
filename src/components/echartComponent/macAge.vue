@@ -52,7 +52,7 @@
                             type:'bar',
                             data:series1,
                             barWidth:this.serWidth,
-                            tooltip : {trigger: 'item'},
+                            /*tooltip : {trigger: 'item'},*/
                             itemStyle: {
                                 normal: {
                                     color: new echarts.graphic.LinearGradient(
@@ -84,7 +84,7 @@
                             type:'bar',
                             data:series1,
                             barWidth:this.serWidth,
-                            tooltip : {trigger: 'item'},
+                            /*tooltip : {trigger: 'item'},*/
                             itemStyle: {
                                 normal: {
                                     color: new echarts.graphic.LinearGradient(
@@ -113,7 +113,7 @@
                             type:'bar',
                             data:series2,
                             barWidth:this.serWidth,
-                            tooltip : {trigger: 'item'},
+                            /*tooltip : {trigger: 'item'},*/
                             itemStyle: {
                                 normal: {
                                     color: '#2fcacc',
@@ -128,11 +128,12 @@
                     //color: ['#6ea6fc','#2fcacc'],
                     tooltip : {
                         trigger: 'axis',
+                        confine:true,
                         formatter: function (data) {
                             if(_this.nameAry[1]){
-                                return data.name+'<br/>'+_this.nameAry[0]+'：'+valuess0[data.dataIndex]+'<br/>'+_this.nameAry[1]+'：'+valuess1[data.dataIndex];
+                                return data[0].name+'<br/>'+'<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:#6ea1fc;"></span>'+_this.nameAry[0]+'：'+valuess0[data[0].dataIndex]+'<br/>'+'<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:#2fcacc;"></span>'+_this.nameAry[1]+'：'+valuess1[data[0].dataIndex];
                             }else{
-                                return data.name+'<br/>'+_this.nameAry[0]+'：'+valuess0[data.dataIndex];
+                                return data[0].name+'<br/>'+'<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:#6ea1fc;"></span>'+_this.nameAry[0]+'：'+valuess0[data[0].dataIndex];
                             }
                             
                         }

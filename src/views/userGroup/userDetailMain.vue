@@ -10,10 +10,11 @@
                             <ul class="groupUl">
                                 <li>
                                     <label>用户群名称</label>
-                                    <span v-cloak>{{resData.name}}</span>
-                                    <!--<input type="text" v-model="resData.name" @blur="editMess" disabled id="editInput">
-                                    <i @click="changeStatus"></i>-->
-                                    <!--<button class="saveBtn">保存</button>-->
+                                    <!--<span v-cloak>{{resData.name}}</span>-->
+                                    <input type="text" v-model="resData.name" disabled id="editInput" :class="editing?'editClss':'uneditclass'">
+                                    <i @click="changeStatus" v-show="!editing"></i>
+                                    <button class="saveBtn" v-show="editing" @click="editMess">保存</button>
+                                    <button class="saveBtn" v-show="editing" @click="editBack">取消</button>
                                 </li>
                                 <li>
                                     <label>序列号</label>
@@ -147,6 +148,8 @@
                 downError:'',/*下载错误提示*/
                 saveError:'',/*创建活动错误提示*/
                 labelNum:'',
+                editing:false,//是否编辑状态
+                editTem:'',
             }
         },
         watch: {
@@ -199,6 +202,8 @@
             },
             /*点击编辑  变为可编辑状态*/
             changeStatus(){
+                this.editing=true;
+                this.editTem=this.resData.name;
                 var editInput=document.querySelector('#editInput');
                 editInput.removeAttribute('disabled');
             },
@@ -207,14 +212,24 @@
                 this.status=this.selectedStatus=='启用'?1:2;
                 this.editMess();
             },*/
-            /*失去焦点  修改并改状态*/
+            /*点击保存  修改并改状态*/
             editMess(){
                 var val=this.resData.name;
                 localStorage.thisGroupStatus=this.status;
                 this.$http.post('/api/userGroup/update.gm',{"id":this.gropId,"name":val,"status":this.status},{emulateJSON:true}).then(function (response) {
                     /*操作日志*/
+                    this.editing=false;
+                    var editInput=document.querySelector('#editInput');
+                    editInput.setAttribute('disabled',true);
                     this.getLib();
                 });
+            },
+            /*点击编辑 取消*/
+            editBack(){
+                this.resData.name=this.editTem;
+                this.editing=false;
+                var editInput=document.querySelector('#editInput');
+                editInput.setAttribute('disabled',true);
             },
             /*从localstorage里拿到当前的用户群id*/
             getLocal(){

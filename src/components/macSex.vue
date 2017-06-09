@@ -118,9 +118,9 @@
                         trigger: 'item',
                         formatter:function(data){
                             if(_this.nameAry[1]){
-                                return '男<br/>'+_this.nameAry[0]+'：'+valuess0[0]+'<br/>'+_this.nameAry[1]+'：'+valuess0[1];
+                                return '男<br/>'+'<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:#6ea1fc;"></span>'+_this.nameAry[0]+'：'+valuess0[0]+'<br/>'+'<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:#2fcacc;"></span>'+_this.nameAry[1]+'：'+valuess0[1];
                             }else{
-                                return '男<br/>'+_this.nameAry[0]+'：'+valuess0[0];
+                                return '男<br/>'+'<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:#6ea1fc;"></span>'+_this.nameAry[0]+'：'+valuess0[0];
                             }
                         }
                     },
@@ -182,9 +182,9 @@
                         trigger: 'item',
                         formatter:function(data){
                             if(_this.nameAry[1]){
-                                return '女<br/>'+_this.nameAry[0]+'：'+valuess1[0]+'<br/>'+_this.nameAry[1]+'：'+valuess1[1];
+                                return '女<br/>'+'<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:#6ea1fc;"></span>'+_this.nameAry[0]+'：'+valuess1[0]+'<br/>'+'<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:#2fcacc;"></span>'+_this.nameAry[1]+'：'+valuess1[1];
                             }else{
-                                return '女<br/>'+_this.nameAry[0]+'：'+valuess1[0];
+                                return '女<br/>'+'<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:#6ea1fc;"></span>'+_this.nameAry[0]+'：'+valuess1[0];
                             }
                         }
                     },

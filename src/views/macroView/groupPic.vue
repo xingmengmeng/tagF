@@ -62,11 +62,11 @@
 
                 </div>
             </div>
-            <!--投资产品类型-->
+            <!--投资产品偏好-->
             <div class="picWrap right">
                 <div class="wrapMainDiv">
                     <div class="clearfix">
-                        <h3 class="left picH3">投资产品类型</h3>
+                        <h3 class="left picH3">投资产品偏好</h3>
                         <div class="right">
                             <input type="radio" id="productType" value="productType" v-model="proStyle" @click="proData('changeStyle')"><label for="productType">类型</label>
                             <input type="radio" id="annualRate" value="annualRate" v-model="proStyle" @click="proData('changeStyle')"><label for="annualRate">年化率</label>
