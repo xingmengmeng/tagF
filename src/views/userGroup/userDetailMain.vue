@@ -1,7 +1,7 @@
 <template>
     <section class="rightSide">
         <div class="deTail">
-            <creat-act></creat-act>
+            <creat-act ref="creatActId"></creat-act>
             <section class="clearfix nextWrap">
                 <right-menu></right-menu>
                 <div class="leftDiv">
@@ -215,12 +215,16 @@
             /*点击保存  修改并改状态*/
             editMess(){
                 var val=this.resData.name;
+                console.log(val);
                 localStorage.thisGroupStatus=this.status;
                 this.$http.post('/api/userGroup/update.gm',{"id":this.gropId,"name":val,"status":this.status},{emulateJSON:true}).then(function (response) {
                     /*操作日志*/
                     this.editing=false;
                     var editInput=document.querySelector('#editInput');
                     editInput.setAttribute('disabled',true);
+
+                    localStorage.thisGroupName=this.resData.name;
+                    this.$refs.creatActId.$emit('changeName');
                     this.getLib();
                 });
             },

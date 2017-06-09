@@ -64,6 +64,9 @@
 
         },
         mounted(){
+            this.$on('changeName',()=>{
+                this.getLocal();
+            });
             this.getLocal();
         },
         watch: {
