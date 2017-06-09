@@ -217,7 +217,7 @@
                 var val=this.resData.name;
                 console.log(val);
                 localStorage.thisGroupStatus=this.status;
-                this.$http.post('/api/userGroup/update.gm',{"id":this.gropId,"name":val,"status":this.status},{emulateJSON:true}).then(function (response) {
+                this.$http.post('/api/userGroup/update.gm',{"id":this.gropId,"name":val},{emulateJSON:true}).then(function (response) {
                     /*操作日志*/
                     this.editing=false;
                     var editInput=document.querySelector('#editInput');
