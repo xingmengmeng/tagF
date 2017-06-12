@@ -28,6 +28,9 @@
                 </ul>
             </div>
         </section>
+        <footer class="footer">
+            Copyright © 2017 国美金控投资有限公司 | 津ICP备15008982号
+        </footer>
         <img src="../../assets/images/ls_1.png" alt="" class="flowImg img1">
         <img src="../../assets/images/ls_2.png" alt="" class="flowImg img2">
         <img src="../../assets/images/ls_3.png" alt="" class="flowImg img3">
