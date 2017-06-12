@@ -12,9 +12,29 @@
                 <li><span>Loading...</span></li>
             </ul>
         </div>
+        <div>
+            <div v-show="!showLoading&&!cloudData.length" class="noConDiv">
+                <p><img src="../../assets/images/noCon.png" alt=""></p> 
+                <p>数据异常，请稍后再试。</p>
+            </div>
+        </div>
+        
         <div id="wordcloud"></div>
     </div>
 </template>
+<style scoped lang="less">
+.noConDiv{
+    position: absolute;
+    left:50%;
+    top:50%;
+    margin:-50px 0 0 -90px;
+    p{
+        text-align: center;
+        color:#9a9a9a;
+    }
+}
+</style>
+
 <script type="text/ecmascript-6">
     const echarts = require('echarts');
     require('../../assets/js/echarts-wordcloud');
@@ -53,6 +73,7 @@
             fetchData(val){
                 //console.log(val);
                 this.cloudData=this.resData[val];
+                console.log(this.cloudData.length);
                 this.totalNum=val=='data'?this.resData.total:this.resData.yesTotal;
                 this.showStr=val=='data'?'全部理财用户数：':'昨日理财投资用户数：';
                 this.actIndex=val=='data'?1:0;
