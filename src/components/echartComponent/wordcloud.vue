@@ -15,7 +15,7 @@
         <div>
             <div v-show="!showLoading&&!cloudData.length" class="noConDiv">
                 <p><img src="../../assets/images/noCon.png" alt=""></p> 
-                <p>数据异常，请稍后再试。</p>
+                <p>暂无数据，请稍后再试。</p>
             </div>
         </div>
         
