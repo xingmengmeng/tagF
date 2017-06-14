@@ -39,15 +39,15 @@
                 menuData:[],
                 pageData:[],
                 userName:'index',
-                isAdmin:true,
+                isAdmin:false,
             }
         },
         components:{
 
         },
         mounted(){
-            if(localStorage.isAdmin){
-                this.isAdmin=localStorage.isAdmin;
+            if(localStorage.isAdmin&&localStorage.isAdmin=='true'){
+                this.isAdmin=true;
             }
             this.getData();
         },
