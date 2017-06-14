@@ -33,7 +33,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="left addUsersCenter">
+                <div class="left addUsersCenter" style="position:relative;">
                     <div class="center">
                         <loading v-show="showLoading"></loading>
                         <div class="clearfix searchWrap">
