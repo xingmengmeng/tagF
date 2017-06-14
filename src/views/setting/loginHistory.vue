@@ -111,7 +111,7 @@ export default {
                   xAxis: [
                         {
                             'type':'category',
-                            'axisLabel':{'interval':0,rotate:45},
+                            'axisLabel':{'interval':0,rotate:30},
                             'data':temXdata,
                             splitLine: {show: false}
                         }
@@ -200,15 +200,6 @@ export default {
 			            right: '60',
                         tooltip: {
                             trigger: 'axis',
-                            axisPointer: {
-                                type: 'shadow',
-                                label: {
-                                    show: true,
-                                    formatter: function (params) {
-                                        return params.value.replace('\n', '');
-                                    }
-                                }
-                            }
                         }
                     },
                     xAxis: [
