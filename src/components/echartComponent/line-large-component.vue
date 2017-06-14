@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="position:relative;">
         <div class="slideDiv" id="box">
             <div class="largWrap">
                 <div class="ulWrap clearfix">
@@ -60,11 +60,17 @@
             <!--<a href="javascript:;" class="slideIcon leftIcon"></a>
             <a href="javascript:;" class="slideIcon rightIcon"></a>-->
         </div>
-        <div id="lineLarge">入库客户数据</div>
+        <div class="loadings" v-show="showLoadingLine">
+            <ul>
+                <li><span>Loading...</span></li>
+            </ul>
+        </div>
+        <div id="lineLarge"></div>
     </div>
 </template>
 <script type="text/ecmascript-6">
     const echarts = require('echarts');
+    require('../../assets/css/loading.less');
     import slide from '../../assets/js/slide';
 
     import mylc from '../../assets/images/mylc.png';
@@ -85,6 +91,7 @@
                 cusCountList:null,
                 cusTypeList:null,
                 url:'/api/portal/tagFactory/getInboundCustomerChart.gm',
+                showLoadingLine:true,
                 slideImgObj:{
                     'mylc':mylc,
                     'gmjj':gmjj,
@@ -103,6 +110,7 @@
             fetchData(url) {
                 var _this=this;
                 this.$http.get(url).then((response) => {
+                    _this.showLoadingLine=false;
                     _this.cusTypeList=response.data.dataInfo.cusTypeList;
                     _this.$nextTick(function () {
                         var myslid=new Slide('box');/*页面渲染完成后实例化轮播图*/

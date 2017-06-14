@@ -1,5 +1,5 @@
 <template>
-    <div class="wordWrap">
+    <div class="wordWrap" style="position:relative;">
         <div class="lcHead clearfix" v-cloak>
             <span class="leftF">{{showStr}}{{totalNum}}</span>
             <div class="lcBtnWrap">
@@ -7,7 +7,7 @@
                 <input type="button" value="总用户" :class="actIndex==1?'active':''" @click="fetchData('data')">
             </div>
         </div>
-        <div id="loadings" v-show="showLoading">
+        <div class="loadings" v-show="showLoading">
             <ul>
                 <li><span>Loading...</span></li>
             </ul>
