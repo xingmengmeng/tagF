@@ -404,11 +404,21 @@
             },
             /*删除新增的用户群*/
             delectGroup(id){
+                if(this.ids.indexOf(id)!=-1){
+                    this.error="不能删除当前展示用户群";
+                    return;
+                }
                 this.$http.delete('/api/userGroupPortrait/delete.gm?id='+id).then(function(res){
                     if(res.data.code==200){
                         this.getSelectPro();
                     }
-                })
+                }); 
+                this.temIds=this.temIds.filter( (item)=> {
+                    return item!=id;
+                });
+                this.ids=this.ids.filter( (item)=> {
+                    return item!=id;
+                });
             },
             delectGroupName(curName){
                 var id='';
