@@ -121,8 +121,8 @@
             </div>
             <div class="mainDiv clearfix">
                 <span class="newAdd" @click="gotoAddNewGorup">+新建</span>
-                <div class="spanWrap">
-                    <div class="scroll_wrap">
+                <div class="spanWrap clearfix">
+                    <div class="scroll_wrap clearfix">
                         <div class="spanAndClose" v-for="item in proAry">
                             <span @click="selectSpanFn(item.id,item.flag)" :class="temIds.indexOf(item.id)!=-1?'active':''">{{item.name}}</span>
                             <i v-if="item.flag!='default'" @click="delectGroup(item.id)"></i>
@@ -259,15 +259,13 @@
                     if(res.data.code==200){
                         this.error='';
                         this.proAry=res.data.dataInfo;
-                        this.$nextTick(function(){
-                            this.addUserRightScroll=new IScroll('.spanWrap',{
-                                mouseWheel: true,
-                                scrollbars: true,
-                                checkDOMChanges:true,
-                                bounce: false,
-                                interactiveScrollbars:true
-                            });
-                        })
+                        this.addUserRightScroll=new IScroll('.spanWrap',{
+                            mouseWheel: true,
+                            scrollbars: true,
+                            checkDOMChanges:true,
+                            bounce: false,
+                            interactiveScrollbars:true
+                        });
                         this.$nextTick(function () {
                             this.addUserRightScroll.refresh();
                         })
@@ -367,6 +365,9 @@
                 this.showMarker=1;
                 this.error='';
                 this.temIds=this.ids.slice(0);
+                this.$nextTick(function () {
+                    this.addUserRightScroll.refresh();
+                })
             },
             /*隐藏弹框*/
             hideMark(){

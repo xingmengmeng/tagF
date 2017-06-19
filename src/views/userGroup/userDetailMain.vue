@@ -54,7 +54,9 @@
                             <div class="userLabelWrap">
                                 <div class="labels clearfix" v-cloak>
                                     <h5>用户标签（{{labelNum}}个）</h5>
-                                    <a href="userLabel.html" class="detailsLink">详情</a>
+                                    <!--<a href="userLabel.html" class="detailsLink">详情</a>-->
+                                    <router-link to="userLabel" class="detailsLink">详情</router-link>
+                                    
                                 </div>
                                 <div class="messDivGoup clearfix" v-cloak>
                                     <span v-for="everyMess in messData">{{everyMess.tagName}}</span>
