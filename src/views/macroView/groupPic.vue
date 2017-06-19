@@ -259,13 +259,18 @@
                     if(res.data.code==200){
                         this.error='';
                         this.proAry=res.data.dataInfo;
-                        this.addUserRightScroll=new IScroll('.spanWrap',{
-                            mouseWheel: true,
-                            scrollbars: true,
-                            checkDOMChanges:true,
-                            bounce: false,
-                            interactiveScrollbars:true
-                        });
+                        this.$nextTick(function(){
+                            this.addUserRightScroll=new IScroll('.spanWrap',{
+                                mouseWheel: true,
+                                scrollbars: true,
+                                checkDOMChanges:true,
+                                bounce: false,
+                                interactiveScrollbars:true
+                            });
+                        })
+                        this.$nextTick(function () {
+                            this.addUserRightScroll.refresh();
+                        })
                     }
                 })
             },
