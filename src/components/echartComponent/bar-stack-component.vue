@@ -26,7 +26,8 @@
                         _this.activityCountData.push(item.activityCount);/*活动用户群数据*/
                         _this.pushCountData.push(item.pushCount);/*推送成功群数据*/
                         _this.yAxisData.push(item.pushedName);/*y轴 即每行*/
-                        _this.legendData=['未使用活动数','推送成功活动数'];
+                        /*_this.legendData=['未使用活动数','推送成功活动数'];*/
+                        _this.legendData=['未使用活动数'];
                     })
                     _this.drawPie('mainStack');/*画图*/
                 },(response) => {
@@ -90,14 +91,14 @@
                                 data:this.activityCountData,
                                 barWidth : 48,
                             },
-                            {
+                            /*{
                                 name:this.legendData[1],
                                 type:'bar',
                                 stack: '总量',
                                 itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
                                 data:this.pushCountData,
                                 barWidth : 48,
-                            },
+                            },*/
                         ]
                     })
                 }
