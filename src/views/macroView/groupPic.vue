@@ -19,7 +19,17 @@
         <div class="clearfix">
             <div class="left areaWrap">
                 <div class="clearfix areas">
-                    <h3 class="picH3">地域分布</h3>
+                    <div class="clearfix">
+                        <h3 class="left picH3">地域分布</h3>
+                        <div class="left messTsDiv">
+                            <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                            <ul class="messConUl" style="display:none;">
+                                <li>数据显示：已选人群所属哪些地域</li>
+                                <li>计算说明：根据用户实名/鉴权上传的身份证数据，进行数据解析，给出用户所属的省份的分布及排名</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
                     <div class="clearfix">
                         <div class="left areasWrap">
                             <areas cur-id="areaShow" ref="areaId"></areas>
@@ -32,11 +42,29 @@
             </div>
             <div class="right personWrap">
                 <div class="agesWrap">
-                    <h3 class="picH3">年龄分布</h3>
+                    <div class="clearfix">
+                        <h3 class="left picH3">年龄分布</h3>
+                        <div class="left messTsDiv">
+                            <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                            <ul class="messConUl" style="display:none;">
+                                <li>数据显示：已选人群年龄情况</li>
+                                <li>计算说明：根据用户实名/鉴权上传的身份证数据，进行数据解析，给出用户各年龄段的占比情况</li>
+                            </ul>
+                        </div>
+                    </div>
                     <mac-age cur-id="ageId" ref="agerefId"></mac-age>
                 </div>
                 <div class="sexWrap">
-                    <h3 class="picH3">性别分布</h3>
+                    <div class="clearfix">
+                        <h3 class="left picH3">性别分布</h3>
+                        <div class="left messTsDiv">
+                            <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                            <ul class="messConUl" style="display:none;">
+                                <li>数据显示：已选人群性别情况</li>
+                                <li>计算说明：根据用户实名/鉴权上传的身份证数据，进行数据解析，给出用户男女占比情况</li>
+                            </ul>
+                        </div>
+                    </div>
                     <mac-sex ref="sexrefId"></mac-sex>
                 </div>
             </div>
@@ -44,9 +72,16 @@
         <!--地域分布  年龄分布  性别分布 end-->
 
         <div class="lineNav clearfix">
-            <span class="active">理财投资 <i>({{personNum}})</i></span>
+            <span class="left active">理财投资 <i class="spanI">({{personNum}})</i></span>
             <!--<span>美易分 <i>(12人)</i></span>
             <span>美借 <i>(212人)</i></span>-->
+            <div class="left messTsDiv">
+                <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                <ul class="messConUl" style="display:none;">
+                    <li>数据显示：已选人群中包含美易理财的人数</li>
+                    <li>交互说明：当前选中时，页面以下显示已选人群的美易理财业务画像。</li>
+                </ul>
+            </div>
         </div>
         <!--下方四块-->
         <div class="fourWrap clearfix">
@@ -55,6 +90,13 @@
                 <div class="wrapMainDiv">
                     <div class="clearfix">
                         <h3 class="left picH3">客户类型</h3>
+                        <div class="left messTsDiv">
+                            <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                            <ul class="messConUl" style="display:none;">
+                                <li>数据显示：已选人群在美易理财业务中所处阶段</li>
+                                <li>计算说明：根据美易理财业务数据，进行数据解析，给出用户在美易理财办理只注册/只实名/只充值/有投资类型占比情况；投资失败的用户不属于投资客户</li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="chartWrap">
                         <mac-age cur-id="picId" ref="picrefId"></mac-age>
@@ -67,6 +109,14 @@
                 <div class="wrapMainDiv">
                     <div class="clearfix">
                         <h3 class="left picH3">投资产品偏好</h3>
+                        <div class="left messTsDiv">
+                            <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                            <ul class="messConUl" style="display:none;">
+                                <li>数据显示：已选人群在理财投资中对产品的喜好</li>
+                                <li>计算说明：根据用户购买某类产品次数/所有产品购买次数，占比最高即为偏好该产品</li>
+                            </ul>
+                        </div>
+                        
                         <div class="right">
                             <input type="radio" id="productType" value="productType" v-model="proStyle" @click="proData('changeStyle')"><label for="productType">类型</label>
                             <input type="radio" id="annualRate" value="annualRate" v-model="proStyle" @click="proData('changeStyle')"><label for="annualRate">年化率</label>
@@ -83,7 +133,14 @@
             <div class="left picWrap">
                 <div class="wrapMainDiv">
                     <div class="clearfix">
-                        <h3 class="left picH3">充值、提现偏好</h3>
+                        <h3 class="left picH3">单次充值、提现最高</h3>
+                        <div class="left messTsDiv">
+                            <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                            <ul class="messConUl" style="display:none;">
+                                <li>数据显示：已选人群在理财中充值、提现情况</li>
+                                <li>计算说明：根据用户单次充值、提款金额最大值，显示人群所属的占比。</li>
+                            </ul>
+                        </div>
                         <div class="right">
                             <input type="radio" id="recharge" value="recharge" v-model="ctStyle" @click="ctData('changeStyle')"><label for="recharge">充值</label>
                             <input type="radio" id="withdraw" value="withdraw" v-model="ctStyle" @click="ctData('changeStyle')"><label for="withdraw">提现</label>
@@ -99,6 +156,13 @@
                 <div class="wrapMainDiv">
                     <div class="clearfix">
                         <h3 class="left picH3">当前客户等级与总资产</h3>
+                        <div class="left messTsDiv">
+                            <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                            <ul class="messConUl" style="display:none;">
+                                <li>数据显示：已选人群在美易理财所属等级情况</li>
+                                <li>计算说明：根据用户理财等级、总资产情况，显示人群所属的占比。</li>
+                            </ul>
+                        </div>
                         <div class="right">
                             <input type="radio" id="cusGrade" value="cusGrade" v-model="laStyle" @click="laData('changeStyle')"><label for="cusGrade">客户等级</label>
                             <input type="radio" id="totalAsset" value="totalAsset" v-model="laStyle" @click="laData('changeStyle')"><label for="totalAsset">总资产</label>
@@ -182,6 +246,14 @@
             '$route':'getUrl',//url发生变化从新请求数据并且渲染页面
         },
         methods:{
+            showNext(e){
+                var cc=e.target.parentNode.getElementsByTagName('ul')[0];
+                cc.style.display='block';
+            },
+            hideNext(e){
+                var cc=e.target.parentNode.getElementsByTagName('ul')[0];
+                cc.style.display='none';
+            },
             //得到url中的参数值  判断是来自用户群页面还是导航直接点击到的
             getUrl(){
                 var url=window.location.href,

@@ -96,7 +96,12 @@ var setHeight=(function () {
         var headerHeight=document.getElementById('header').offsetHeight;
         var footerHeigh=document.getElementById('footer').offsetHeight;
         /*中间部分的高度   总高度-头-尾-20像素的间隔*/
-        var centerHeight=cHeight-headerHeight-footerHeigh-20;
+
+        if(document.getElementsByTagName('marquee')[0]){
+            var centerHeight=cHeight-headerHeight-footerHeigh-20-35;
+        }else{
+            var centerHeight=cHeight-headerHeight-footerHeigh-20;
+        }
         var mainWrap=document.getElementById('mainWrap');
         mainWrap.style.height=centerHeight+'px';
     }

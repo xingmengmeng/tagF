@@ -25,12 +25,23 @@
         </div>
         
     </header>
-    <!--<marquee><font  color='green'>测试</font></marquee>-->
+    <marquee><span class="grollSpan">公告：标签工厂2.0上线了！上线内容包含美易理财、美易分业务标签及宏观、微观、标签画像等功能。因每日标签更新时存在部分用户状态发生变化，有可能导致与天眼BI数值有差异，该情况属于正常。</span></marquee>
 </div>
     
 </template>
-<style>
-
+<style lang="less" scoped>
+marquee{
+    padding-top:5px;
+}
+.grollSpan{
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+    padding-left:25px;
+    color:#333;
+    font-size:12px;
+    background: url(../assets/images/ggIcon.png) left top no-repeat;
+}
 </style>
 <script type="text/ecmascript-6">
     require('../assets/css/reset.min.less');
