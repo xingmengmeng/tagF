@@ -142,7 +142,7 @@
                         top:20,
                         bottom:80,
                         left: '20',
-			            right: '40',
+			            right: '45',
                     },
                     legend: {
                         data:this.nameAry,

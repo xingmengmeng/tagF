@@ -1,4 +1,5 @@
 <template>
+<div>
     <header class="container" id="header">
         <a href="javascript:;" class="logo left">logo</a>
         <div class="logoF">用户标签管理系统</div>
@@ -22,7 +23,11 @@
 
             <router-link :to="'/'+menu.href" v-for='menu in menuData'>{{menu.name}}</router-link>
         </div>
+        
     </header>
+    <!--<marquee><font  color='green'>测试</font></marquee>-->
+</div>
+    
 </template>
 <style>
 

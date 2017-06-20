@@ -125,6 +125,7 @@
                     <div class="scroll_wrap clearfix">
                         <div class="spanAndClose" v-for="item in proAry">
                             <span @click="selectSpanFn(item.id,item.flag)" :class="temIds.indexOf(item.id)!=-1?'active':''">{{item.name}}</span>
+                            <!--:title="'一行\n美易分 且 25~34岁 且 天蝎座 且 80后 且 男 且 已婚 且 本科'"-->
                             <i v-if="item.flag!='default'" @click="delectGroup(item.id)"></i>
                         </div>
                     </div>
