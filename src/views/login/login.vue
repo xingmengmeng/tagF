@@ -120,6 +120,7 @@
                                     this.errorMessage=response.data.msg;
                                     if(response.data.code=='WA10000'){
                                         this.setCookie("","");
+                                        this.cookiePsd='';
                                     }
                                     return;
                                 }
@@ -144,6 +145,7 @@
                                     this.errorMessage=response.data.msg;
                                     if(response.data.code=='WA10000'){
                                         this.setCookie("","");
+                                        this.cookiePsd='';
                                     }
                                     return;
                                 }
@@ -156,6 +158,7 @@
                                     this.errorMessage=response.data.dataInfo.responseMsg;
                                 }
                                 this.setCookie("","");
+                                this.cookiePsd='';
                             })
 
                         }
