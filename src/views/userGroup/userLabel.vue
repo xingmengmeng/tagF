@@ -94,7 +94,7 @@
                         var newAry=[];
                         newAry=item.split(reg2);
                         newAry=newAry.map((item)=>{
-                            item=item.replace(/\(|\)/g,'');
+                            item=item.replace(/\（|\）/g,'');
                             return item;
                         })
                         this.resDataAry.push(newAry);
