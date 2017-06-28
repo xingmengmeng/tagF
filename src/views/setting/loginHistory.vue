@@ -228,7 +228,7 @@ export default {
                         }
                     ],
                     series: [
-                        {name: '登录次数', type: 'bar',barWidth:40},
+                        {name: '登录次数', type: 'bar',barWidth:20},
                     ]
                 },
                 options: seriesAry,
