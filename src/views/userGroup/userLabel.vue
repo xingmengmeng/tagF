@@ -11,13 +11,13 @@
                             <!--<span v-cloak>
                                 {{resData}}
                             </span>-->
-                            <div v-for="(item,index) in resDataAry">
-                                <span class="left">（</span>
-                                <div class="left" v-for="(curTag,index) in item">
+                            <div v-for="(item,index) in resDataAry" :key="index">
+                                <span class="left" v-if="item.length>1">（</span>
+                                <div class="left" v-for="(curTag,index) in item" :key="index">
                                     <span class="left ffTag">{{curTag}} </span>
                                     <i v-if="index!=item.length-1" class="left orClass">或</i>
                                 </div>
-                                <span class="left">）</span>
+                                <span class="left" v-if="item.length>1">）</span>
                                 <i v-if="index!=resDataAry.length-1" class="left andClass">且</i>
                             </div>
                         </div>
