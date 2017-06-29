@@ -25,7 +25,7 @@
         </div>
         
     </header>
-    <marquee><span class="grollSpan">公告：标签工厂2.0上线了！上线内容包含美易理财、美易分业务标签及宏观、微观、标签画像等功能。因每日标签更新时存在部分用户状态发生变化，有可能导致与天眼BI数值有差异，该情况属于正常。</span></marquee>
+    <marquee><span class="grollSpan">公告：标签工厂v2.1版本上线了。完成了美借全量用户280万+用户接入，新增美借人口统计、地理位置标签内容。</span></marquee>
 </div>
     
 </template>
