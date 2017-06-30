@@ -30,16 +30,16 @@
                 <!--图表 end-->
             </div>
 
-            <div class="echarts-wraper">
+            <!--<div class="echarts-wraper">
                 <div class="div-title">
                     <h5 class="ic3">标签加工进度</h5>
                 </div>
-                <!--图表 start-->
+               
                 <div class="clearfix" style="padding-bottom:10px">
                     <s-tab-component></s-tab-component>
                 </div>
-                <!--图表 end-->
-            </div>
+                
+            </div>-->
 
         </div>
 
