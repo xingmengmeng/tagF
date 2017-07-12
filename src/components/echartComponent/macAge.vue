@@ -123,10 +123,9 @@
                     ];
                 }
                 var _this=this;
-                if(this.chart){
-                    echarts.dispose();
+                if(!this.chart){
+                    this.chart = echarts.init(document.getElementById(this.curId));
                 }
-                this.chart = echarts.init(document.getElementById(this.curId));
                 this.chart.setOption({
                     //color: ['#6ea6fc','#2fcacc'],
                     tooltip : {
