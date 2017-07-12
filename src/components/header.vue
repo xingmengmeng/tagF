@@ -21,7 +21,7 @@
             <router-link to="/addUserGroup">用户群</router-link>-->
             <!--macroView 宏观   microView  微观  -->
 
-            <router-link :to="'/'+menu.href" v-for='menu in menuData'>{{menu.name}}</router-link>
+            <router-link :to="'/'+menu.href" v-for='(menu,index) in menuData' :key="index">{{menu.name}}</router-link>
         </div>
         
     </header>

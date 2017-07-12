@@ -123,7 +123,9 @@
                     ];
                 }
                 var _this=this;
-               //echarts.dispose();
+                if(this.chart){
+                    echarts.dispose();
+                }
                 this.chart = echarts.init(document.getElementById(this.curId));
                 this.chart.setOption({
                     //color: ['#6ea6fc','#2fcacc'],
