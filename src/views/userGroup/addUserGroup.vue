@@ -536,6 +536,7 @@
                     this.addUserRightScroll.refresh();
                 });
                 this.saveGroup();
+                this.comAllSelect();
             },
             /*显示弹框*/
             showMark(){
