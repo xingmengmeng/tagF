@@ -60,6 +60,79 @@
             <!--<a href="javascript:;" class="slideIcon leftIcon"></a>
             <a href="javascript:;" class="slideIcon rightIcon"></a>-->
         </div>
+       <!-- 此处是新添加的三个数-->
+        <div class="slideDiv" id="box2">
+            <div class="largWrap2">
+                <div class="ulWrap clearfix">
+                    <ul v-for="cusType in cusTypeList">
+                        <li><span>{{cusType.value}}</span></li>
+                    </ul>
+                </div>
+            </div>
+            <!--多于5个时放出-->
+            <!--<a href="javascript:;" class="slideIcon leftIcon"></a>
+            <a href="javascript:;" class="slideIcon rightIcon"></a>-->
+        </div>
+       <!-- <div class="slideDiv2" id="box2">
+            <div class="largWrap">
+                <div class="ulWrap clearfix">
+                    <ul v-for="cusType in cusTypeList">
+                        &lt;!&ndash;<li><img :src="slideImgObj[cusType.code]"></li>&ndash;&gt;
+                        <li><img :src="slideImgObj[cusType.code]"></li>
+                        <li><span>{{cusType.name}}</span></li>
+                        <li><span>{{cusType.value}}</span></li>
+                    </ul>
+                    &lt;!&ndash;<ul>
+                        <li><img src="images/gmjj.png"></li>
+                        <li><span>国美基金</span></li>
+                        <li><span>111</span></li>
+                    </ul>
+                    <ul>
+                        <li><img src="images/gmjj.png"></li>
+                        <li><span>国美dsf</span></li>
+                        <li><span>222</span></li>
+                    </ul>
+                    <ul>
+                        <li><img src="images/gmjj.png"></li>
+                        <li><span>防守打法</span></li>
+                        <li><span>333</span></li>
+                    </ul>
+                    <ul>
+                        <li><img src="images/gmjj.png"></li>
+                        <li><span>的是非失</span></li>
+                        <li><span>444</span></li>
+                    </ul>
+                    <ul>
+                        <li><img src="images/gmjj.png"></li>
+                        <li><span>东方大道</span></li>
+                        <li><span>555</span></li>
+                    </ul>
+                    <ul>
+                        <li><img src="images/gmjj.png"></li>
+                        <li><span>第三方的</span></li>
+                        <li><span>666</span></li>
+                    </ul>
+                    <ul>
+                        <li><img src="images/gmjj.png"></li>
+                        <li><span>第三方的</span></li>
+                        <li><span>777</span></li>
+                    </ul>
+                    <ul>
+                        <li><img src="images/gmjj.png"></li>
+                        <li><span>第三方的</span></li>
+                        <li><span>888</span></li>
+                    </ul>
+                    <ul>
+                        <li><img src="images/gmjj.png"></li>
+                        <li><span>第三方的</span></li>
+                        <li><span>999</span></li>
+                    </ul>&ndash;&gt;
+                </div>
+            </div>
+            &lt;!&ndash;多于5个时放出&ndash;&gt;
+            &lt;!&ndash;<a href="javascript:;" class="slideIcon leftIcon"></a>
+            <a href="javascript:;" class="slideIcon rightIcon"></a>&ndash;&gt;
+        </div>-->
         <div class="loadings" v-show="showLoadingLine">
             <ul>
                 <li><span>Loading...</span></li>

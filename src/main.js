@@ -23,6 +23,7 @@ import micSearch from './views/microView/micSearch.vue';
 import setting from './views/setting/setting.vue';
 import setUser from './views/setting/setUser.vue';
 import loginHistory from './views/setting/loginHistory.vue';
+import notice from './views/setting/notice.vue';
 
 import tagView from './views/tagView/tagView.vue';
 import addUserGroup from './views/userGroup/addUserGroup.vue';
@@ -76,7 +77,8 @@ const router = new VueRouter({
             children:[
 
                 { path:'setUser',component:setUser},/*用户*/
-                { path:'loginHistory',component:loginHistory}/*登录历史*/
+                { path:'loginHistory',component:loginHistory},/*登录历史*/
+                { path:'notice',component:notice}/*公告*/
             ]
         },
     ]

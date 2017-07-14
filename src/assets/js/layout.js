@@ -43,7 +43,6 @@ String.prototype.gblen = function() {
     }
     return len;
 }
-
 var setHeight=(function () {
     function setLeft() {
         var leftSide=document.querySelector('.leftSide');
