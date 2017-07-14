@@ -134,7 +134,7 @@ var serBiWrap=(function () {
             biWrap.style.height=biWrapHeight-40+'px';
 
             var fourWrapHeight=addUsersCenter.offsetHeight-searchWrap.offsetHeight;
-            fourWrap.style.height=fourWrapHeight-50+'px';
+            fourWrap.style.height=fourWrapHeight-50-20+'px';
         }
     }
 })();

@@ -40,11 +40,16 @@
                             <input type="text" placeholder="搜索" v-model="addGroupSearchCon" class="searchInput" @keyup.enter="addUserGroupSearch(addGroupSearchCon)">
                             <button class="searchBtn" @click="addUserGroupSearch(addGroupSearchCon)"></button>
                         </div>
+                        <div class="clearfix">
+                            <input type="checkbox" id="checkboxModelId" @click="checkedAll($event)" v-model="allSelect">
+                            <label for="checkboxModelId">全选</label>
+                        </div>
                         <div class="clearfix fourWrap">
                             <ul class="four_scroll">
                                 <li v-for="fourData in fourResData" class="clearfix" v-cloak>
                                     <input type="checkbox" class="checks" v-model="fourData.checked" @click="getSendData(fourData)">
-                                    <i :class="fourData.checked?'classA':'classB'"></i>
+                                    <!--<i :class="fourData.checked?'classA':'classB'"></i>-->
+                                    <i :class="checkdId.indexOf(fourData.id)!=-1?'classA':'classB'"></i>
                                     <label class="checkLabel"><span v-cloak>{{fourData.name}}</span><span v-cloak>({{fourData.count}})</span><span>{{fourData.rate}}</span></label>
                                 </li>
                             </ul>
@@ -175,6 +180,7 @@
                 showLoading: false,
                 addGroupUrl:'/api/userGroup/save.gm',//添加用户群接口
                 addGroupGotoPage:'/#/userGroup',//添加成功后跳转地址
+                allSelect:false,//全选
             }
         },
         mounted(){
@@ -238,10 +244,12 @@
                     return;
                 }else{
                     //console.log('不同个');
+                    this.fourResData=[];
+                    this.allSelect=false;
                     this.j=id;
                     this.showLoading=true;
                 }
-                this.fourResData=[];
+                
                 this.addGroupSearchCon='';
                 this.$http.get('/api/baseTag/queryByParentId.gm?parentId='+id).then(function (response) {
                     this.showLoading=false;
@@ -295,6 +303,9 @@
                     }else{
                         this.checkTrue(checkData,this.biAllAry);
                     }
+
+                    /*判断全选*/
+                    this.comAllSelect();
                 }
                 else{/*不选中状态   看原数组中有无这项  有：删除总数组中此项   拼好的数组中  删除此项*/
                     var biAllAryNohas=this.biAllAry.filter(function (item) {
@@ -308,6 +319,8 @@
                     }else{
                         this.checkFalse(checkData,this.biAllAry);
                     }
+                    /*判断全选*/
+                    this.comAllSelect();
                 }
                 /*点击复选按钮以后得到的新的数组  所有标签都必须满足的数组
                  * 循环拿到的biAllAry数组，把idAry中的数组拼为一个新数组
@@ -317,6 +330,56 @@
                 this.$nextTick(function () {
                     this.addUserRightScroll.refresh();
                 })
+            },
+            /*全选*/
+            comAllSelect(){
+                var cc=this.fourResData.filter(item=>{
+                    return item.checked!=true;
+                })
+                if(cc.length==0){
+                    this.allSelect=true;
+                }else{
+                    this.allSelect=false;
+                }
+            },
+            checkedAll(e) {
+                console.log(e.target.checked);
+                if (!e.target.checked) {//实现反选
+                    this.fourResData.forEach((item)=> {
+                        item.checked=false;
+                        var biAllAryNohas=this.biAllAry.filter(function (itemStr) {
+                            return item.parentId==itemStr.parentId;
+                        })
+                        var biEveryAryHas=this.biEveryAry.filter(function (itemStr) {
+                            return item.parentId==itemStr.parentId;
+                        })
+                        if(biAllAryNohas.length==0&&biEveryAryHas.length!=0){
+                            this.checkFalse(item,this.biEveryAry);
+                        }else{
+                            this.checkFalse(item,this.biAllAry);
+                        }
+                        //this.checkFalse(item,this.biAllAry);
+                    });
+                }else{//实现全选
+                    this.fourResData.forEach((item)=> {
+                        if(this.checkdId.indexOf(item.id)==-1){
+                            item.checked=true;
+                            var biAllAryNohas=this.biAllAry.filter(function (itemStr) {
+                                return item.parentId==itemStr.parentId;
+                            })
+                            var biEveryAryHas=this.biEveryAry.filter(function (itemStr) {
+                                return item.parentId==itemStr.parentId;
+                            })
+                            if(biAllAryNohas.length==0&&biEveryAryHas.length!=0){
+                                this.checkTrue(item,this.biEveryAry);
+                            }else{
+                                this.checkTrue(item,this.biAllAry);
+                            }
+                            //this.checkTrue(item,this.biAllAry);
+                        } 
+                    });
+                }
+                this.pingAry();
             },
             /*选中状态*/
             checkTrue(checkData,aryData){
@@ -504,6 +567,7 @@
                 this.n=0;
                 this.statisUsers={rate: "0%", count: 0};
                 this.saveGroup();
+                this.comAllSelect();
             },
             /*弹框中 确定按钮事件  提交信息 */
             addUserGroupFn(){
@@ -548,6 +612,7 @@
                             }
                         })
                     })
+                    this.comAllSelect();
                 }
                 this.$nextTick(function(){
                     if(this.fourTreeScroll==null){
@@ -561,7 +626,6 @@
                     }else {
                         this.fourTreeScroll.refresh();
                     }
-
                 });
             },
             /*设置提交按钮状态*/
