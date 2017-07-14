@@ -5,8 +5,8 @@
             <div id="leftMenu">
                 <h4>设置</h4>
                 <div class="clearfix linkWrap">
-                    <h5 @click="navShow('yh')" id='yh' :class="showMenu=='yh'?'active':''">用户访问控制</h5>
-                    <ul v-show="showMenu=='yh'">
+                    <h5 @click="navShow('yh1')" id='yh1' :class="showMenu=='yh1'?'active':''">用户访问控制</h5>
+                    <ul v-show="showMenu=='yh1'">
                         <li>
                             <router-link to="/setting/setUser">用户</router-link>
                         </li>
@@ -84,7 +84,7 @@
     export default{
         data(){
             return{
-                showMenu:"yh",//默认值
+                showMenu:"yh1",//默认值
             }
         },
         components:{
@@ -106,28 +106,14 @@
                 }
             },
             selectChoice(){
-               /* var name1=document.getElementById('yh').className;
-                var name2=document.getElementById('yh2').className;
-                console.log(name1);
-                console.log(name2);
-                if(name1=="active"){
-                    this.showMenu='yh';
-                }else if(name2=="active"){
-                    this.showMenu='yh2';
-                    console.log(2222);
-                }*/
                 var aDiv=document.querySelectorAll('.linkWrap');
                 for(var i=0;i<aDiv.length;i++){
-                    console.log(111111);
                     var aA=aDiv[i].querySelectorAll('a');
-                    console.log(aA);
                     for(var j=0;j<aA.length;j++){
                         if(aA[j].className=='active'){
                             this.showMenu='yh'+(i+1);
-                            console.log(j)
                         }
                     }
-
                 }
              }
         }
