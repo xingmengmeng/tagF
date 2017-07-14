@@ -41,8 +41,8 @@
                             <button class="searchBtn" @click="addUserGroupSearch(addGroupSearchCon)"></button>
                         </div>
                         <div class="clearfix">
-                            <input type="checkbox" id="checkboxModelId" @click="checkedAll($event)" v-model="allSelect">
-                            <label for="checkboxModelId">全选</label>
+                            <input type="checkbox" class="checkboxClass" id="checkboxModelId" @click="checkedAll($event)" v-model="allSelect">
+                            <label for="checkboxModelId" class="allSelectLabel" :class="allSelect?'active':''">全选</label>
                         </div>
                         <div class="clearfix fourWrap">
                             <ul class="four_scroll">
@@ -133,6 +133,21 @@
         <!--右侧大块 end-->
     </section>
 </template>
+<style scoped lang="less">
+.checkboxClass{
+    float: left;
+    opacity: 0;
+}
+.allSelectLabel{
+    float: left;
+    margin: 15px 0 0 20px;
+    &.active{
+        color:#1078f5;
+    }
+    color:#919191;
+}
+</style>
+
 <script type="text/ecmascript-6">
     import loading from '../../components/loading.vue';
 
@@ -342,6 +357,7 @@
                     this.allSelect=false;
                 }
             },
+            /*全选 实现*/
             checkedAll(e) {
                 console.log(e.target.checked);
                 if (!e.target.checked) {//实现反选
