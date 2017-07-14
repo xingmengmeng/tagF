@@ -42,7 +42,8 @@
                         </div>
                         <div class="clearfix">
                             <input type="checkbox" class="checkboxClass" id="checkboxModelId" @click="checkedAll($event)" v-model="allSelect">
-                            <label for="checkboxModelId" class="allSelectLabel" :class="allSelect?'active':''">全选</label>
+                            <label for="checkboxModelId" class="allSelectLabel" :class="allSelect?'active':''" v-show="fourResData.length!=0">全选</label>
+                            <span class="sortSpan" :class="sortFlag?'':'active'" @click="sortFn" v-show="fourResData.length!=0">排序</span>
                         </div>
                         <div class="clearfix fourWrap">
                             <ul class="four_scroll">
@@ -141,10 +142,14 @@
 .allSelectLabel{
     float: left;
     margin: 15px 0 0 20px;
+    color:#919191;
+    cursor: pointer;
     &.active{
         color:#1078f5;
     }
-    color:#919191;
+}
+.sortSpan{
+    .allSelectLabel;
 }
 </style>
 
@@ -164,6 +169,7 @@
                 pageNum: 1,
                 treeResData: [], /*树的数据*/
                 fourResData: [], /*得到的四级结构的数据*/
+                temConAry:[],//临时存储的四级结构
                 ishow: false,
                 i: -1, /*二级树的class样式*/
                 j: -1, /*三级树点击后状态  文字颜色变化*/
@@ -196,6 +202,7 @@
                 addGroupUrl:'/api/userGroup/save.gm',//添加用户群接口
                 addGroupGotoPage:'/#/userGroup',//添加成功后跳转地址
                 allSelect:false,//全选
+                sortFlag:true,
             }
         },
         mounted(){
@@ -677,6 +684,20 @@
                     this.addGroupGotoPage='/#/userGroup';
                 }
             },
+            //排序
+            sortFn(){
+                if(this.sortFlag){
+                    let temAry=this.fourResData.concat();
+                    this.temConAry=this.fourResData.concat();
+                    temAry.sort(function(a,b){
+                        return b.count-a.count;
+                    });
+                    this.fourResData=temAry.concat();
+                }else{
+                    this.fourResData=this.temConAry.concat();
+                }
+                this.sortFlag=!this.sortFlag;
+            }
         }
     }
 </script>
