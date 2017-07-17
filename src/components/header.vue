@@ -25,7 +25,7 @@
         </div>
         
     </header>
-    <marquee v-if="$store.state.notice!=''"><span class="grollSpan">{{$store.state.notice}}</span></marquee>
+    <marquee v-if="$store.state.notice!=''&&$store.state.notice!=null"><span class="grollSpan">{{$store.state.notice}}</span></marquee>
 </div>
     
 </template>
