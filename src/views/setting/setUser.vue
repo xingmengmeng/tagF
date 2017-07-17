@@ -16,6 +16,7 @@
                     <th>姓名</th>
                     <th>所属部门与角色</th>
                     <th>登录账号</th>
+                    <th>职务</th>
                     <th>状态</th>
                     <th>系统管理员</th>
                     <th>手机号</th>
@@ -26,6 +27,7 @@
                     <td>{{item.name}}</td>
                     <td>{{item.deptRoleName}}</td>
                     <td>{{item.loginName}}</td>
+                    <td>{{item.positionName}}</td>
                     <td>{{item.statusStr}}</td>
                     <!--<td v-if="item.isAdmin=='1'">是</td>
                     <td v-if="item.isAdmin=='0'">否</td>-->

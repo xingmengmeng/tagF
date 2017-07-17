@@ -1,8 +1,8 @@
 <template>
     <div>
         <h4>公告</h4>
-        <textarea placeholder="在这里输入系统公告"></textarea>
-        <input type="button" value="保存" class="keep" />
+        <textarea placeholder="在这里输入系统公告" v-model="noticeCon"></textarea>
+        <input type="button" value="保存" class="keep" @click="saveNotice"/>
     </div>
 </template>
 <style scoped lang="less">
@@ -21,7 +21,6 @@
         margin:20px 5% 20px 5%;
         padding: 10px;
         box-shadow:3px 2px 3px #cccccc ;
-        color:#cccccc ;
         font-size:13px;
         box-sizing: border-box;
     }
@@ -40,3 +39,21 @@
 
     }
 </style>
+<script>
+export default {
+  data(){
+      return{
+        noticeCon:'',
+      }
+  },
+  methods:{
+    saveNotice(){
+        this.$http.post('/api/notice/save.gm',{"message":this.noticeCon},{emulateJSON:true}).then(function(res){
+            if(res.data.code=='200'){
+
+            }
+        })
+    }
+  }
+}
+</script>
