@@ -15,7 +15,8 @@
                 <li class="clearfix">
                     <label><strong>*</strong>用户群：</label>
                     <span class="left curNameSpan" v-cloak>{{thisGroupName}}</span>
-                    <a href="addUserGroup.html" class="creatNew" style="font-size: 12px">想创建新的用户群？</a>
+                    <!--<a href="addUserGroup.html" class="creatNew" style="font-size: 12px">想创建新的用户群？</a>-->
+                    <router-link to="/userGroup/addUserGroup" class="creatNew" style="font-size: 12px">想创建新的用户群？</router-link>
                 </li>
                 <li class="clearfix">
                     <label><strong>*</strong>对接系统：</label>

@@ -84,7 +84,8 @@
                                         <select v-model="selectedGroup" class="left" style="width: 180px">
                                             <option v-for="op in groupData" :value="op.code" v-cloak>{{op.name}}</option>
                                         </select>
-                                        <a href="addUserGroup.html" class="creatNew" style="font-size: 12px">想创建新的用户群？</a>
+                                        <!--<a href="addUserGroup.html" class="creatNew" style="font-size: 12px">想创建新的用户群？</a>-->
+                                        <router-link to="/userGroup/addUserGroup" class="creatNew" style="font-size: 12px">想创建新的用户群？</router-link>
                                     </li>
                                     <li class="clearfix">
                                         <label><strong>*</strong>对接系统：</label>
