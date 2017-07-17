@@ -7,6 +7,8 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
+import store from './store';/*vuex 状态引入*/
+
 import App from './views/app.vue'
 
 import Index from './views/index/indexMain.vue';
@@ -86,17 +88,6 @@ const router = new VueRouter({
     ]
 })
 
-const vuex_store=new Vuex.Store({
-    state:{
-        notice:'',//公告内容
-    },
-    mutations:{
-        changeNotice(state){
-            console.log(state.notice);
-        }
-    }
-})
-
 Vue.http.interceptors.push(function(request, next) {
     next(function(response) {
         if(response.status==200){
@@ -111,6 +102,6 @@ Vue.http.interceptors.push(function(request, next) {
 new Vue({
     el: '#app',
     router:router,
-    store:vuex_store,
+    store:store,
     components: { App }
 })
