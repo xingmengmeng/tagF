@@ -25,7 +25,7 @@
         </div>
         
     </header>
-    <marquee><span class="grollSpan">公告：标签工厂v2.1版本上线了。完成了美借全量用户280万+用户接入，新增美借人口统计、地理位置标签内容。</span></marquee>
+    <marquee v-if="$store.state.notice!=''"><span class="grollSpan">{{$store.state.notice}}</span></marquee>
 </div>
     
 </template>
@@ -65,6 +65,7 @@ marquee{
             if(localStorage.isAdmin&&localStorage.isAdmin=='true'){
                 this.isAdmin=true;
             }
+            this.notice=this.$store.state.notice;
             this.getData();
         },
         methods:{
@@ -80,6 +81,12 @@ marquee{
                         var cur=this.menuData[i];
                         var hrefstr=cur.href;
                         hrefstr.replace(hrefReg,($0,$1)=>{cur.href=$1});
+                    }
+                });
+                /*得到公告信息*/
+                this.$http.get('/api/notice/get.gm').then(function(res){
+                    if(res.data.code=='200'){
+                        this.$store.state.notice=res.data.dataInfo;
                     }
                 })
             },

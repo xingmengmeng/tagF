@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex';
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
+Vue.use(Vuex);
 
 import App from './views/app.vue'
 
@@ -84,6 +86,17 @@ const router = new VueRouter({
     ]
 })
 
+const vuex_store=new Vuex.Store({
+    state:{
+        notice:'',//公告内容
+    },
+    mutations:{
+        changeNotice(state){
+            console.log(state.notice);
+        }
+    }
+})
+
 Vue.http.interceptors.push(function(request, next) {
     next(function(response) {
         if(response.status==200){
@@ -98,5 +111,6 @@ Vue.http.interceptors.push(function(request, next) {
 new Vue({
     el: '#app',
     router:router,
+    store:vuex_store,
     components: { App }
 })

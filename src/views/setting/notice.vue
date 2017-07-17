@@ -50,7 +50,9 @@ export default {
     saveNotice(){
         this.$http.post('/api/notice/save.gm',{"message":this.noticeCon},{emulateJSON:true}).then(function(res){
             if(res.data.code=='200'){
-
+                console.log('保存成功');
+                //this.$store.commit("changeNotice");
+                this.$store.state.notice=this.noticeCon;
             }
         })
     }
