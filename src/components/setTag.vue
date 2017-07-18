@@ -21,7 +21,7 @@
                             <td>{{curTr.parentName}}</td>
                             <td>{{curTr.name}}</td>
                             <td><input type="radio" :name="curTr.name" :value="curTr.id" :id="'radio'+curTr.id" @click="getFilter(curTr.id)"></td>
-                            <td><input type="radio" :name="curTr.name" :value="curTr.id" :id="'radio'+curTr.id" @click="getOutAry(curTr.id)"></td>
+                            <td><input type="radio" :name="curTr.name" :value="curTr.id" :id="'radio2'+curTr.id" @click="getOutAry(curTr.id)"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -129,7 +129,7 @@ export default {
                 return cur!=curId;
             })
         }else{
-            var oRadio=document.querySelector('#radio'+curId);
+            var oRadio=document.querySelector('#radio2'+curId);
             oRadio.checked = false;
             this.outputAry=this.outputAry.filter(function(cur){
                 return cur!=curId;
