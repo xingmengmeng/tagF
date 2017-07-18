@@ -21,7 +21,12 @@
                 <!--左侧 start-->
                 <div class="tagLeft clearfix">
                     <div class="selectWrapFir clearfix">
-                        <h4>筛选标签选择 <span>(最多限制勾选4项)</span></h4>
+                        <h4>
+                            筛选标签选择 
+                            <span>(最多限制勾选4项)</span> 
+                            <span class="right setSpan" @click="showSet=true">配置</span>
+                        </h4>
+                        
                         <div class="scrollWrap">
                             <div class="scrollDiv tagSelect clearfix">
                                 <div>
@@ -125,6 +130,7 @@
         <my-foot></my-foot>
 
         <over-box v-show="noSelectP==1" @hideOverFn="hideMarkWrap" :mark-con="pushMsg"></over-box>
+        <set-tag v-show="showSet" @hideOverFn="hideMarkWrap"></set-tag>
     </section>
 </template>
 <style scoped lang="less">
@@ -160,6 +166,9 @@
             span{
                 font-size: 14px;
                 font-weight: normal;
+            }
+            .setSpan{
+                cursor: pointer;
             }
         }
         .scrollDiv{
@@ -313,6 +322,7 @@
     import LayOut from '../../assets/js/layout';
     import Footer from '../../components/footer.vue';
     import overBox from '../../components/overBoxOneLine.vue';
+    import setTag from '../../components/setTag.vue';
     export default{
         data(){
             return{
@@ -335,11 +345,14 @@
                 showTab:1,/*显示哪个表*/
                 noSelectP:0,//alert弹框遮罩
                 pushMsg:'',//alert中的错误提示信息
+
+                showSet:false,//是否显示标签配置弹框
             }
         },
         components:{
             'my-foot':Footer,
             'over-box':overBox,
+            'set-tag':setTag,
         },
         mounted(){
             LayOut.setHeight.init();
@@ -488,6 +501,7 @@
             },
             hideMarkWrap(){
                 this.noSelectP=0;
+                this.showSet=false;
             }
         }
     }
