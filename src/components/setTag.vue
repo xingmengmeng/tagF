@@ -20,8 +20,8 @@
                         <tr v-for="(curTr,index) in item" :key="index">
                             <td>{{curTr.parentName}}</td>
                             <td>{{curTr.name}}</td>
-                            <td><input type="radio" :name="curTr.name" :value="curTr.id" @click="getFilter(curTr.id)"></td>
-                            <td><input type="radio" :name="curTr.name" :value="curTr.id" @click="getOutAry(curTr.id)"></td>
+                            <td><input type="radio" :name="curTr.name" :value="curTr.id" :id="'radio'+curTr.id" @click="getFilter(curTr.id)"></td>
+                            <td><input type="radio" :name="curTr.name" :value="curTr.id" :id="'radio'+curTr.id" @click="getOutAry(curTr.id)"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -113,6 +113,12 @@ export default {
             this.outputAry=this.outputAry.filter(function(cur){
                 return cur!=curId;
             })
+        }else{
+            var oRadio=document.querySelector('#radio'+curId);
+            oRadio.checked = false;
+            this.filterAry=this.filterAry.filter(function(cur){
+                return cur!=curId;
+            })
         }  
     },
     //得到输出项数组
@@ -122,7 +128,13 @@ export default {
             this.filterAry=this.filterAry.filter(function(cur){
                 return cur!=curId;
             })
-        }
+        }else{
+            var oRadio=document.querySelector('#radio'+curId);
+            oRadio.checked = false;
+            this.outputAry=this.outputAry.filter(function(cur){
+                return cur!=curId;
+            })
+        }  
     },
     goBack(){
 
