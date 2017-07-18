@@ -132,7 +132,7 @@ export default {
             outStr=this.outputAry.join(',');
         this.$http.post('/api/tagPortrait/saveConfig.gm',{"filterItem":fil,"outputItem":outStr},{emulateJSON:true}).then(function(res){
             if(res.data.code==200){
-                
+                this.$emit('hideOverFn','changeUrl');
             }
         })
     },

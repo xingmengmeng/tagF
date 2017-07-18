@@ -499,9 +499,13 @@
                 this.comTem();
                 this.checkedNames.length=this.outChecks.length=this.tabHead.length=this.tabData.length=0;
             },
-            hideMarkWrap(){
+            hideMarkWrap(cur){
                 this.noSelectP=0;
                 this.showSet=false;
+                if(cur){//保存标签设置后重新请求标签选项  再次渲染页面
+                    this.getData();
+                    this.clearAry();
+                }
             }
         }
     }
