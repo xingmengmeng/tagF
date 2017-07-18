@@ -375,21 +375,30 @@
                         this.filterItem=this.tagResData.filterItem;
                         this.outputItem=this.tagResData.outputItem;
                         this.$nextTick(function(){
-                            this.tagTopScroll=new IScroll('.tagSelect',{
-                                mouseWheel: true,
-                                scrollbars: true,
-                                checkDOMChanges:true,
-                                bounce: false,
-                                interactiveScrollbars:true
-                            });
-
-                            this.tagBottomScroll=new IScroll('.tagPull',{
-                                mouseWheel: true,
-                                scrollbars: true,
-                                checkDOMChanges:true,
-                                bounce: false,
-                                interactiveScrollbars:true
-                            });
+                            if(this.tagTopScroll==null){
+                                this.tagTopScroll=new IScroll('.tagSelect',{
+                                    mouseWheel: true,
+                                    scrollbars: true,
+                                    checkDOMChanges:true,
+                                    bounce: false,
+                                    interactiveScrollbars:true
+                                });
+                            }else{
+                                this.tagTopScroll.refresh();
+                            }
+                            
+                            if(this.tagBottomScroll==null){
+                                this.tagBottomScroll=new IScroll('.tagPull',{
+                                    mouseWheel: true,
+                                    scrollbars: true,
+                                    checkDOMChanges:true,
+                                    bounce: false,
+                                    interactiveScrollbars:true
+                                });
+                            }else{
+                                this.tagBottomScroll.refresh();
+                            }
+                            
                         })
                     }
                 })
