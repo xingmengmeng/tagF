@@ -120,6 +120,7 @@
                     </div>
                     <div class="tagbtnWrap clearfix">
                         <input type="button" value="清空" @click="clearAry" class="left comBtnUnabel">
+                        <span class="right">保存至首页</span>
                         <input type="button" value="计算" @click="computedFn" class="right" :class="btnShow==1?'comBtn':'comBtnUnabel'" id="comBtn">
                     </div>
                 </div>
@@ -311,8 +312,14 @@
         }
     }
     .tagbtnWrap{
-        width: 250px;
+        width: 310px;
         margin: 5px auto 0 auto;
+        span{
+            margin-left: 10px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 12px;
+        }
     }
 
 </style>
