@@ -4,9 +4,9 @@
       <div class="markWrap">
         <div class="top">标签配置<i class="close" @click="hideOneLine">关闭</i></div>
         <loading v-show="showLoading"></loading> 
-        <ul>
-            <li>
-                <span class="firTitle">人口统计</span>
+        <ul class="ulWrap">
+            <li v-for="(item,index) in resData" :key="index">
+                <span class="firTitle">{{index}}</span>
                 <table width="100%">
                     <thead>
                         <tr>
@@ -17,16 +17,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>自然属性</td>
-                            <td>性别</td>
-                            <td><input type="radio" name="sex"></td>
-                            <td><input type="radio" name="sex"></td>
+                        <tr v-for="(curTr,index) in item" :key="index">
+                            <td>{{curTr.parentName}}</td>
+                            <td>{{curTr.name}}</td>
+                            <td><input type="radio" :name="curTr.name" :value="curTr.id" @click="getFilter(curTr.id)"></td>
+                            <td><input type="radio" :name="curTr.name" :value="curTr.id" @click="getOutAry(curTr.id)"></td>
                         </tr>
                     </tbody>
                 </table>
             </li>
+            {{filterAry}}
+            {{outputAry}}
         </ul>  
+        <div>
+            <input type="button" value="取消" @click="goBack">
+            <input type="button" value="保存" @click="saveSet">
+        </div>
       </div>
   </div>
 </template>
@@ -58,6 +64,10 @@
                 cursor: pointer;
             }
         }
+        .ulWrap{
+            height: 380px;
+            overflow-y: scroll;
+        }
         .firTitle{
             display: inline-block;
             width: 100%;
@@ -74,6 +84,8 @@ export default {
       return {
         resData:[],
         showLoading:false,
+        filterAry:[],//筛选项
+        outputAry:[],//输出项
       }
   },
   components:{
@@ -88,11 +100,41 @@ export default {
             this.showLoading=true;
             this.$http.get('/api/tagPortrait/queryConfigList.gm').then(function(res){
                 this.showLoading=false;
-                if(this.res.code=='200'){
-                    
+                if(res.data.code==200){
+                    this.resData=res.data.dataInfo;
                 }
             })
         }
+    },
+    //得到筛选项数组
+    getFilter(curId){ 
+        if(this.filterAry.indexOf(curId)==-1){//原数组中没有当前项
+            this.filterAry.push(curId);
+            this.outputAry=this.outputAry.filter(function(cur){
+                return cur!=curId;
+            })
+        }  
+    },
+    //得到输出项数组
+    getOutAry(curId){
+        if(this.outputAry.indexOf(curId)==-1){//原数组中没有当前项
+            this.outputAry.push(curId);
+            this.filterAry=this.filterAry.filter(function(cur){
+                return cur!=curId;
+            })
+        }
+    },
+    goBack(){
+
+    },
+    saveSet(){
+        var fil=this.filterAry.join(','),
+            outStr=this.outputAry.join(',');
+        this.$http.post('/api/tagPortrait/saveConfig.gm',{"filterItem":fil,"outputItem":outStr},{emulateJSON:true}).then(function(res){
+            if(res.data.code==200){
+                
+            }
+        })
     },
     hideOneLine(){
         this.$emit('hideOverFn');
