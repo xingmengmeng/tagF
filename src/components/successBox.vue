@@ -8,14 +8,24 @@
     .success{
         position: fixed;
         top: 45px;
-        right:120px;
+        right:26px;
         z-index: 100;
-        padding:15px 20px;
+        padding:15px 10px;
         width: 290px;
         height: 72px;
-        background: #D0E6FF;
+        background: #f2f2f2;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16); 
         box-sizing: border-box;
+
+        span{
+            color:#333;
+            padding-left: 25px;
+            background: url(../assets/images/set.png) left center no-repeat;
+        }
+        p{
+            padding:5px 0 0 25px;
+            color: #1078F5;
+        }
     }
 </style>
 

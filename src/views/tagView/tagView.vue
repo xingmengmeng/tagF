@@ -132,10 +132,22 @@
 
         <over-box v-show="noSelectP==1" @hideOverFn="hideMarkWrap" :mark-con="pushMsg"></over-box>
         <set-tag v-show="showSet" @hideOverFn="hideMarkWrap"></set-tag>
-        <success-box v-show="showSuccess"></success-box>
+        <transition name="slide-fade">
+            <success-box v-show="showSuccess"></success-box>
+        </transition>
     </section>
 </template>
 <style scoped lang="less">
+.slide-fade-enter-active {
+  transition: all .2s ease;
+}
+.slide-fade-leave-active {
+  transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to{
+  transform: translateX(100px);
+  opacity: 0;
+}
     .appList{
         height: 100%;
     }
