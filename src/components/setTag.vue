@@ -5,9 +5,9 @@
         <div class="top">标签配置<i class="close" @click="hideOneLine">关闭</i></div>
         <loading v-show="showLoading"></loading> 
         <ul class="ulWrap">
-            <li v-for="(item,index) in resData" :key="index">
-                <span class="firTitle">{{index}}</span>
-                <table width="100%">
+            <li v-for="(item,index) in resData" :key="index" class="wrapLi">
+                <span class="firTitle" @click="changeShowIndex(index)" :class="showIndex==index?'active':''">{{index}}</span>
+                <table width="100%" v-show="showIndex==index">
                     <thead>
                         <tr>
                             <th>二级标签</th>
@@ -26,10 +26,8 @@
                     </tbody>
                 </table>
             </li>
-            {{filterAry}}
-            {{outputAry}}
         </ul>  
-        <div>
+        <div class="btnWrap clearfix">
             <input type="button" value="取消" @click="goBack">
             <input type="button" value="保存" @click="saveSet">
         </div>
@@ -48,10 +46,10 @@
         height: 450px;
         color:#333;
         .top{
-            padding-left:20px;
+            padding-left:40px;
             height: 40px;
             line-height: 40px;
-            background: #F7FAFE;
+            background: #F7FAFE url(../assets/images/icon9.png) 20px center no-repeat;
             border-bottom: 1px solid #DDEDFF;
             box-sizing: border-box;
             .close{
@@ -65,8 +63,34 @@
             }
         }
         .ulWrap{
-            height: 380px;
+            margin:10px 0;
+            padding:0px 20px;
+            height: 340px;
+            box-sizing: border-box;
             overflow-y: scroll;
+
+            .wrapLi{
+                width: 100%;
+                span{
+                    padding-left:55px;
+                    margin-top:10px;
+                    display: inline-block;
+                    height: 30px;
+                    line-height: 30px;
+                    background: #F7FAFE url(../assets/images/showNext2.png) 30px center no-repeat;
+                    border: 1px solid #DDEDFF; 
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    &.active{
+                        height: 40px;
+                        line-height: 40px;
+                        background: #F7FAFE url(../assets/images/showNext.png) 30px center no-repeat;
+                    }
+                    &:hover{
+                        border: 1px solid #ADD2FF;
+                    }
+                }
+            }
         }
         .firTitle{
             display: inline-block;
@@ -74,6 +98,42 @@
         }
         table{
             text-align: center;
+            max-height: 150px;
+            border: 1px solid #DDEDFF;
+            border-top:0;
+            overflow-y: scroll;
+            th{
+                height: 30px;
+                line-height: 30px;
+                background: #F7FAFE;
+                border-bottom: 1px solid #DDEDFF;
+            }
+            td{
+                height: 30px;
+                line-height: 30px;
+                color: #757575;
+                border-top: 1px solid #DDEDFF;
+                border-bottom: 1px solid #DDEDFF;
+            }
+        }
+        .btnWrap{
+            display: flex;
+            flex-direction: row;
+            justify-content:center;
+            input{
+                margin:0 10px;
+                width: 80px;
+                height: 30px;
+                border: 0;
+                background: #1078F5;
+                border-radius: 2px;
+                color:#fff;
+                cursor: pointer;
+                &:first-of-type{
+                    background: #D8D8D8;
+                    color: #252525;
+                }
+            }
         }
     }
 </style>
@@ -86,6 +146,7 @@ export default {
         showLoading:false,
         filterAry:[],//筛选项
         outputAry:[],//输出项
+        showIndex:-1,
       }
   },
   components:{
@@ -150,6 +211,15 @@ export default {
     },
     hideOneLine(){
         this.$emit('hideOverFn');
+    },
+    /*折叠效果*/
+    changeShowIndex(index){
+        if(this.showIndex==index){
+            this.showIndex=-1;
+            return;
+        }else{
+            this.showIndex=index;
+        }
     }
   }
   
