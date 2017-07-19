@@ -1,6 +1,6 @@
 <template>
     <div class="indexTabWrap">
-        <table class="indexTab" width="100%">
+        <table class="indexTab">
             <thead>
             <tr>
                 <th width="105" class="lsTh">
@@ -10,11 +10,11 @@
                         <span class="rightF">筛选项</span>
                     </div>
                 </th>
-                <!--<th v-for="index in resHead">{{index}}</th>-->
-                <th>充值(1-5)</th>
+                <th v-for="(itemTh,index) in resHead" :key="index" class="indexTh"><span>{{itemTh}}</span></th>
+                <!--<th>充值(1-5)</th>
                 <th>充值(6-10)</th>
                 <th>提现(1-5)</th>
-                <th>提现(6-10)</th>
+                <th>提现(6-10)</th>-->
             </tr>
             </thead>
             <tbody>
@@ -26,6 +26,22 @@
         </table>
     </div>
 </template>
+<style lang="less" scoped>
+    .indexTabWrap{
+        overflow-x: scroll;
+    }
+    .indexTab{
+        min-width: 100%;
+    }
+    .indexTh{
+        span{
+            display: inline-block;
+            white-space:nowrap;
+        }   
+    }
+</style>
+
+
 <script type="text/ecmascript-6">
     const echarts = require('echarts');
     export default {

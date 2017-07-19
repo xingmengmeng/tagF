@@ -89,7 +89,7 @@
                     <!--<a href="/#/tagView" class="right tagDetailLink">详情</a>-->
                 </div>
                 <!--图表 start-->
-                <div>
+                <div class="indexTabelWrapDiv">
                     <index-table></index-table>
                 </div>
                 <!--图表 end-->

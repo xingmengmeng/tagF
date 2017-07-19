@@ -120,7 +120,7 @@
                     </div>
                     <div class="tagbtnWrap clearfix">
                         <input type="button" value="清空" @click="clearAry" class="left comBtnUnabel">
-                        <span class="right">保存至首页</span>
+                        <span class="right" @click="saveToIndex">保存至首页</span>
                         <input type="button" value="计算" @click="computedFn" class="right" :class="btnShow==1?'comBtn':'comBtnUnabel'" id="comBtn">
                     </div>
                 </div>
@@ -132,6 +132,7 @@
 
         <over-box v-show="noSelectP==1" @hideOverFn="hideMarkWrap" :mark-con="pushMsg"></over-box>
         <set-tag v-show="showSet" @hideOverFn="hideMarkWrap"></set-tag>
+        <success-box v-show="showSuccess"></success-box>
     </section>
 </template>
 <style scoped lang="less">
@@ -319,6 +320,7 @@
             height: 30px;
             line-height: 30px;
             font-size: 12px;
+            cursor: pointer;
         }
     }
 
@@ -330,6 +332,8 @@
     import Footer from '../../components/footer.vue';
     import overBox from '../../components/overBoxOneLine.vue';
     import setTag from '../../components/setTag.vue';
+    import successBox from '../../components/successBox.vue';
+
     export default{
         data(){
             return{
@@ -354,12 +358,14 @@
                 pushMsg:'',//alert中的错误提示信息
 
                 showSet:false,//是否显示标签配置弹框
+                showSuccess:false,//保存成功
             }
         },
         components:{
             'my-foot':Footer,
             'over-box':overBox,
             'set-tag':setTag,
+            'success-box':successBox,
         },
         mounted(){
             LayOut.setHeight.init();
@@ -522,6 +528,17 @@
                     this.getData();
                     this.clearAry();
                 }
+            },
+            /*保存至首页*/
+            saveToIndex(){
+                this.$http.post('/api/tagPortrait/save.gm',{"filterItem":this.checkedNames.join(','),"outputItem":this.outChecks.join(',')},{emulateJSON:true}).then(function(res){
+                    if(res.data.code==200&&res.data.status=='ok'){
+                        this.showSuccess=true;
+                        setTimeout(()=>{
+                            this.showSuccess=false;
+                        },2000);
+                    }
+                })
             }
         }
     }
