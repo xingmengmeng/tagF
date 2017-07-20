@@ -24,7 +24,7 @@
                         <h4>
                             筛选标签选择 
                             <span>(最多限制勾选4项)</span> 
-                            <span class="right setSpan" @click="showSet=true">配置</span>
+                            <span class="right setSpan" @click="showSetFn">配置</span>
                         </h4>
                         
                         <div class="scrollWrap">
@@ -131,7 +131,7 @@
         <my-foot></my-foot>
 
         <over-box v-show="noSelectP==1" @hideOverFn="hideMarkWrap" :mark-con="pushMsg"></over-box>
-        <set-tag v-show="showSet" @hideOverFn="hideMarkWrap"></set-tag>
+        <set-tag v-show="showSet" @hideOverFn="hideMarkWrap" :filterSelected="checkedNames" :outputSelected="outChecks" ref="setTag"></set-tag>
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
@@ -588,6 +588,11 @@
                         },2000);
                     }
                 })
+            },
+            //点击配置  执行
+            showSetFn(){
+                this.showSet=true;
+                this.$refs.setTag.$emit('showSetWrap');
             }
         }
     }

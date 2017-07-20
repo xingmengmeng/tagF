@@ -140,6 +140,7 @@
 <script>
 import loading from '../components/loading.vue';
 export default {
+  props:['filterSelected','outputSelected'],
   data(){
       return {
         resData:[],
@@ -154,6 +155,10 @@ export default {
   },
   mounted(){
       this.getData();
+      this.$on('showSetWrap',()=>{
+          console.log(this.filterSelected);
+          console.log(this.outputSelected);
+      });
   },
   methods:{
     getData(){
@@ -165,7 +170,7 @@ export default {
                     this.resData=res.data.dataInfo;
                 }
             })
-        }
+        }  
     },
     //得到筛选项数组
     getFilter(curId){ 
