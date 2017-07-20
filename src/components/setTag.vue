@@ -27,9 +27,10 @@
                 </table>
             </li>
         </ul>  
+        <span class="errSpan clearfix">{{err}}</span>
         <div class="btnWrap clearfix">
             <input type="button" value="取消" @click="hideOneLine">
-            <input type="button" value="保存" @click="saveSet">
+            <input type="button" value="保存" @click="saveSet">   
         </div>
       </div>
   </div>
@@ -45,6 +46,15 @@
         width: 700px;
         height: 450px;
         color:#333;
+        .errSpan{
+            display: block;
+            width: 100%;
+            height: 16px;
+            line-height: 16px;
+            margin-left:20px;
+            color:rgb(180, 6, 6);
+            font-size: 12px;
+        }
         .top{
             padding-left:40px;
             height: 40px;
@@ -65,7 +75,7 @@
         .ulWrap{
             margin:10px 0;
             padding:0px 20px;
-            height: 340px;
+            height: 324px;
             box-sizing: border-box;
             overflow-y: scroll;
 
@@ -148,6 +158,7 @@ export default {
         filterAry:[],//筛选项
         outputAry:[],//输出项
         showIndex:-1,
+        err:'',
       }
   },
   components:{
@@ -156,6 +167,7 @@ export default {
   mounted(){
       this.getData();
       this.$on('showSetWrap',()=>{
+          this.err='';
           console.log(this.filterSelected);
           console.log(this.outputSelected);
       });
@@ -174,6 +186,7 @@ export default {
     },
     //得到筛选项数组
     getFilter(curId){ 
+        this.err='';
         if(this.filterAry.indexOf(curId)==-1){//原数组中没有当前项
             this.filterAry.push(curId);
             this.outputAry=this.outputAry.filter(function(cur){
@@ -189,6 +202,7 @@ export default {
     },
     //得到输出项数组
     getOutAry(curId){
+        this.err='';
         if(this.outputAry.indexOf(curId)==-1){//原数组中没有当前项
             this.outputAry.push(curId);
             this.filterAry=this.filterAry.filter(function(cur){
@@ -205,10 +219,17 @@ export default {
     saveSet(){
         var fil=this.filterAry.join(','),
             outStr=this.outputAry.join(',');
+        if(fil==''||outStr==''){
+            this.err='筛选、输出标签不可为空';
+            return;
+        }
         this.$http.post('/api/tagPortrait/saveConfig.gm',{"filterItem":fil,"outputItem":outStr},{emulateJSON:true}).then(function(res){
             if(res.data.code==200){
+                this.err='';
                 this.$emit('hideOverFn','changeUrl');
                 this.clearSelected();
+            }else{
+                this.err=res.data.msg;
             }
         })
     },
@@ -216,7 +237,7 @@ export default {
         this.$emit('hideOverFn');
         this.clearSelected();
     },
-    //情况选中状态  及选中数组
+    //清空选中状态  及选中数组
     clearSelected(){
         this.filterAry.length=this.outputAry.length=0;
         var aInput=document.querySelectorAll('.radioClass');
