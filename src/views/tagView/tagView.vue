@@ -392,6 +392,9 @@
                         this.tagResData=res.data.dataInfo;
                         this.filterItem=this.tagResData.filterItem;
                         this.outputItem=this.tagResData.outputItem;
+                        this.checkedNames=this.tagResData.filterSelected;//得到初始选中数组
+                        this.outChecks=this.tagResData.outputSelected;//得到初始选中数组
+                        this.getTemTabel();
                         this.$nextTick(function(){
                             if(this.tagTopScroll==null){
                                 this.tagTopScroll=new IScroll('.tagSelect',{
@@ -420,6 +423,39 @@
                         })
                     }
                 })
+            },
+            //得到临时表
+            getTemTabel(){
+                /*清空‘’*/
+                this.temTH=this.temTH.filter( (item)=> {
+                    return item!='';
+                });
+                this.temTD1=this.temTD1.filter( (item)=> {
+                    return item!='';
+                })
+                Object.keys(this.filterItem).forEach((key)=>{
+                    var temAry=this.filterItem[key];
+                    temAry.forEach(item=>{
+                        if(this.checkedNames.indexOf(item.id)!=-1){
+                            this.temTH.push(item.name);
+                        }
+                    })
+                });
+                Object.keys(this.outputItem).forEach((key)=>{
+                    var temAry=this.outputItem[key];
+                    temAry.forEach(item=>{
+                        if(this.outChecks.indexOf(item.id)!=-1){
+                            this.temTD1.push(item.name);
+                        }
+                    })
+                });
+                /*补齐数组*/
+                while (this.temTH.length<4){
+                    this.temTH.push('');
+                }
+                while (this.temTD1.length<10){
+                    this.temTD1.push('');
+                }
             },
             getSendData(curTag){
                 this.showTab=1;//显示临时表格
@@ -543,6 +579,7 @@
             },
             /*保存至首页*/
             saveToIndex(){
+                console.dir(this.checkedNames);
                 this.$http.post('/api/tagPortrait/save.gm',{"filterItem":this.checkedNames.join(','),"outputItem":this.outChecks.join(',')},{emulateJSON:true}).then(function(res){
                     if(res.data.code==200&&res.data.status=='ok'){
                         this.showSuccess=true;
