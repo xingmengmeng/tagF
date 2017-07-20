@@ -392,9 +392,9 @@
                         this.tagResData=res.data.dataInfo;
                         this.filterItem=this.tagResData.filterItem;
                         this.outputItem=this.tagResData.outputItem;
-                        this.checkedNames=this.tagResData.filterSelected;//得到初始选中数组
-                        this.outChecks=this.tagResData.outputSelected;//得到初始选中数组
-                        this.getTemTabel();
+                        //this.checkedNames=this.tagResData.filterSelected;//得到初始选中数组
+                        //this.outChecks=this.tagResData.outputSelected;//得到初始选中数组
+                        //this.getTemTabel();
                         this.$nextTick(function(){
                             if(this.tagTopScroll==null){
                                 this.tagTopScroll=new IScroll('.tagSelect',{

@@ -20,15 +20,15 @@
                         <tr v-for="(curTr,index) in item" :key="index">
                             <td>{{curTr.parentName}}</td>
                             <td>{{curTr.name}}</td>
-                            <td><input type="radio" :name="curTr.name" :value="curTr.id" :id="'radio'+curTr.id" @click="getFilter(curTr.id)"></td>
-                            <td><input type="radio" :name="curTr.name" :value="curTr.id" :id="'radio2'+curTr.id" @click="getOutAry(curTr.id)"></td>
+                            <td><input type="radio" class="radioClass" :name="curTr.name" :value="curTr.id" :id="'radio'+curTr.id" @click="getFilter(curTr.id)"></td>
+                            <td><input type="radio" class="radioClass" :name="curTr.name" :value="curTr.id" :id="'radio2'+curTr.id" @click="getOutAry(curTr.id)"></td>
                         </tr>
                     </tbody>
                 </table>
             </li>
         </ul>  
         <div class="btnWrap clearfix">
-            <input type="button" value="取消" @click="goBack">
+            <input type="button" value="取消" @click="hideOneLine">
             <input type="button" value="保存" @click="saveSet">
         </div>
       </div>
@@ -202,20 +202,27 @@ export default {
             })
         }  
     },
-    goBack(){
-
-    },
     saveSet(){
         var fil=this.filterAry.join(','),
             outStr=this.outputAry.join(',');
         this.$http.post('/api/tagPortrait/saveConfig.gm',{"filterItem":fil,"outputItem":outStr},{emulateJSON:true}).then(function(res){
             if(res.data.code==200){
                 this.$emit('hideOverFn','changeUrl');
+                this.clearSelected();
             }
         })
     },
     hideOneLine(){
         this.$emit('hideOverFn');
+        this.clearSelected();
+    },
+    //情况选中状态  及选中数组
+    clearSelected(){
+        this.filterAry.length=this.outputAry.length=0;
+        var aInput=document.querySelectorAll('.radioClass');
+        for(let i=0;i<aInput.length;i++){
+            aInput[i].checked=false;
+        }
     },
     /*折叠效果*/
     changeShowIndex(index){
