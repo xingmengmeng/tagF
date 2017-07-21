@@ -131,7 +131,7 @@
         <my-foot></my-foot>
 
         <over-box v-show="noSelectP==1" @hideOverFn="hideMarkWrap" :mark-con="pushMsg"></over-box>
-        <set-tag v-show="showSet" @hideOverFn="hideMarkWrap" :filterSelected="checkedNames" :outputSelected="outChecks" ref="setTag"></set-tag>
+        <set-tag v-show="showSet" @hideOverFn="hideMarkWrap" ref="setTag"></set-tag>
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>

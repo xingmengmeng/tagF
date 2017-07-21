@@ -150,7 +150,7 @@
 <script>
 import loading from '../components/loading.vue';
 export default {
-  props:['filterSelected','outputSelected'],
+  //props:['filterSelected','outputSelected'],
   data(){
       return {
         resData:[],
@@ -159,6 +159,8 @@ export default {
         outputAry:[],//输出项
         showIndex:-1,
         err:'',
+        //filterSelected:[],
+        //outputSelected:[],
       }
   },
   components:{
@@ -168,8 +170,7 @@ export default {
       this.getData();
       this.$on('showSetWrap',()=>{
           this.err='';
-          console.log(this.filterSelected);
-          console.log(this.outputSelected);
+          this.setSelectedRadio();
       });
   },
   methods:{
@@ -179,10 +180,28 @@ export default {
             this.$http.get('/api/tagPortrait/queryConfigList.gm').then(function(res){
                 this.showLoading=false;
                 if(res.data.code==200){
-                    this.resData=res.data.dataInfo;
+                    this.resData=res.data.dataInfo.allList;
+                    this.filterSelected=res.data.dataInfo.filterSelected;
+                    this.outputSelected=res.data.dataInfo.outputSelected;
+                    this.$nextTick(function(){
+                        this.setSelectedRadio();
+                    })
                 }
             })
         }  
+    },
+    //得到默认选中的单选按钮
+    setSelectedRadio(){
+        this.filterAry=this.filterSelected.concat();
+        this.outputAry=this.outputSelected.concat();
+        this.filterSelected.forEach(item=>{
+            var oRadio=document.querySelector('#radio'+item);
+            oRadio.checked=true;
+        });
+        this.outputSelected.forEach(item=>{
+            var oRadio=document.querySelector('#radio2'+item);
+            oRadio.checked=true;
+        })
     },
     //得到筛选项数组
     getFilter(curId){ 
