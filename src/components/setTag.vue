@@ -159,8 +159,8 @@ export default {
         outputAry:[],//输出项
         showIndex:-1,
         err:'',
-        //filterSelected:[],
-        //outputSelected:[],
+        filterSelected:[],
+        outputSelected:[],
       }
   },
   components:{
@@ -246,6 +246,8 @@ export default {
             if(res.data.code==200){
                 this.err='';
                 this.$emit('hideOverFn','changeUrl');
+                this.filterSelected=this.filterAry.concat();
+                this.outputSelected=this.outputAry.concat();
                 this.clearSelected();
             }else{
                 this.err=res.data.msg;
