@@ -35,7 +35,10 @@
                             <areas cur-id="areaShow" ref="areaId"></areas>
                         </div>
                         <div class="right areaDetailWrap">
-                            <mac-area cur-id="areaDetail" ref="areaDetailId"></mac-area>
+                            <ul class="changUl clearfix">
+                                <li v-for="(item,index) in nameAry"><i></i>{{item}}</li>
+                            </ul>
+                            <!--<mac-area cur-id="areaDetail" ref="areaDetailId"></mac-area>-->
                         </div>
                     </div>
                 </div>
