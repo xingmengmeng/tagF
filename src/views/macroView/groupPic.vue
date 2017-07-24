@@ -198,9 +198,14 @@
                                 <li>计算说明：根据用户最近一次购买商品类型、放款期限指标计算覆盖用户数和占比情况。</li>
                             </ul>
                         </div>
+
+                        <div class="right">
+                            <input type="radio" id="commodityFlevel" value="commodityFlevel" v-model="fatStyle" @click="fatData('changeStyle')"><label for="commodityFlevel">商品分类</label>
+                            <input type="radio" id="loanTerm" value="loanTerm" v-model="fatStyle" @click="fatData('loanTerm')"><label for="loanTerm">放款期限</label>
+                        </div>
                     </div>
                     <div class="chartWrap">
-                        <mac-age cur-id="picId" ref="picrefId"></mac-age>
+                        <mac-age cur-id="fandtId" ref="fandtrefId"></mac-age>
                     </div>
 
                 </div>
@@ -219,13 +224,12 @@
                         </div>
                         
                         <div class="right">
-                            <input type="radio" id="productType" value="productType" v-model="proStyle" @click="proData('changeStyle')"><label for="productType">类型</label>
-                            <input type="radio" id="annualRate" value="annualRate" v-model="proStyle" @click="proData('changeStyle')"><label for="annualRate">年化率</label>
-                            <input type="radio" id="term" value="term" v-model="proStyle" @click="proData('changeStyle')"><label for="term">期限</label>
+                            <input type="radio" id="loanChannel" value="loanChannel" v-model="loanStyle" @click="loanData('loanChannel')"><label for="loanChannel">放款客户端</label>
+                            <input type="radio" id="loanClient" value="loanClient" v-model="loanStyle" @click="loanData('loanClient')"><label for="loanClient">放款渠道</label>
                         </div>
                     </div>
                     <div class="chartWrap">
-                        <mac-age cur-id="proId" ref="prorefId"></mac-age>
+                        <mac-age cur-id="loanId" ref="loanrefId"></mac-age>
                     </div>
                 </div>
 
@@ -242,13 +246,9 @@
                                 <li>计算说明：根据用户累计借款本金的区间段，显示人群所属的占比情况。</li>
                             </ul>
                         </div>
-                        <div class="right">
-                            <input type="radio" id="recharge" value="recharge" v-model="ctStyle" @click="ctData('changeStyle')"><label for="recharge">充值</label>
-                            <input type="radio" id="withdraw" value="withdraw" v-model="ctStyle" @click="ctData('changeStyle')"><label for="withdraw">提现</label>
-                        </div>
                     </div>
                     <div class="chartWrap">
-                        <mac-age cur-id="ctId" ref="ctrefId"></mac-age>
+                        <mac-age cur-id="amtId" ref="amtrefId"></mac-age>
                     </div>
                 </div>
             </div>
@@ -264,13 +264,9 @@
                                 <li>计算说明：根据用户还款逾期天数指标，显示人群所属的占比情况。</li>
                             </ul>
                         </div>
-                        <div class="right">
-                            <input type="radio" id="cusGrade" value="cusGrade" v-model="laStyle" @click="laData('changeStyle')"><label for="cusGrade">客户等级</label>
-                            <input type="radio" id="totalAsset" value="totalAsset" v-model="laStyle" @click="laData('changeStyle')"><label for="totalAsset">总资产</label>
-                        </div>
                     </div>
                     <div class="chartWrap">
-                        <mac-age cur-id="laId" ref="larefId"></mac-age>
+                        <mac-age cur-id="foverId" ref="foverrefId"></mac-age>
                     </div>
                 </div>
 
@@ -430,6 +426,13 @@
 
                 areaData:[],//地域分布的返回值
                 noActive:1,//不是当前选择的地域分布的索引
+
+                fatStyle:'commodityFlevel',//美易分 最近一次购买商品和放款期限
+                fatResData:[],
+                loanStyle:'loanChannel',
+                loanResData:[],
+                amtResData:[],
+                foverResData:[],
             }
         },
         components:{
@@ -505,6 +508,11 @@
                     this.proData();/*投资产品类型*/
                     this.ctData();/*充值提现偏好*/
                     this.laData();/*当前客户等级与总资产*/
+
+                    this.fatData();/*美易分 最近一次购买商品和放款期限*/
+                    this.loanData();/*美易分 放款客户端与渠道*/
+                    this.amtData();/*美易分 累计借款本金*/
+                    this.foverData();/*美易分 逾期还款分布*/
                 }
             },
             /*得到理财投资 共有人数*/
@@ -643,6 +651,58 @@
                     this.$refs.larefId.$emit('changeData',this.ids,this.nameAry,this.laResData[this.laStyle],17);
                 }
             },
+            /*美易分  最近一次购买商品和放款期限*/
+            fatData(changeStyle){
+                if(!changeStyle){
+                    this.$http.get('/api/userGroupPortrait/getCommFlevelAndTermChart.gm?ids='+this.ids).then(function (res) {
+                        if(res.data.code==200){
+                            this.fatResData=res.data.dataInfo;
+                            if(this.$refs.fandtrefId){
+                                this.$refs.fandtrefId.$emit('changeData',this.ids,this.nameAry,this.fatResData[this.fatStyle],17);
+                            }
+                        }
+                    })
+                }else{
+                    this.$refs.fandtrefId.$emit('changeData',this.ids,this.nameAry,this.fatResData[this.fatStyle],17);
+                }
+            },
+            /*美易分  放款客户端与渠道*/
+            loanData(changeStyle){
+                if(!changeStyle){
+                    this.$http.get('/api/userGroupPortrait/getLoanChannelChart.gm?ids='+this.ids).then(function (res) {
+                        if(res.data.code==200){
+                            this.loanResData=res.data.dataInfo;
+                            if(this.$refs.loanrefId){
+                                this.$refs.loanrefId.$emit('changeData',this.ids,this.nameAry,this.loanResData[this.loanStyle],17);
+                            }
+                        }
+                    })
+                }else{
+                    this.$refs.loanrefId.$emit('changeData',this.ids,this.nameAry,this.loanResData[this.loanStyle],17);
+                }
+            },
+            /*美易分  累计借款本金*/
+            amtData(){
+                this.$http.get('/api/userGroupPortrait/getLoanAmtChart.gm?ids='+this.ids).then(function (res) {
+                    if(res.data.code==200){
+                        this.amtResData=res.data.dataInfo;
+                        if(this.$refs.amtrefId){
+                            this.$refs.amtrefId.$emit('changeData',this.ids,this.nameAry,this.amtResData.loanAmt,17);
+                        }
+                    }
+                })  
+            },
+            /*美易分  逾期还款分布*/
+            foverData(){
+                this.$http.get('/api/userGroupPortrait/getOverdueStageChart.gm?ids='+this.ids).then(function (res) {
+                    if(res.data.code==200){
+                        this.foverResData=res.data.dataInfo;
+                        if(this.$refs.foverrefId){
+                            this.$refs.foverrefId.$emit('changeData',this.ids,this.nameAry,this.foverResData.overdueStage,17);
+                        }
+                    }
+                })  
+            },
             /*点击新增 对比人群 按钮*/
             addGroupFn(){
                 this.showMarker=1;
@@ -742,6 +802,12 @@
                 this.proData();/*投资产品类型*/
                 this.ctData();/*充值提现偏好*/
                 this.laData();/*当前客户等级与总资产*/
+
+                this.fatData();/*美易分 最近一次购买商品和放款期限*/
+                this.loanData();/*美易分 放款客户端与渠道*/
+                this.amtData();/*美易分 累计借款本金*/
+                this.foverData();/*美易分 逾期还款分布*/
+
                 this.hideMark();//隐藏弹框
             }
         }
