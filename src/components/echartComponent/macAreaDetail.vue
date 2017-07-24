@@ -1,5 +1,5 @@
 <template>
-    <div :id="curId">省份</div>
+    <div :id="curId"></div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -11,58 +11,40 @@
                 resData:[],
                 ids:[],
                 nameAry:[],
+                color:'',
             }
         },
         mounted(){
-            this.$on('changeData', (ids,resName,data)=> {
+            this.$on('changeData', (ids,resName,data,color)=> {
                 this.ids=ids;
                 this.nameAry=resName;
-                console.log(this.ids,this.nameAry);
+                this.color=color;
                 this.drawChart(data.provinceTopTen[this.ids]);
             })
         },
         methods:{
             drawChart(data){
-                console.log(data);
-                var yData=[],series1=[],series2=[];
+                var yData=[],series1=[];
                 for(var key in data){
                     yData.unshift(key);
-                    series1.unshift(data[key][this.ids[0]]);
-                    if(this.ids[1]){
-                        series2.unshift(data[key][this.ids[1]]);
-                    }
+                    series1.unshift(data[key]);
                 }
-
                 /*配置series*/
                 var temSeries=new Array();
                 if(this.ids.length==1){
                     temSeries=[
                         {
-                            name:this.nameAry[0],
+                            name:this.nameAry,
                             type:'bar',
                             data:series1,
-                            barWidth:6
-                        }
-                    ];
-                }else if(this.ids.length==2){
-                    temSeries=[
-                        {
-                            name:this.nameAry[0],
-                            type:'bar',
-                            data:series1,
-                            barWidth:6
-                        },
-                        {
-                            name:this.nameAry[1],
-                            type:'bar',
-                            data:series2,
                             barWidth:6
                         }
                     ];
                 }
+                
                 this.chart = echarts.init(document.getElementById(this.curId));
                 this.chart.setOption({
-                    color: ['#6ea1fc','#2fcacc'],
+                    color: [this.color],
                     tooltip : {
                         trigger: 'axis',
                     },
@@ -94,17 +76,11 @@
                     ],
                     series : [
                         {
-                            name:this.nameAry[0],
+                            name:this.nameAry,
                             type:'bar',
                             data:series1,
                             barWidth:6
-                        },
-                        /*{
-                            name:this.nameAry[1],
-                            type:'bar',
-                            data:series2,
-                            barWidth:6
-                        }*/
+                        }
                     ]
                 });
             }

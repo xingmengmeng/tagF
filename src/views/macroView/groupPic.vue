@@ -36,7 +36,7 @@
                         </div>
                         <div class="right areaDetailWrap">
                             <ul class="changUl clearfix">
-                                <li v-for="(item,index) in nameAry" :key="index" @click="changeArea(index)"><i></i>{{item}}</li>
+                                <li v-for="(item,index) in nameAry" :key="index" @click="changeArea(index)" :class="noActive==index?'noActive':''"><i></i>{{item}}</li>
                             </ul>
                             <mac-area cur-id="areaDetail" ref="areaDetailId"></mac-area>
                         </div>
@@ -324,11 +324,11 @@
                 </div>
 
             </div>
-            <!--放款产品偏好-->
+            <!--进件产品偏好-->
             <div class="left picWrap">
                 <div class="wrapMainDiv">
                     <div class="clearfix">
-                        <h3 class="left picH3">放款产品偏好</h3>
+                        <h3 class="left picH3">进件产品偏好</h3>
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
@@ -427,6 +427,9 @@
                 laResData:[],//接口返回值
                 groupId:'',//当前用户群id  由用户群列表得来
                 personNum:'',
+
+                areaData:[],//地域分布的返回值
+                noActive:1,//不是当前选择的地域分布的索引
             }
         },
         components:{
@@ -545,17 +548,25 @@
             getAreaData(){
                 this.$http.get('/api/userGroupPortrait/getAreaChart.gm?ids='+this.ids).then(function (res) {
                     if(res.data.code==200){
+                        this.areaData=res.data.dataInfo;
                         if(this.$refs.areaId){
                             this.$refs.areaId.$emit('changeData',this.ids,this.nameAry,res.data.dataInfo);
                         }
                         if(this.$refs.areaDetailId){
-                            this.$refs.areaDetailId.$emit('changeData',this.ids[0],this.nameAry[0],res.data.dataInfo);
+                            this.$refs.areaDetailId.$emit('changeData',this.ids[0],this.nameAry[0],res.data.dataInfo,'#6ea1fc');
                         }
                     }
                 })
             },
             changeArea(index){
-                console.log(index);
+                if(index==0){
+                    this.noActive=1;
+                    this.$refs.areaDetailId.$emit('changeData',this.ids[0],this.nameAry[0],this.areaData,'#6ea1fc');
+                }else{
+                    this.noActive=0;
+                    this.$refs.areaDetailId.$emit('changeData',this.ids[1],this.nameAry[1],this.areaData,'#2fcacc');
+                }
+
             },
             /*年龄分布*/
             getAgeData(){
