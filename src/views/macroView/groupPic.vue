@@ -85,13 +85,13 @@
                     </ul>
                 </div>
             </div>-->
-            <span class="active">理财投资 <i class="spanI">({{personNum}})</i></span>
-            <span>美易分 <i class="spanI">(12人)</i></span>
-            <span>美借 <i class="spanI">(212人)</i></span>
+            <span :class="showLine==0?'active':''" @click="showLineFn('0')">理财投资 <i class="spanI">({{personNum}})</i></span>
+            <span :class="showLine==1?'active':''" @click="showLineFn('1')">美易分 <i class="spanI">({{fNum}})</i></span>
+            <span :class="showLine==2?'active':''" @click="showLineFn('2')">美借 <i class="spanI">({{jieNum}})</i></span>
         </div>
 
         <!--理财投资四块 start-->
-        <div class="fourWrap clearfix">
+        <div class="fourWrap clearfix" v-show="showLine==0">
             <!--客户类型-->
             <div class="left picWrap">
                 <div class="wrapMainDiv">
@@ -185,7 +185,7 @@
         <!--理财投资四块 end-->
 
         <!--美易分四块 start-->
-        <div class="fourWrap clearfix">
+        <div class="fourWrap clearfix" v-show="showLine==1">
             <!--最近一次购买商品和放款期限-->
             <div class="left picWrap">
                 <div class="wrapMainDiv">
@@ -275,7 +275,7 @@
         <!--美易分四块 end-->
 
         <!--美借四块 start-->
-        <div class="fourWrap clearfix">
+        <div class="fourWrap clearfix" v-show="showLine==2">
             <!--用户类型-->
             <div class="left picWrap">
                 <div class="wrapMainDiv">
@@ -415,6 +415,8 @@
                 addUserRightScroll:null,
                 showMarker:0,
                 error:'',
+                showLine:'0',//显示的业务线模块
+
                 proStyle:'productType',//投资产品类型
                 proResData:[],//接口返回值
                 ctStyle:'recharge',//充值、提现偏好
@@ -423,6 +425,8 @@
                 laResData:[],//接口返回值
                 groupId:'',//当前用户群id  由用户群列表得来
                 personNum:'',
+                fNum:'',
+                jieNum:'',
 
                 areaData:[],//地域分布的返回值
                 noActive:1,//不是当前选择的地域分布的索引
@@ -504,32 +508,44 @@
                     this.getAreaData();/*地域分布模块加载*/
                     this.getAgeData();/*年龄分布加载*/
                     this.getSexData();/*性别分布加载*/
-                    this.picData();/*客户类型*/
-                    this.proData();/*投资产品类型*/
-                    this.ctData();/*充值提现偏好*/
-                    this.laData();/*当前客户等级与总资产*/
-
-                    this.fatData();/*美易分 最近一次购买商品和放款期限*/
-                    this.loanData();/*美易分 放款客户端与渠道*/
-                    this.amtData();/*美易分 累计借款本金*/
-                    this.foverData();/*美易分 逾期还款分布*/
+                    
+                    this.getLicai();/*默认显示理财投资模块*/
                 }
+            },
+            getLicai(){
+                this.picData();/*客户类型*/
+                this.proData();/*投资产品类型*/
+                this.ctData();/*充值提现偏好*/
+                this.laData();/*当前客户等级与总资产*/
+            },
+            getF(){
+                this.fatData();/*美易分 最近一次购买商品和放款期限*/
+                this.loanData();/*美易分 放款客户端与渠道*/
+                this.amtData();/*美易分 累计借款本金*/
+                this.foverData();/*美易分 逾期还款分布*/
+            },
+            getMeijie(){
+
             },
             /*得到理财投资 共有人数*/
             getPersonNum(){
                 this.$http.get('/api/userGroupPortrait/getLineTotal.gm?ids='+this.ids).then(function(res){
                     if(res.data.code==200){
-                        this.personNum='';
+                        this.personNum=this.fNum=this.jieNum='';
                         if(res.data.dataInfo){
                             this.ids.forEach( (curId)=> {
                                 for(var item in res.data.dataInfo){
                                     if(curId==item){
                                         this.personNum+=res.data.dataInfo[item][0].valueStr+' / ';
+                                        this.fNum+=res.data.dataInfo[item][1].valueStr+' / ';
+                                        this.jieNum+=res.data.dataInfo[item][2].valueStr+' / ';
                                     }  
                                 }
                             })
                         }
                         this.personNum=this.personNum.replace(/\s\/\s$/,'');
+                        this.fNum=this.fNum.replace(/\s\/\s$/,'');
+                        this.jieNum=this.jieNum.replace(/\s\/\s$/,'');
                     }
                 })
             },
@@ -798,17 +814,24 @@
                 this.getAreaData();/*地域分布模块加载*/
                 this.getAgeData();/*年龄分布加载*/
                 this.getSexData();/*性别分布加载*/
-                this.picData();/*客户类型*/
-                this.proData();/*投资产品类型*/
-                this.ctData();/*充值提现偏好*/
-                this.laData();/*当前客户等级与总资产*/
-
-                this.fatData();/*美易分 最近一次购买商品和放款期限*/
-                this.loanData();/*美易分 放款客户端与渠道*/
-                this.amtData();/*美易分 累计借款本金*/
-                this.foverData();/*美易分 逾期还款分布*/
+                
+                if(this.showLine==0) this.getLicai();
+                if(this.showLine==1) this.getF();
+                if(this.showLine==2) this.getMeijie();
 
                 this.hideMark();//隐藏弹框
+            },
+            showLineFn(index){
+                this.showLine=index;
+                if(index==0){
+                    this.getLicai();
+                }
+                if(index==1){
+                    this.getF();
+                }
+                if(index==2){
+                    this.getMeijie();
+                }
             }
         }
     }
