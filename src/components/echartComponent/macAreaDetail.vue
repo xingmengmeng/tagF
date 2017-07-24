@@ -17,11 +17,13 @@
             this.$on('changeData', (ids,resName,data)=> {
                 this.ids=ids;
                 this.nameAry=resName;
-                this.drawChart(data.provinceTopTen);
+                console.log(this.ids,this.nameAry);
+                this.drawChart(data.provinceTopTen[this.ids]);
             })
         },
         methods:{
             drawChart(data){
+                console.log(data);
                 var yData=[],series1=[],series2=[];
                 for(var key in data){
                     yData.unshift(key);
@@ -66,7 +68,8 @@
                     },
                     legend: {
                         top:10,
-                        data:this.nameAry
+                        data:this.nameAry,
+                        show:false,
                     },
                     grid:{
                         top:50,
@@ -96,12 +99,12 @@
                             data:series1,
                             barWidth:6
                         },
-                        {
+                        /*{
                             name:this.nameAry[1],
                             type:'bar',
                             data:series2,
                             barWidth:6
-                        }
+                        }*/
                     ]
                 });
             }
