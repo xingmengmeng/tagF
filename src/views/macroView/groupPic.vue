@@ -512,18 +512,21 @@
                     this.getLicai();/*默认显示理财投资模块*/
                 }
             },
+            //得到理财模块数据
             getLicai(){
                 this.picData();/*客户类型*/
                 this.proData();/*投资产品类型*/
                 this.ctData();/*充值提现偏好*/
                 this.laData();/*当前客户等级与总资产*/
             },
+            //得到美易分模块数据
             getF(){
                 this.fatData();/*美易分 最近一次购买商品和放款期限*/
                 this.loanData();/*美易分 放款客户端与渠道*/
                 this.amtData();/*美易分 累计借款本金*/
                 this.foverData();/*美易分 逾期还款分布*/
             },
+            //得到美借模块数据
             getMeijie(){
 
             },
