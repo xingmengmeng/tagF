@@ -311,7 +311,6 @@
                         <div class="right">
                             <input type="radio" id="productType" value="productType" v-model="proStyle" @click="proData('changeStyle')"><label for="productType">类型</label>
                             <input type="radio" id="annualRate" value="annualRate" v-model="proStyle" @click="proData('changeStyle')"><label for="annualRate">年化率</label>
-                            <input type="radio" id="term" value="term" v-model="proStyle" @click="proData('changeStyle')"><label for="term">期限</label>
                         </div>
                     </div>
                     <div class="chartWrap">
@@ -331,10 +330,6 @@
                                 <li>数据显示：已选人群在美借借款中对产品的喜好</li>
                                 <li>计算说明：根据用户曾经美借进件产品类型PD/小额分期计算，显示人群所属的占比。</li>
                             </ul>
-                        </div>
-                        <div class="right">
-                            <input type="radio" id="recharge" value="recharge" v-model="ctStyle" @click="ctData('changeStyle')"><label for="recharge">充值</label>
-                            <input type="radio" id="withdraw" value="withdraw" v-model="ctStyle" @click="ctData('changeStyle')"><label for="withdraw">提现</label>
                         </div>
                     </div>
                     <div class="chartWrap">
