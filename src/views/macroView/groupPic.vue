@@ -194,8 +194,8 @@
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
-                                <li>数据显示：已选人群在美易理财业务中所处阶段</li>
-                                <li>计算说明：根据美易理财业务数据，进行数据解析，给出用户在美易理财办理只注册/只实名/只充值/有投资类型占比情况；投资失败的用户不属于投资客户</li>
+                                <li>数据显示：已选人群在美易分购买产品和贷款期限情况</li>
+                                <li>计算说明：根据用户最近一次购买商品类型、放款期限指标计算覆盖用户数和占比情况。</li>
                             </ul>
                         </div>
                     </div>
@@ -213,8 +213,8 @@
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
-                                <li>数据显示：已选人群在理财投资中对产品的喜好</li>
-                                <li>计算说明：根据用户购买某类产品次数/所有产品购买次数，占比最高即为偏好该产品</li>
+                                <li>数据显示：已选人群在办理美易分业务时，放款客户端和渠道来源情况</li>
+                                <li>计算说明：根据用户放款客户端、渠道来源指标，显示人群所属的占比</li>
                             </ul>
                         </div>
                         
@@ -238,8 +238,8 @@
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
-                                <li>数据显示：已选人群在理财中充值、提现情况</li>
-                                <li>计算说明：根据用户单次充值、提款金额最大值，显示人群所属的占比。</li>
+                                <li>数据显示：已选人群在美易分总共历史借款金额情况</li>
+                                <li>计算说明：根据用户累计借款本金的区间段，显示人群所属的占比情况。</li>
                             </ul>
                         </div>
                         <div class="right">
@@ -260,8 +260,8 @@
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
-                                <li>数据显示：已选人群在美易理财所属等级情况</li>
-                                <li>计算说明：根据用户理财等级、总资产情况，显示人群所属的占比。</li>
+                                <li>数据显示：已选人群在办理美易分业务中，还款逾期情况</li>
+                                <li>计算说明：根据用户还款逾期天数指标，显示人群所属的占比情况。</li>
                             </ul>
                         </div>
                         <div class="right">
@@ -288,8 +288,8 @@
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
-                                <li>数据显示：已选人群在美易理财业务中所处阶段</li>
-                                <li>计算说明：根据美易理财业务数据，进行数据解析，给出用户在美易理财办理只注册/只实名/只充值/有投资类型占比情况；投资失败的用户不属于投资客户</li>
+                                <li>数据显示：已选人群所属美借平台，是否新老用户情况</li>
+                                <li>计算说明：根据用户是否在美借有过成功放款记录判断新老用户，显示人群所属的占比情况。</li>
                             </ul>
                         </div>
                     </div>
@@ -307,8 +307,8 @@
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
-                                <li>数据显示：已选人群在理财投资中对产品的喜好</li>
-                                <li>计算说明：根据用户购买某类产品次数/所有产品购买次数，占比最高即为偏好该产品</li>
+                                <li>数据显示：已选人群在美借APP注册、认证距当前天数情况</li>
+                                <li>计算说明：根据用户注册、认证美借APP的时间点，与当前时间计算，显示人群所属的占比。</li>
                             </ul>
                         </div>
                         
@@ -332,8 +332,8 @@
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
-                                <li>数据显示：已选人群在理财中充值、提现情况</li>
-                                <li>计算说明：根据用户单次充值、提款金额最大值，显示人群所属的占比。</li>
+                                <li>数据显示：已选人群在美借借款中对产品的喜好</li>
+                                <li>计算说明：根据用户曾经美借进件产品类型PD/小额分期计算，显示人群所属的占比。</li>
                             </ul>
                         </div>
                         <div class="right">
@@ -354,8 +354,8 @@
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
-                                <li>数据显示：已选人群在美易理财所属等级情况</li>
-                                <li>计算说明：根据用户理财等级、总资产情况，显示人群所属的占比。</li>
+                                <li>数据显示：已选人群办理美借进件次数和申请放款金额情况</li>
+                                <li>计算说明：根据用户成功在美借业务中进件的次数和申请总金额计算，显示人群所属的占比情况。</li>
                             </ul>
                         </div>
                         <div class="right">
