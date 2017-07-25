@@ -201,7 +201,7 @@
 
                         <div class="right">
                             <input type="radio" id="commodityFlevel" value="commodityFlevel" v-model="fatStyle" @click="fatData('changeStyle')"><label for="commodityFlevel">商品分类</label>
-                            <input type="radio" id="loanTerm" value="loanTerm" v-model="fatStyle" @click="fatData('loanTerm')"><label for="loanTerm">放款期限</label>
+                            <input type="radio" id="loanTerm" value="loanTerm" v-model="fatStyle" @click="fatData('changeStyle')"><label for="loanTerm">放款期限</label>
                         </div>
                     </div>
                     <div class="chartWrap">
@@ -224,8 +224,8 @@
                         </div>
                         
                         <div class="right">
-                            <input type="radio" id="loanChannel" value="loanChannel" v-model="loanStyle" @click="loanData('loanChannel')"><label for="loanChannel">放款客户端</label>
-                            <input type="radio" id="loanClient" value="loanClient" v-model="loanStyle" @click="loanData('loanClient')"><label for="loanClient">放款渠道</label>
+                            <input type="radio" id="loanChannel" value="loanChannel" v-model="loanStyle" @click="loanData('changeStyle')"><label for="loanChannel">放款客户端</label>
+                            <input type="radio" id="loanClient" value="loanClient" v-model="loanStyle" @click="loanData('changeStyle')"><label for="loanClient">放款渠道</label>
                         </div>
                     </div>
                     <div class="chartWrap">
@@ -290,7 +290,7 @@
                         </div>
                     </div>
                     <div class="chartWrap">
-                        <mac-age cur-id="picId" ref="picrefId"></mac-age>
+                        <mac-age cur-id="memId" ref="memrefId"></mac-age>
                     </div>
 
                 </div>
@@ -309,12 +309,12 @@
                         </div>
                         
                         <div class="right">
-                            <input type="radio" id="productType" value="productType" v-model="proStyle" @click="proData('changeStyle')"><label for="productType">类型</label>
-                            <input type="radio" id="annualRate" value="annualRate" v-model="proStyle" @click="proData('changeStyle')"><label for="annualRate">年化率</label>
+                            <input type="radio" id="registerDays" value="registerDays" v-model="regStyle" @click="regData('changeStyle')"><label for="registerDays">注册天数</label>
+                            <input type="radio" id="authDays" value="authDays" v-model="regStyle" @click="regData('changeStyle')"><label for="authDays">认证天数</label>
                         </div>
                     </div>
                     <div class="chartWrap">
-                        <mac-age cur-id="proId" ref="prorefId"></mac-age>
+                        <mac-age cur-id="regId" ref="regrefId"></mac-age>
                     </div>
                 </div>
 
@@ -333,7 +333,7 @@
                         </div>
                     </div>
                     <div class="chartWrap">
-                        <mac-age cur-id="ctId" ref="ctrefId"></mac-age>
+                        <mac-age cur-id="applyId" ref="applyrefId"></mac-age>
                     </div>
                 </div>
             </div>
@@ -350,12 +350,12 @@
                             </ul>
                         </div>
                         <div class="right">
-                            <input type="radio" id="cusGrade" value="cusGrade" v-model="laStyle" @click="laData('changeStyle')"><label for="cusGrade">客户等级</label>
-                            <input type="radio" id="totalAsset" value="totalAsset" v-model="laStyle" @click="laData('changeStyle')"><label for="totalAsset">总资产</label>
+                            <input type="radio" id="applyTimes" value="applyTimes" v-model="appTimeStyle" @click="appTimeData('changeStyle')"><label for="applyTimes">进件次数</label>
+                            <input type="radio" id="applyAmount" value="applyAmount" v-model="appTimeStyle" @click="appTimeData('changeStyle')"><label for="applyAmount">进件总金额</label>
                         </div>
                     </div>
                     <div class="chartWrap">
-                        <mac-age cur-id="laId" ref="larefId"></mac-age>
+                        <mac-age cur-id="appTimeId" ref="appTimerefId"></mac-age>
                     </div>
                 </div>
 
@@ -432,6 +432,12 @@
                 loanResData:[],
                 amtResData:[],
                 foverResData:[],
+                memResData:[],//美借
+                regResData:[],
+                regStyle:'registerDays',
+                applyResData:[],
+                appTimeResData:[],
+                appTimeStyle:'applyTimes',
             }
         },
         components:{
@@ -523,7 +529,10 @@
             },
             //得到美借模块数据
             getMeijie(){
-
+                this.memData();/*美借 用户类型*/
+                this.regData();/*美借 用户注册及认证天数*/
+                this.applyData();/*美借 进件产品偏好*/
+                this.appTimeData();/*美借 进件次数及进件总金额*/
             },
             /*得到理财投资 共有人数*/
             getPersonNum(){
@@ -716,6 +725,58 @@
                         }
                     }
                 })  
+            },
+            /*美借  逾期还款分布*/
+            memData(){
+                this.$http.get('/api/userGroupPortrait/getMemberTypeChart.gm?ids='+this.ids).then(function (res) {
+                    if(res.data.code==200){
+                        this.memResData=res.data.dataInfo;
+                        if(this.$refs.memrefId){
+                            this.$refs.memrefId.$emit('changeData',this.ids,this.nameAry,this.memResData.memberType,17);
+                        }
+                    }
+                })  
+            },
+            /*美借  用户注册及认证天数*/
+            regData(changeStyle){
+                if(!changeStyle){
+                    this.$http.get('/api/userGroupPortrait/getRegAuthDaysChart.gm?ids='+this.ids).then(function (res) {
+                        if(res.data.code==200){
+                            this.regResData=res.data.dataInfo;
+                            if(this.$refs.regrefId){
+                                this.$refs.regrefId.$emit('changeData',this.ids,this.nameAry,this.regResData[this.regStyle],17);
+                            }
+                        }
+                    })
+                }else{
+                    this.$refs.regrefId.$emit('changeData',this.ids,this.nameAry,this.regResData[this.regStyle],17);
+                }
+            },
+            /*美借  逾期还款分布*/
+            applyData(){
+                this.$http.get('/api/userGroupPortrait/getApplyProductChart.gm?ids='+this.ids).then(function (res) {
+                    if(res.data.code==200){
+                        this.applyResData=res.data.dataInfo;
+                        if(this.$refs.applyrefId){
+                            this.$refs.applyrefId.$emit('changeData',this.ids,this.nameAry,this.applyResData.applyProduct,17);
+                        }
+                    }
+                })  
+            },
+            /*美借  进件次数及进件总金额*/
+            appTimeData(changeStyle){
+                if(!changeStyle){
+                    this.$http.get('/api/userGroupPortrait/getApplyTimesAndAmountChart.gm?ids='+this.ids).then(function (res) {
+                        if(res.data.code==200){
+                            this.appTimeResData=res.data.dataInfo;
+                            if(this.$refs.appTimerefId){
+                                this.$refs.appTimerefId.$emit('changeData',this.ids,this.nameAry,this.appTimeResData[this.appTimeStyle],17);
+                            }
+                        }
+                    })
+                }else{
+                    this.$refs.appTimerefId.$emit('changeData',this.ids,this.nameAry,this.appTimeResData[this.appTimeStyle],17);
+                }
             },
             /*点击新增 对比人群 按钮*/
             addGroupFn(){
