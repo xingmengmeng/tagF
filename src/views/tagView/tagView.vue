@@ -10,7 +10,7 @@
                     <router-link to="/tagView">标签画像</router-link>
                 </li>
             </ul>
-            <div class="show-hide" id="show-hide">
+            <div class="show-hide" id="show-hide" @click="changeHeight">
                 显示隐藏按钮
             </div>
         </section>
@@ -385,6 +385,12 @@
             this.comTem();
         },
         methods:{
+            changeHeight(){
+                setTimeout( ()=> {
+                    this.tagTopScroll.refresh();
+                    this.tagBottomScroll.refresh(); 
+                }, 0);
+            },
             //得到可选标签
             getData(){
                 this.$http.get('/api/tagPortrait/queryList.gm').then(function (res) {
