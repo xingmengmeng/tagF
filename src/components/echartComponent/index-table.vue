@@ -1,13 +1,16 @@
 <template>
     <div class="indexTabWrap">
-        <table class="indexTab">
+        <table class="indexTab" width="100%">
             <thead>
             <tr>
                 <th width="105" class="lsTh">
                     <div class="thDiv">
-                        <span class="leftF">输出项</span>
+                        <!--<span class="leftF">输出项</span>
                         <i></i>
-                        <span class="rightF">筛选项</span>
+                        <span class="rightF">筛选项</span>-->
+                        <span>输出项</span>
+                        <i></i>
+                        <span>筛选项</span>
                     </div>
                 </th>
                 <th v-for="(itemTh,index) in resHead" :key="index" class="indexTh"><span>{{itemTh}}</span></th>
@@ -27,17 +30,15 @@
     </div>
 </template>
 <style lang="less" scoped>
-    .indexTabWrap{
-        overflow-x: scroll;
-    }
-    .indexTab{
-        min-width: 100%;
-    }
-    .indexTh{
-        span{
+    .thDiv{
+        i{
+            margin:0 5px;
             display: inline-block;
-            white-space:nowrap;
-        }   
+            width: 1px;
+            height: 16px;
+            background: #000;
+            transform: rotate(-25deg) translateY(3px) translateX(0px);
+        }
     }
 </style>
 
