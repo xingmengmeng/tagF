@@ -36,6 +36,7 @@
         box-shadow:3px 2px 3px #cccccc ;
         font-size:13px;
         box-sizing: border-box;
+        resize: none;
     }
     .keep{
         position: relative;
