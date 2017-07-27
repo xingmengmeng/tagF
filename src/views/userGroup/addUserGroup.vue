@@ -213,6 +213,10 @@
             LayOut.setHeight.init();
             LayOut.serBiWrap.init();
         },
+        updated(){
+            LayOut.setHeight.init();
+            LayOut.serBiWrap.init();
+        },
         components: {
             'loading': loading,
         },
