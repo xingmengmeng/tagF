@@ -141,7 +141,7 @@
                     grid:{
                         top:20,
                         bottom:80,
-                        left: '20',
+                        left: '45',
 			            right: '45',
                     },
                     legend: {

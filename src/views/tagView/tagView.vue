@@ -388,8 +388,8 @@
         mounted(){
             this.getData();
             this.comTem();
+            LayOut.setHeight.init();
             this.$nextTick(function(){
-                LayOut.setHeight.init();
                 var aDiv=Array.from(document.querySelectorAll('.tabDiv'));
                 aDiv.forEach(item=>{
                     item.addEventListener('scroll', function(e) {
