@@ -106,7 +106,8 @@
                 this.chart.setOption({
                     color: ['#6ea1fc','#2fcacc'],
                     tooltip: {
-                        trigger: 'item'
+                        trigger: 'item',
+                        confine:true,
                     },
                     visualMap: {
                         min: 0,
