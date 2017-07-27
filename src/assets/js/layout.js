@@ -99,7 +99,7 @@ var setHeight=(function () {
         if(document.getElementsByTagName('marquee')[0]){
             var centerHeight=cHeight-headerHeight-footerHeigh-20-35;
         }else{
-            var centerHeight=cHeight-headerHeight-footerHeigh-20;
+            var centerHeight=cHeight-headerHeight-footerHeigh-20-35;
         }
         var mainWrap=document.getElementById('mainWrap');
         mainWrap.style.height=centerHeight+'px';

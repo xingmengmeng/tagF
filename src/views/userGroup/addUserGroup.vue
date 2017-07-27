@@ -275,6 +275,7 @@
                 this.addGroupSearchCon='';
                 this.$http.get('/api/baseTag/queryByParentId.gm?parentId='+id).then(function (response) {
                     this.showLoading=false;
+                    this.sortFlag=true;//排序恢复默认
                     this.setFour(response);
                 })
 
