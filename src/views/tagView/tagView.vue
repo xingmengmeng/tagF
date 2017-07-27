@@ -296,6 +296,12 @@
         padding-right: 3px;
         box-sizing: border-box;
     }
+    @media screen and (max-width: 1400px){
+        .tabDiv{
+            max-height: 392px;
+            overflow-y: scroll;
+        }
+    }
     .indexTab{
         border: 1px solid #D0E6FF;
         tr th{
@@ -380,9 +386,17 @@
             'success-box':successBox,
         },
         mounted(){
-            LayOut.setHeight.init();
             this.getData();
             this.comTem();
+            this.$nextTick(function(){
+                LayOut.setHeight.init();
+                var aDiv=Array.from(document.querySelectorAll('.tabDiv'));
+                aDiv.forEach(item=>{
+                    item.addEventListener('scroll', function(e) {
+                        this.querySelector('thead').style.transform = 'translate(0, '+this.scrollTop+'px)';
+                    });
+                })
+            })
         },
         methods:{
             changeHeight(){
