@@ -398,6 +398,9 @@
                 })
             })
         },
+        updated(){
+            LayOut.setHeight.init();
+        },
         methods:{
             changeHeight(){
                 setTimeout( ()=> {
