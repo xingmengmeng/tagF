@@ -44,8 +44,7 @@ const router = new VueRouter({
     linkActiveClass:'active',//当前页的选中状态
     routes: [
         { path: '/', redirect:'/index'},
-        { path: '/index', component: Index},
-        
+        { path: '/index', component: Index}, 
         { path: '/pushActivities', component: pushActivities},
         { path: '/macroView',component:macroView,redirect:'macroView/groupPic',/*宏观*/
             children:[
