@@ -794,7 +794,7 @@
             },
             /*点击  新建  跳转*/
             gotoAddNewGorup(){
-                window.location.href='/#/userGroup/addUserGroup?flag=new';
+                window.location.href='/userGroup/addUserGroup?flag=new';
             },
             /*点击 弹框中 用户群*/
             selectSpanFn(id,curFlag){

@@ -56,7 +56,7 @@
             font-size: 12px;
         }
         .top{
-            padding-left:40px;
+            padding-left:45px;
             height: 40px;
             line-height: 40px;
             background: #F7FAFE url(../assets/images/icon9.png) 20px center no-repeat;

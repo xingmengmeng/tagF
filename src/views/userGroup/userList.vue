@@ -58,7 +58,7 @@
                         <td v-cloak>{{item.createTime}}</td>
                         <td>
                             <a class="listDetailLink">详情</a>
-                            <a class="macLink" v-if="item.status==1" :href="'/#/macroView/groupPic?id='+item.id">宏观</a>
+                            <a class="macLink" v-if="item.status==1" :href="'/macroView/groupPic?id='+item.id">宏观</a>
                             <a href="javascript:;" @click="deleteUserGroup(item.id,$event)" class="listDeleteBtn" v-show="item.useStatus=='未使用'">删除</a>
                         </td>
                     </tr>

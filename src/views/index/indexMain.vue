@@ -86,7 +86,7 @@
             <div class="echarts-wraper">
                 <div class="div-title">
                     <h5 class="ic6">标签关联画像</h5>
-                    <a href="/#/tagView" class="right tagDetailLink">自定义</a>
+                    <a href="/tagView" class="right tagDetailLink">自定义</a>
                 </div>
                 <!--图表 start-->
                 <div class="indexTabelWrapDiv">
@@ -127,6 +127,7 @@
             <li>意见反馈</li>
             <li>版本说明</li>
         </ul>
+        <ideas></ideas>
     </section>
 </template>
 <style lang="less" scoped>
@@ -153,8 +154,7 @@
                 background: #3e94f9;
                 font-size: 12px;
                 color:#fff;
-            }
-            
+            } 
         }
     }
 </style>
@@ -166,6 +166,7 @@
     import wordcloud from '../../components/echartComponent/wordcloud.vue';
     import indexTable from '../../components/echartComponent/index-table.vue';
     import barStackComponent from '../../components/echartComponent/bar-stack-component.vue';
+    import ideas from '../index/ideas.vue';
 
     require('../../assets/css/index.less');
 
@@ -182,7 +183,7 @@
             'wordcloud':wordcloud,
             'index-table':indexTable,
             'bar-stack-component':barStackComponent,
-
+            'ideas':ideas,
         },
         mounted(){
             var aDiv=document.querySelectorAll('.mainLeft');
