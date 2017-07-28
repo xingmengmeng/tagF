@@ -123,8 +123,42 @@
             </div>-->
 
         </div>
+        <ul class="messVersion">
+            <li>意见反馈</li>
+            <li>版本说明</li>
+        </ul>
     </section>
 </template>
+<style lang="less" scoped>
+    .messVersion{
+        position: fixed;
+        z-index: 2;
+        right:20px;
+        bottom: 60px;
+        width: 42px;
+        background: #f8f5f2;
+        li{
+            margin-top:1px;
+            padding:4px 0px 0 9px;
+            width:100%;
+            height: 42px;
+            background: #2673f5 url(../../assets/images/messIcon2.png) center no-repeat;
+            font-size: 0;
+            box-sizing: border-box;
+            cursor: pointer;
+            &:nth-of-type(2){
+                background: #2673f5 url(../../assets/images/messIcon1.png) center no-repeat;
+            }
+            &:hover{
+                background: #3e94f9;
+                font-size: 12px;
+                color:#fff;
+            }
+            
+        }
+    }
+</style>
+
 <script type="text/ecmascript-6">
     import lineLargeComponent from '../../components/echartComponent/line-large-component.vue';
     import pieControlComponent  from '../../components/echartComponent/pie-control-component.vue';
