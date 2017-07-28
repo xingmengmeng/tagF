@@ -4,7 +4,7 @@
         <div class="markWrap">
             <div class="top">意见反馈<i class="close" @click="hideBox">关闭</i></div>
             <textarea placeholder="在此描述您的意见和建议..." @keyup="changeBtn" v-model="textaresCon"></textarea>
-            <input type="button" class="btn" value="提交">
+            <input type="button" class="btn" value="提交" :class="clickable?'hasCon':''" :disabled="!clickable" @click="subMess">
         </div>
     </section>
 </template>
@@ -53,11 +53,11 @@
             border-radius: 3px;
             color: #333;
             border: 0;
-            cursor: pointer;
             background: #ddd; 
             &.hasCon{
                 color: #fff;
                 background: #1078f5;
+                cursor: pointer;
             }
         }
     }
@@ -72,12 +72,13 @@
         },
         methods:{
             changeBtn(){
-                if(this.textaresCon==''){
-
-                }
+                this.clickable=this.textaresCon==''?false:true;
+            },
+            subMess(){
+                console.log(1);
             },
             hideBox(){
-
+                this.$emit('hideOverFn');
             },
         }
     }

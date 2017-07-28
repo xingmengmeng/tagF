@@ -124,13 +124,26 @@
 
         </div>
         <ul class="messVersion">
-            <li>意见反馈</li>
+            <li @click="showIdea=true">意见反馈</li>
             <li>版本说明</li>
         </ul>
-        <ideas></ideas>
+        <ideas v-show="showIdea" @hideOverFn="hideMarkWrap"></ideas>
+        <transition name="slide-fade">
+            <success-box v-show="showSuccess"></success-box>
+        </transition>
     </section>
 </template>
 <style lang="less" scoped>
+    .slide-fade-enter-active {
+        transition: all .2s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to{
+        transform: translateX(100px);
+        opacity: 0;
+    }
     .messVersion{
         position: fixed;
         z-index: 2;
@@ -167,13 +180,15 @@
     import indexTable from '../../components/echartComponent/index-table.vue';
     import barStackComponent from '../../components/echartComponent/bar-stack-component.vue';
     import ideas from '../index/ideas.vue';
+    import successBox from '../../components/successBox.vue';
 
     require('../../assets/css/index.less');
 
     export default {
         data(){
             return{
-
+                showIdea:false,//是否显示意见反馈弹框
+                showSuccess:false,//是否显示保存成功弹框
             }
         },
         components:{
@@ -184,6 +199,7 @@
             'index-table':indexTable,
             'bar-stack-component':barStackComponent,
             'ideas':ideas,
+            'success-box':successBox,
         },
         mounted(){
             var aDiv=document.querySelectorAll('.mainLeft');
@@ -192,6 +208,11 @@
             aDiv.forEach(function (item) {
                 item.style.width=aDivWidth+'px';
             })
+        },
+        methods:{
+            hideMarkWrap(){
+                this.showIdea=false;
+            }
         }
     }
 </script>
