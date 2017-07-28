@@ -39,8 +39,9 @@ import userList from './views/userGroup/userList.vue';
 import pushActivities from './views/activity/pushActivities.vue';
 
 const router = new VueRouter({
-    hashbang:true,//路径已#/开头  防止刷新报404
-    history:true,
+    //hashbang:true,//路径已#/开头  防止刷新报404
+    //history:true,
+    mode:'history',
     linkActiveClass:'active',//当前页的选中状态
     routes: [
         { path: '/', redirect:'/index'},
@@ -61,6 +62,7 @@ const router = new VueRouter({
             ]
         },
         { path: '/tagView',component:tagView},
+        { path: '/tagView(\\w+)?',redirect:'/tagView'},
         { path: '/userGroup', component: userGroup,
             children:[
                 { path:'',component:userList},
