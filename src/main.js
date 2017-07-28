@@ -45,6 +45,7 @@ const router = new VueRouter({
     routes: [
         { path: '/', redirect:'/index'},
         { path: '/index', component: Index},
+        
         { path: '/pushActivities', component: pushActivities},
         { path: '/macroView',component:macroView,redirect:'macroView/groupPic',/*宏观*/
             children:[
@@ -83,6 +84,7 @@ const router = new VueRouter({
                 { path:'notice',component:notice}/*公告*/
             ]
         },
+        { path: "*", redirect: '/index' },
     ]
 })
 
