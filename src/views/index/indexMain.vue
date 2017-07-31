@@ -125,10 +125,10 @@
         </div>
         <ul class="messVersion">
             <li @click="showIdea=true">意见反馈</li>
-            <li>版本说明</li>
+            <li @click="showVersionFn">版本说明</li>
         </ul>
         <ideas v-show="showIdea" @hideOverFn="hideMarkWrap"></ideas>
-        <version v-show="showVersion" @hideOverFn="hideMarkWrap"></version>
+        <version v-show="showVersion" @hideOverFn="hideMarkWrap" ref="versionCom"></version>
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
@@ -191,7 +191,7 @@
             return{
                 showIdea:false,//是否显示意见反馈弹框
                 showSuccess:false,//是否显示保存成功弹框
-                showVersion:true,//是否显示版本更新信息
+                showVersion:false,//是否显示版本更新信息
             }
         },
         components:{
@@ -215,7 +215,11 @@
         },
         methods:{
             hideMarkWrap(){
-                this.showIdea=false;
+                this.showIdea=this.showVersion=false;
+            },
+            showVersionFn(){
+                this.showVersion=true;
+                this.$refs.versionCom.$emit('showVersion');
             }
         }
     }
