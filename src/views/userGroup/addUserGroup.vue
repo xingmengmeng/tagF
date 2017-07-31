@@ -581,7 +581,7 @@
             },
             /*两个取消按钮*/
             goList(){
-                window.location.href='/#/userGroup';
+                window.location.href='/userGroup';
             },
             /*清空列表*/
             clearList(){
@@ -683,10 +683,10 @@
                 });
                 if(urlObj['flag']){//从宏观新建 按钮点击来的页面标志  添加到宏观弹框中的用户群
                     this.addGroupUrl='/api/userGroupPortrait/save.gm';
-                    this.addGroupGotoPage='/#/macroView/groupPic';
+                    this.addGroupGotoPage='/macroView/groupPic';
                 }else{//其他页面点击而来  添加到总用户群中
                     this.addGroupUrl='/api/userGroup/save.gm';
-                    this.addGroupGotoPage='/#/userGroup';
+                    this.addGroupGotoPage='/userGroup';
                 }
             },
             //排序
