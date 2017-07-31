@@ -128,6 +128,7 @@
             <li>版本说明</li>
         </ul>
         <ideas v-show="showIdea" @hideOverFn="hideMarkWrap"></ideas>
+        <version v-show="showVersion" @hideOverFn="hideMarkWrap"></version>
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
@@ -180,6 +181,7 @@
     import indexTable from '../../components/echartComponent/index-table.vue';
     import barStackComponent from '../../components/echartComponent/bar-stack-component.vue';
     import ideas from '../index/ideas.vue';
+    import version from '../index/version.vue';
     import successBox from '../../components/successBox.vue';
 
     require('../../assets/css/index.less');
@@ -189,6 +191,7 @@
             return{
                 showIdea:false,//是否显示意见反馈弹框
                 showSuccess:false,//是否显示保存成功弹框
+                showVersion:true,//是否显示版本更新信息
             }
         },
         components:{
@@ -200,6 +203,7 @@
             'bar-stack-component':barStackComponent,
             'ideas':ideas,
             'success-box':successBox,
+            'version':version,
         },
         mounted(){
             var aDiv=document.querySelectorAll('.mainLeft');
