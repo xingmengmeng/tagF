@@ -21,9 +21,9 @@
                         <li>
                             <router-link to="/setting/notice">公告</router-link>
                         </li>
-                        <!--<li>
+                        <li>
                             <router-link to="/setting/ideaList">意见反馈</router-link>
-                        </li>-->
+                        </li>
                     </ul>
                 </div>
             </div>
