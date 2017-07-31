@@ -36,31 +36,45 @@
                 </tr>
             </tbody>
         </table>
+        <transition name="slide-fade">
+            <success-box v-show="showSuccess"></success-box>
+        </transition>
     </div>
 </template>
 <style lang="less" scoped>
-.messWrap{
-    padding:10px 20px;
-    margin-bottom: 10px;
-    width: 100%;
-    height: 40px;
-    box-sizing: border-box;
-    .syncUserBtn{
-        width: 80px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        background: #DEECFC;
-        border:0;
-        cursor: pointer;
+    .slide-fade-enter-active {
+        transition: all .2s ease;
     }
-    .tab{
-        margin-top: 10px;
+    .slide-fade-leave-active {
+        transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
-}
+    .slide-fade-enter, .slide-fade-leave-to{
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    .messWrap{
+        padding:10px 20px;
+        margin-bottom: 10px;
+        width: 100%;
+        height: 40px;
+        box-sizing: border-box;
+        .syncUserBtn{
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: #DEECFC;
+            border:0;
+            cursor: pointer;
+        }
+        .tab{
+            margin-top: 10px;
+        }
+    }
 
 </style>
 <script>
+import successBox from '../../components/successBox.vue';
 require('../../assets/css/pages.less');
 require('../../assets/css/tab.less');
 const echarts = require('echarts');
@@ -71,10 +85,11 @@ export default {
           pageNum:'1',
           gotoPage:'1',
           queryList:[],//用户数组
+          showSuccess:false,
       }
   },
   components: {
-      
+      'success-box':successBox,
   },
   mounted () {
       this.getTabList();
@@ -127,6 +142,10 @@ export default {
       syncUserFn(){
           this.$http.get('/api/user/syncUserFromOa.gm').then(function(res){
               if(res.data.code==200){
+                  this.showSuccess=true;
+                  setTimeout(()=>{
+                      this.showSuccess=false;
+                  },2000);
                   this.pageNum=this.gotoPage=1;
                   this.getTabList();
               }
