@@ -70,6 +70,12 @@ marquee{
         },
         methods:{
             getData(){
+                /*得到公告信息*/
+                this.$http.get('/api/notice/get.gm').then(function(res){
+                    if(res.data.code=='200'){
+                        this.$store.state.notice=res.data.dataInfo;
+                    }
+                })
                 //获取天眼登录过来需要存储的两个值
                 this.$http.get('/api/getUserNameAndIsAdmin.gm').then(function(getLocal){
                     if(getLocal.data.code=='200'){
@@ -89,13 +95,7 @@ marquee{
                         var hrefstr=cur.href;
                         hrefstr.replace(hrefReg,($0,$1)=>{cur.href=$1});
                     }
-                });
-                /*得到公告信息*/
-                this.$http.get('/api/notice/get.gm').then(function(res){
-                    if(res.data.code=='200'){
-                        this.$store.state.notice=res.data.dataInfo;
-                    }
-                })
+                });   
             },
             logoutFn(e){
                 if(e.target.innerHTML=='注销'){
