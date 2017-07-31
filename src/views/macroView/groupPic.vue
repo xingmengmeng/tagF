@@ -536,7 +536,7 @@
             },
             /*得到理财投资 共有人数*/
             getPersonNum(){
-                this.$http.get('/api/userGroupPortrait/getLineTotal.gm?ids='+this.ids).then(function(res){
+                /*this.$http.get('/api/userGroupPortrait/getLineTotal.gm?ids='+this.ids).then(function(res){
                     if(res.data.code==200){
                         this.personNum=this.fNum=this.jieNum='';
                         if(res.data.dataInfo){
@@ -552,6 +552,54 @@
                         }
                         this.personNum=this.personNum.replace(/\s\/\s$/,'');
                         this.fNum=this.fNum.replace(/\s\/\s$/,'');
+                        this.jieNum=this.jieNum.replace(/\s\/\s$/,'');
+                    }
+                })*/
+                //美易理财
+                this.$http.get('/api/userGroupPortrait/getMylcLineTotal.gm?ids='+this.ids).then(function(res){
+                    if(res.data.code==200){
+                        this.personNum='';
+                        if(res.data.dataInfo){
+                            this.ids.forEach( (curId)=> {
+                                for(var item in res.data.dataInfo){
+                                    if(curId==item){
+                                        this.personNum+=res.data.dataInfo[item][0].valueStr+' / ';
+                                    }  
+                                }
+                            })
+                        }
+                        this.personNum=this.personNum.replace(/\s\/\s$/,'');
+                    }
+                })
+                //美易分
+                this.$http.get('/api/userGroupPortrait/getMyfLineTotal.gm?ids='+this.ids).then(function(res){
+                    if(res.data.code==200){
+                        this.fNum='';
+                        if(res.data.dataInfo){
+                            this.ids.forEach( (curId)=> {
+                                for(var item in res.data.dataInfo){
+                                    if(curId==item){
+                                        this.fNum+=res.data.dataInfo[item][1].valueStr+' / ';
+                                    }  
+                                }
+                            })
+                        }
+                        this.fNum=this.fNum.replace(/\s\/\s$/,'');
+                    }
+                })
+                //美借
+                this.$http.get('/api/userGroupPortrait/getMjLineTotal.gm?ids='+this.ids).then(function(res){
+                    if(res.data.code==200){
+                        this.jieNum='';
+                        if(res.data.dataInfo){
+                            this.ids.forEach( (curId)=> {
+                                for(var item in res.data.dataInfo){
+                                    if(curId==item){
+                                        this.jieNum+=res.data.dataInfo[item][2].valueStr+' / ';
+                                    }  
+                                }
+                            })
+                        }
                         this.jieNum=this.jieNum.replace(/\s\/\s$/,'');
                     }
                 })

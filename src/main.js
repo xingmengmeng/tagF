@@ -26,6 +26,7 @@ import setting from './views/setting/setting.vue';
 import setUser from './views/setting/setUser.vue';
 import loginHistory from './views/setting/loginHistory.vue';
 import notice from './views/setting/notice.vue';
+import ideaList from './views/setting/ideaList.vue';
 
 import tagView from './views/tagView/tagView.vue';
 import addUserGroup from './views/userGroup/addUserGroup.vue';
@@ -82,7 +83,8 @@ const router = new VueRouter({
 
                 { path:'setUser',component:setUser},/*用户*/
                 { path:'loginHistory',component:loginHistory},/*登录历史*/
-                { path:'notice',component:notice}/*公告*/
+                { path:'notice',component:notice},/*公告*/
+                { path:'ideaList',component:ideaList},/*意见反馈*/
             ]
         },
         { path: "*", redirect: '/index' },
