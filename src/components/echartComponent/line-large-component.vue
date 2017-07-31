@@ -8,7 +8,7 @@
                         <li><img :src="slideImgObj[cusType.code]"></li>
                         <li><span>{{cusType.name}}</span></li>
                         <li><span>{{cusType.value}}</span></li>
-                        <li v-if="Number(cusType.yesValue)>=0"><span class="yesSpan">+{{cusType.yesValue}}</span></li>
+                        <li v-if="cusType.yesValue.indexOf('-')==-1"><span class="yesSpan">+{{cusType.yesValue}}</span></li>
                     </ul>
                     <!--<ul>
                         <li><img src="images/gmjj.png"></li>
