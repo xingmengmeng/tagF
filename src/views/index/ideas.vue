@@ -75,7 +75,12 @@
                 this.clickable=this.textaresCon==''?false:true;
             },
             subMess(){
-                console.log(1);
+                this.$http.post('/api/feedback/save.gm',{"content":this.textaresCon},{emulateJSON:true}).then(function(res){
+                    if(res.data.code==200){
+                        this.$emit('hideOverFn','saveSuccess');
+                        //this.$emit('hideOverFn');
+                    }
+                })
             },
             hideBox(){
                 this.$emit('hideOverFn');

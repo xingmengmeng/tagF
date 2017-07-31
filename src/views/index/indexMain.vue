@@ -128,7 +128,7 @@
             <li @click="showVersionFn">版本说明</li>
         </ul>
         <ideas v-show="showIdea" @hideOverFn="hideMarkWrap"></ideas>
-        <version v-show="showVersion" @hideOverFn="hideMarkWrap" ref="versionCom"></version>
+        <version v-show="showVersion" @hideOverFn="hideMarkWrap" @showSuccessFn="showSuccessBox" ref="versionCom"></version>
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
@@ -211,15 +211,27 @@
             var aDivWidth=cliWidth/3;
             aDiv.forEach(function (item) {
                 item.style.width=aDivWidth+'px';
-            })
+            });
         },
         methods:{
-            hideMarkWrap(){
+            //隐藏所有弹框
+            hideMarkWrap(saves){
+                if(saves){
+                    this.showSuccessBox();
+                }
                 this.showIdea=this.showVersion=false;
             },
+            //显示版本信息
             showVersionFn(){
                 this.showVersion=true;
                 this.$refs.versionCom.$emit('showVersion');
+            },
+            //显示意见反馈保存成功
+            showSuccessBox(){
+                this.showSuccess=true;
+                setTimeout(()=>{
+                    this.showSuccess=false;
+                },2000);
             }
         }
     }
