@@ -12,7 +12,8 @@
                         {{item.content}}
                     </li>
                 </ul>
-                <input type="button" value="加载更多..." v-if="pageCount>pageNum" class="showMoreClass">
+                <!--<div v-if="pageCount>pageNum" class="showMoreClass"><i></i>加载更多...</div>-->
+                <div v-if="pageCount>pageNum" class="showMoreClass"><i></i>加载更多...</div>
             </div>  
         </div>
     </section>
@@ -51,13 +52,21 @@
             }
         }
         .showMoreClass{
-            display: block;
+            display: inline-block;
             margin:20px auto 0 auto;
             border:0;
-            width: 100px;
+            width: 100%;
             background: none;
             text-align: center;
             cursor: pointer;
+            i{
+                margin-right: 10px;
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background: url(../../assets/images/loadMore.gif) no-repeat;
+                vertical-align: middle;
+            }
         }
     }  
 </style>
