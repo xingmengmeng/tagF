@@ -2,7 +2,7 @@
     <section class="ideaWrap">
         <h4>意见反馈</h4>
         <div class="ideaList clearfix">
-            <div>
+            <div class="scrollWrapDiv">
                 <ul v-for="(item,index) in resData" :key="index">
                     <li>
                         <span class="time">{{item.createTime}}</span>
@@ -12,7 +12,7 @@
                         {{item.content}}
                     </li>
                 </ul>
-                <input type="button" value="加载更多..." @click="showMore" v-if="pageCount>pageNum" class="showMoreClass">
+                <input type="button" value="加载更多..." v-if="pageCount>pageNum" class="showMoreClass">
             </div>  
         </div>
     </section>
@@ -70,6 +70,7 @@ export default {
             ideaScroll:null,
             pageNum:1,
             pageCount:1,
+            minY:0,
         }
     },
     mounted(){
@@ -87,12 +88,10 @@ export default {
         getData(){
             this.$http.get('/api/feedback/queryList.gm?pageNum='+this.pageNum).then(function(res){
                 if(res.data.code==200){
-                    console.log(this.pageNum);
                     if(this.pageNum==1){
                         this.resData=res.data.dataInfo.dataList;
                     }else{
                         this.resData=[...this.resData,...res.data.dataInfo.dataList].concat();//es6合并两个数组
-                        console.log(this.resData.length);
                     }
                     this.pageCount=res.data.dataInfo.pageCount;
                     this.$nextTick(function(){
@@ -107,7 +106,21 @@ export default {
                         }else{
                             this.ideaScroll.refresh();
                         }
-                        
+                        //判断滑动到底部
+                        var _this=this;
+                        this.ideaScroll.on('scrollStart',function(){
+                            _this.minY=this.y;
+                        })
+                        this.ideaScroll.on('scroll', function() {
+                            _this.minY = _this.minY<this.y ? _this.minY : this.y;
+                        });
+                        this.ideaScroll.on('scrollEnd', function() {
+                            _this.minY = _this.minY<this.y ? _this.minY : this.y;
+                            if (this.y-_this.minY>=0 && (this.directionY===1)) {
+                                //console.log('到底部了')
+                                _this.showMore();
+                            }
+                        });
                     })
                 }
             })   
