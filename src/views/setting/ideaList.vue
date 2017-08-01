@@ -87,7 +87,13 @@ export default {
         getData(){
             this.$http.get('/api/feedback/queryList.gm?pageNum='+this.pageNum).then(function(res){
                 if(res.data.code==200){
-                    this.resData=res.data.dataInfo.dataList;
+                    console.log(this.pageNum);
+                    if(this.pageNum==1){
+                        this.resData=res.data.dataInfo.dataList;
+                    }else{
+                        this.resData=[...this.resData,...res.data.dataInfo.dataList].concat();//es6合并两个数组
+                        console.log(this.resData.length);
+                    }
                     this.pageCount=res.data.dataInfo.pageCount;
                     this.$nextTick(function(){
                         if(!this.ideaScroll){
