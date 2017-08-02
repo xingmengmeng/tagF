@@ -1,7 +1,7 @@
 <template>
 <div>
     <header class="container" id="header">
-        <a href="javascript:;" class="logo left">logo</a>
+        <a href="http://bipcbdc.gomefinance.com.cn" class="logo left">logo</a>
         <div class="logoF">用户标签管理系统</div>
         <div class="right headRight">
             <router-link to="/setting" class="set-mes" v-if="isAdmin">设置</router-link>
@@ -102,7 +102,7 @@ marquee{
                         if(res.data.code==200){
                             localStorage.removeItem('isAdmin');
                             localStorage.removeItem('userName');
-                            window.location.href='login.html';
+                            window.location.href='http://bipcbdc.gomefinance.com.cn/login.html';
                         }
                     })
                 }
