@@ -1,9 +1,10 @@
 <template>
     <section>
         <div class="overlayNew"></div>
-        <div class="markWrap">
+        <div class="markWrap" v-cloak>
             <div class="top">意见反馈<i class="close" @click="hideBox">关闭</i></div>
             <textarea placeholder="在此描述您的意见和建议..." @keyup="changeBtn" v-model="textaresCon"></textarea>
+            <span class="left enStr">{{enterStr}}</span>
             <input type="button" class="btn" value="提交" :class="clickable?'hasCon':''" :disabled="!clickable" @click="subMess">
         </div>
     </section>
@@ -45,6 +46,9 @@
             border: 1px #ddd solid;
             box-sizing: border-box;
         }
+        .enStr{
+            margin-left:30px;
+        }
         .btn{
             float: right;
             margin-right:30px;
@@ -63,16 +67,27 @@
     }
 </style>
 <script>
+    import '../../assets/js/layout.js';
     export default {
         data(){
             return{
                 textaresCon:'',
                 clickable:false,
+                maxNum:400,//最多输入字数
+                enterNum:400,//还可输入字数
+                enterStr:'您还可以输入200个字',
             }
         },
         methods:{
             changeBtn(){
-                this.clickable=this.textaresCon==''?false:true;
+                let strLength=this.textaresCon.gblen();
+                this.clickable=(strLength==0||strLength>this.maxNum)?false:true;
+                this.enterNum=Math.floor((this.maxNum-strLength)/2);
+                if(strLength>this.maxNum){
+                    this.enterStr='已超出'+(Math.abs(this.enterNum))+'个字';
+                }else{
+                    this.enterStr='您还可以输入'+this.enterNum+'个字';
+                }
             },
             subMess(){
                 this.$http.post('/api/feedback/save.gm',{"content":this.textaresCon},{emulateJSON:true}).then(function(res){
