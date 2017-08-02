@@ -96,7 +96,9 @@
                                 <ul class="clearfix">
                                     <li class="clearfix">
                                         <span v-cloak class="getPassSpan">当前加载覆盖用户数：{{counts}}</span>
-                                        <input type="button" value="点击获取授权密码" class="right getPassBtn" @click="getPassWord">
+                                        <input type="button" value="角色暂不支持下载" class="right getPassBtn" v-if="!hasAuth">
+                                        <input type="button" value="点击获取授权密码" id="getPassBtnId" class="right getPassBtn" @click="getPassWord" v-if="hasAuth">
+                                        <!--<input type="button" value="点击获取授权密码" class="right getPassBtn" @click="getPassWord">-->
                                     </li>
                                     <li class="clearfix liN">
                                         <label><strong>*</strong>请输入授权密码：</label>
@@ -152,6 +154,7 @@
                 labelNum:'',
                 editing:false,//是否编辑状态
                 editTem:'',
+                hasAuth:true,//是否有权限
             }
         },
         watch: {
@@ -265,8 +268,13 @@
             },
             /*计算活动覆盖用户数*/
             countNum(){
-                this.$http.get('/api/userGroup/queryUserCount.gm?id='+this.gropId).then(function (res) {
-                    this.counts=res.data.dataInfo;
+                this.$http.get('/api/userGroup/queryUserCount.gm?id='+this.groupId).then(function (res) {
+                    this.actCount=res.data.dataInfo;
+                });
+                this.$http.get('/api/hasAuth.gm?api=csv/sendCsvAuth.gm').then(function(res){
+                    if(res.data.code=='200'){
+                        this.hasAuth=res.data.dataInfo;
+                    }
                 })
             },
             downCsv(){
@@ -300,7 +308,7 @@
                     console.log('发送成功一次');
                 });
                 function setBtn() {
-                    btnsave.value='发送邮箱成功（'+n+'）';
+                    btnsave.value='重新获取（'+n+'）';
                     btnsave.style.background='#f2f2f2';
                     btnsave.style.cursor='default';
                     btnsave.setAttribute('disabled','true');
@@ -310,7 +318,7 @@
                     if(n>1){
                         setBtn();
                         n--;
-                        btnsave.value='发送邮箱成功（'+n+'）';
+                        btnsave.value='重新获取（'+n+'）';
                     }else{
                         clearInterval(timer);
                         btnsave.style.background='#ddd';
