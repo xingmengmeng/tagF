@@ -81,9 +81,9 @@ marquee{
                     if(getLocal.data.code=='200'){
                         localStorage.setItem('userName',getLocal.data.dataInfo.userName.split('@')[0]);
                         localStorage.setItem('isAdmin',getLocal.data.dataInfo.isAdmin);
+                        this.userName=localStorage.userName;
                     }
                 })
-                this.userName=localStorage.userName.split('@')[0];
                 this.$http.get('/api/getMenus.gm').then(function (res) {
                     //得到链接
                     res.data.dataInfo.forEach( (item)=> {
