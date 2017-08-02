@@ -54,7 +54,6 @@ marquee{
                 timer:null,
                 menuData:[],
                 pageData:[],
-                userName:'index',
                 isAdmin:false,
             }
         },
