@@ -130,7 +130,7 @@
         <ideas v-show="showIdea" @hideOverFn="hideMarkWrap"></ideas>
         <version v-show="showVersion" @hideOverFn="hideMarkWrap" @showSuccessFn="showSuccessBox" ref="versionCom"></version>
         <transition name="slide-fade">
-            <success-box v-show="showSuccess"></success-box>
+            <success-box v-show="showSuccess" cur="提交成功！"></success-box>
         </transition>
     </section>
 </template>

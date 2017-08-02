@@ -1,7 +1,7 @@
 <template>
     <div class="success">
         <span>信息</span>
-        <p>保存成功！</p>
+        <p>{{cur}}</p>
     </div>
 </template>
 <style lang="less" scoped>
@@ -31,14 +31,11 @@
 
 <script>
     export default {
-        data(){
-            return{
-
+        props: {
+            cur: {   // 可选字段，有默认值
+                default: '保存成功！'
             }
-        },
-        methods:{
-
-        },
+        }
     }
 </script>
 

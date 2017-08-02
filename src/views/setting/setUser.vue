@@ -37,7 +37,7 @@
             </tbody>
         </table>
         <transition name="slide-fade">
-            <success-box v-show="showSuccess"></success-box>
+            <success-box v-show="showSuccess" cur="同步成功！"></success-box>
         </transition>
     </div>
 </template>
