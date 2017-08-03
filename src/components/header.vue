@@ -110,12 +110,12 @@ marquee{
                             for(let i=0;i<temData.length;i++){
                                 //得到设置下的三级
                                 if(temData[i].pCode==setStr){
-                                    setLocal=temData[i].name;
+                                    setLocal=temData[i].href;
                                     break;
                                 }
                             }
-                            localStorage.setItem('settingRoute','setUser');
-                            //console.log(setLocal);
+                            localStorage.setItem('settingRoute',setLocal);
+                            console.log(setLocal);
                         }
                     });
                     
