@@ -579,7 +579,7 @@
                             this.ids.forEach( (curId)=> {
                                 for(var item in res.data.dataInfo){
                                     if(curId==item){
-                                        this.fNum+=res.data.dataInfo[item][1].valueStr+' / ';
+                                        this.fNum+=res.data.dataInfo[item][0].valueStr+' / ';
                                     }  
                                 }
                             })
@@ -595,7 +595,7 @@
                             this.ids.forEach( (curId)=> {
                                 for(var item in res.data.dataInfo){
                                     if(curId==item){
-                                        this.jieNum+=res.data.dataInfo[item][2].valueStr+' / ';
+                                        this.jieNum+=res.data.dataInfo[item][0].valueStr+' / ';
                                     }  
                                 }
                             })
