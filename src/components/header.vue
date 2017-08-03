@@ -85,23 +85,47 @@ marquee{
                 })
                 this.$http.get('/api/getMenus.gm').then(function (res) {
                     //得到链接
-                    res.data.dataInfo.forEach( (item)=> {
-                        item.type=='menu'?this.menuData.push(item):this.pageData.push(item);
-                    });
+                    var temData=res.data.dataInfo;
+                    //统一处理，去掉href内的.html字符串
                     var hrefReg=/\/(\w+)\./;
-                    for(var i=0;i<this.menuData.length;i++){
-                        var cur=this.menuData[i];
+                    for(var i=0;i<temData.length;i++){
+                        var cur=temData[i];
                         var hrefstr=cur.href;
                         hrefstr.replace(hrefReg,($0,$1)=>{cur.href=$1});
                     }
+                    //console.log(JSON.stringify(temData));
+                    temData.forEach( (item)=> {
+                        //得到一级目录
+                        item.type=='menu'?this.menuData.push(item):this.pageData.push(item);
+                        //二级及二级下目录
+                        if(item.type=='dir'&&item.name=='设置'){
+                            var setStr,tempCode=item.code,setLocal;
+                            for(let i=0;i<temData.length;i++){
+                                //得到设置下的二级
+                                if(temData[i].pCode==tempCode){
+                                    setStr=temData[i].code;
+                                    break;
+                                }
+                            }
+                            for(let i=0;i<temData.length;i++){
+                                //得到设置下的三级
+                                if(temData[i].pCode==setStr){
+                                    setLocal=temData[i].name;
+                                    break;
+                                }
+                            }
+                            localStorage.setItem('settingRoute','setUser');
+                            //console.log(setLocal);
+                        }
+                    });
+                    
                 });   
             },
             logoutFn(e){
                 if(e.target.innerHTML=='注销'){
                     this.$http.get('/api/logout.gm').then(function (res) {
                         if(res.data.code==200){
-                            localStorage.removeItem('isAdmin');
-                            localStorage.removeItem('userName');
+                            localStorage.clear();
                             window.location.href='http://bipcbdc.gomefinance.com.cn/login.html';
                         }
                     })

@@ -78,9 +78,11 @@ const router = new VueRouter({
                 },
             ]
         },
-        { path: '/setting', component: setting,redirect:'setting/setUser',
+        { path: '/setting', component: setting,redirect: to => {
+                //to 为参数  是一个对象
+                return '/setting/'+localStorage.getItem('settingRoute');
+            },
             children:[
-
                 { path:'setUser',component:setUser},/*用户*/
                 { path:'loginHistory',component:loginHistory},/*登录历史*/
                 { path:'notice',component:notice},/*公告*/
