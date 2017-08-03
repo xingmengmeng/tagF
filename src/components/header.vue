@@ -61,9 +61,6 @@ marquee{
 
         },
         mounted(){
-            if(localStorage.isAdmin&&localStorage.isAdmin=='true'){
-                this.isAdmin=true;
-            }
             this.notice=this.$store.state.notice;
             this.getData();
         },
@@ -81,6 +78,9 @@ marquee{
                         localStorage.setItem('userName',getLocal.data.dataInfo.userName.split('@')[0]);
                         localStorage.setItem('isAdmin',getLocal.data.dataInfo.isAdmin);
                         this.userName=localStorage.userName;
+                        if(localStorage.isAdmin&&localStorage.isAdmin=='true'){
+                            this.isAdmin=true;
+                        }
                     }
                 })
                 this.$http.get('/api/getMenus.gm').then(function (res) {
