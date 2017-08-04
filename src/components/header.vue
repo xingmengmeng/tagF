@@ -115,10 +115,17 @@ marquee{
                                 }
                             }
                             localStorage.setItem('settingRoute',setLocal);
-                            console.log(setLocal);
+                            //console.log(setLocal);
                         }
                     });
-                    
+                    //判断有没有CSV下载权限
+                    localStorage.setItem('hasCsv',false);
+                    for(let i=0;i<temData.length;i++){
+                        if(temData[i].type=="page"&&temData[i].name=='CSV下载'){
+                            localStorage.setItem('hasCsv',true);
+                            break;
+                        }
+                    }
                 });   
             },
             logoutFn(e){

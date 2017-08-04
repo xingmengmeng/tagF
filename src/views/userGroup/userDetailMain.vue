@@ -64,7 +64,7 @@
                             </div>
 
 
-                            <div class="downCsv">
+                            <div class="downCsv" v-if="hasCsv">
                                 <div class="labels clearfix">
                                     <h5>CSV下载</h5>
                                 </div>
@@ -155,6 +155,7 @@
                 editing:false,//是否编辑状态
                 editTem:'',
                 hasAuth:true,//是否有权限
+                hasCsv:false,//是否有csv下载权限
             }
         },
         watch: {
@@ -244,6 +245,7 @@
             getLocal(){
                 this.gropId=localStorage.thisGroupId;
                 this.curName=localStorage.thisGroupName;
+                this.hasCsv=localStorage.getItem('hasCsv');
             },
             getLib(){
                 /*操作日志*/

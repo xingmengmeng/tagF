@@ -7,7 +7,7 @@
             <li>
                 <router-link to="/userGroup/userDetail/userLabel">用户标签</router-link>
             </li>
-            <li>
+            <li v-if="hasCsv">
                 <router-link to="/userGroup/userDetail/downloadLink">CSV下载</router-link>
             </li>
             <li>
@@ -18,8 +18,14 @@
 </template>
 <script type="text/ecmascript-6">
     export default {
+        data(){
+            return{
+                hasCsv:false,
+            }
+        },
         mounted(){
             this.setClass();
+            this.hasCsv=localStorage.getItem('hasCsv');
         },
         methods:{
             setClass(){
