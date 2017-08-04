@@ -87,6 +87,7 @@ marquee{
                 //获取天眼登录过来需要存储的两个值
                 this.$http.get('/api/getUserNameAndIsAdmin.gm').then(function(getLocal){
                     if(getLocal.data.code=='200'){
+                        this.isAdmin=getLocal.data.dataInfo.isAdmin;
                         localStorage.setItem('userName',getLocal.data.dataInfo.userName.split('@')[0]);
                         localStorage.setItem('isAdmin',getLocal.data.dataInfo.isAdmin);
                         this.userName=localStorage.userName;
