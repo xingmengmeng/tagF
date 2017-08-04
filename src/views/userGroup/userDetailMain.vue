@@ -63,7 +63,7 @@
                                 </div>
                             </div>
 
-                            <div class="downCsv" v-if="hasCsv==true">
+                            <div class="downCsv" v-if="hasCsv=='true'">
                                 <div class="labels clearfix">
                                     <h5>CSV下载</h5>
                                 </div>
@@ -154,7 +154,7 @@
                 editing:false,//是否编辑状态
                 editTem:'',
                 hasAuth:true,//是否有权限
-                hasCsv:false,//是否有csv下载权限
+                hasCsv:'false',//是否有csv下载权限
             }
         },
         watch: {
