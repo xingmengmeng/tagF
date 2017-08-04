@@ -65,6 +65,18 @@ marquee{
             this.getData();
         },
         methods:{
+            //处理返回值的href  去掉.html
+            changHref(cur){
+                var curChild=cur.children;
+                if(curChild){
+                    var hrefReg=/\/(\w+)\./;
+                    curChild.forEach(item=>{
+                        var hrefstr=item.href;
+                        hrefstr.replace(hrefReg,($0,$1)=>{item.href=$1});
+                        this.changHref(item);
+                    })
+                }
+            },
             getData(){
                 /*得到公告信息*/
                 this.$http.get('/api/notice/get.gm').then(function(res){
@@ -91,38 +103,35 @@ marquee{
                     for(var i=0;i<temData.length;i++){
                         var cur=temData[i];
                         var hrefstr=cur.href;
-                        hrefstr.replace(hrefReg,($0,$1)=>{cur.href=$1});
+                        hrefstr.replace(hrefReg,($0,$1)=>{cur.href=$1});//处理一级的.html
+                        this.changHref(cur);//处理.html
                     }
-                    //console.log(JSON.stringify(temData));
+                    //得到设置列表数据
                     temData.forEach( (item)=> {
                         //得到一级目录
+                        localStorage.setItem('hasCsv',false);
                         item.type=='menu'?this.menuData.push(item):this.pageData.push(item);
-                        //二级及二级下目录
                         if(item.type=='dir'&&item.name=='设置'){
-                            var setStr,tempCode=item.code,setLocal;
-                            for(let i=0;i<temData.length;i++){
-                                //得到设置下的二级
-                                if(temData[i].pCode==tempCode){
-                                    setStr=temData[i].code;
-                                    break;
-                                }
-                            }
-                            for(let i=0;i<temData.length;i++){
-                                //得到设置下的三级
-                                if(temData[i].pCode==setStr){
-                                    setLocal=temData[i].href;
-                                    break;
-                                }
-                            }
-                            localStorage.setItem('settingRoute',setLocal);
-                            //console.log(setLocal);
+                            localStorage.setItem('settingRoute',item.children[0].children[0].href);
+                            this.$store.state.setRouteData.push(item.children);
                         }
                     });
                     //判断有没有CSV下载权限
-                    localStorage.setItem('hasCsv',false);
-                    for(let i=0;i<temData.length;i++){
-                        if(temData[i].type=="page"&&temData[i].name=='CSV下载'){
-                            localStorage.setItem('hasCsv',true);
+                    for(let item of temData){
+                        if(item.type=='menu'&&item.name=='用户群'){
+                            let groupData=item.children;
+                            for(let groupSec of groupData){
+                                if(groupSec.name=='用户群信息'){
+                                    let groupThree=groupSec.children;
+                                    for(let groupFour of groupThree){
+                                        if(groupFour.name=="CSV下载"){
+                                            localStorage.setItem('hasCsv',true);
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
                             break;
                         }
                     }

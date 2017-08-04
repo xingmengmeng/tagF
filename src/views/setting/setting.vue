@@ -4,7 +4,15 @@
         <section class="leftSide" >
             <div id="leftMenu">
                 <h4>设置</h4>
-                <div class="clearfix linkWrap">
+                <div class="clearfix linkWrap" v-for="(secondLink,index) in linkAry[0]" :key="index">
+                    <h5 @click="navShow(index)" :class="showMenu==index?'active':''">{{secondLink.name}}</h5>
+                    <ul v-show="showMenu==index">
+                        <li v-for="(threeLink,threeIndex) in secondLink.children" :key="threeIndex" :data-menu="index">
+                            <router-link :to="threeLink.href">{{threeLink.name}}</router-link>
+                        </li>
+                    </ul>
+                </div>
+                <!--<div class="clearfix linkWrap">
                     <h5 @click="navShow('yh1')" id='yh1' :class="showMenu=='yh1'?'active':''">用户访问控制</h5>
                     <ul v-show="showMenu=='yh1'">
                         <li>
@@ -25,7 +33,7 @@
                             <router-link to="/setting/ideaList">意见反馈</router-link>
                         </li>
                     </ul>
-                </div>
+                </div>-->
             </div>
 
             <div class="show-hide" id="show-hide">
@@ -87,21 +95,31 @@
     export default{
         data(){
             return{
-                showMenu:"yh1",//默认值
+                showMenu:0,//默认值
+                
             }
         },
         components:{
             'my-foot':Footer,
         },
+        computed: {
+            linkAry() {
+                return this.$store.state.setRouteData;
+            }
+        },
+        watch: {
+            linkAry(val) {
+                this.$nextTick(function(){
+                    this.selectChoice();
+                })
+            }
+        },
         mounted(){
-            LayOut.setHeight.init();
-            this.$nextTick(()=>{
-                this.selectChoice();
-            })
-
+            LayOut.setHeight.init();  
         },
         methods: {
             navShow(id){
+                console.log(id);
                 if(this.showMenu==id){/*同一个*/
                     this.showMenu=-1;
                 }else{/*不同个*/
@@ -114,7 +132,8 @@
                     var aA=aDiv[i].querySelectorAll('a');
                     for(var j=0;j<aA.length;j++){
                         if(aA[j].className=='active'){
-                            this.showMenu='yh'+(i+1);
+                            console.log(aA[j].parentNode.dataset.menu);
+                            this.showMenu=aA[j].parentNode.dataset.menu;
                         }
                     }
                 }
