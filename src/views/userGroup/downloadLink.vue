@@ -92,7 +92,7 @@
                 this.$http.get('/api/userGroup/queryUserCount.gm?id='+this.groupId).then(function (res) {
                     this.actCount=res.data.dataInfo;
                 });
-                this.$http.get('/api/hasAuth.gm?api=csv/sendCsvAuth.gm').then(function(res){
+                this.$http.get('/api/hasAuth.gm?api=/csv/sendCsvAuth.gm').then(function(res){
                     if(res.data.code=='200'){
                         this.hasAuth=res.data.dataInfo;
                     }

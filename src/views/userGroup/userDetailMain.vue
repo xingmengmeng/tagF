@@ -63,8 +63,7 @@
                                 </div>
                             </div>
 
-
-                            <div class="downCsv" v-if="hasCsv">
+                            <div class="downCsv" v-if="hasCsv==true">
                                 <div class="labels clearfix">
                                     <h5>CSV下载</h5>
                                 </div>
@@ -181,6 +180,9 @@
             LayOut.setHeight.init();
             this.status=this.selectedStatus=='禁用'?0:(this.selectedStatus=='启用'?1:2);
         },
+        updated(){
+            this.getLocal();
+        },
         components:{
             'right-menu':rightMenu,
             'creat-act':creatAct,
@@ -246,6 +248,7 @@
                 this.gropId=localStorage.thisGroupId;
                 this.curName=localStorage.thisGroupName;
                 this.hasCsv=localStorage.getItem('hasCsv');
+                console.log(this.hasCsv);
             },
             getLib(){
                 /*操作日志*/
@@ -273,7 +276,7 @@
                 this.$http.get('/api/userGroup/queryUserCount.gm?id='+this.gropId).then(function (res) {
                     this.counts=res.data.dataInfo;
                 })
-                this.$http.get('/api/hasAuth.gm?api=csv/sendCsvAuth.gm').then(function(res){
+                this.$http.get('/api/hasAuth.gm?api=/csv/sendCsvAuth.gm').then(function(res){
                     if(res.data.code=='200'){
                         this.hasAuth=res.data.dataInfo;
                     }
