@@ -108,6 +108,7 @@ marquee{
                         this.changHref(cur);//处理.html
                     }
                     //得到设置列表数据
+                    let hasSet=false;
                     temData.forEach( (item)=> {
                         //得到一级目录
                         localStorage.setItem('hasCsv',false);
@@ -115,8 +116,16 @@ marquee{
                         if(item.type=='dir'&&item.name=='设置'){
                             localStorage.setItem('settingRoute',item.children[0].children[0].href);
                             this.$store.state.setRouteData.push(item.children);
+                            hasSet=true;
                         }
                     });
+                    if(hasSet){
+                        localStorage.setItem('isAdmin',true);
+                        this.isAdmin=true;
+                    }else{
+                        localStorage.setItem('isAdmin',false);
+                        this.isAdmin=false;
+                    }
                     //判断有没有CSV下载权限
                     for(let item of temData){
                         if(item.type=='menu'&&item.name=='用户群'){

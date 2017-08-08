@@ -619,14 +619,16 @@
             },
             /*搜索*/
             addUserGroupSearch(){
-                this.j=-1;
-                var reg=/\s+/g;
-                var searchContent=this.addGroupSearchCon.replace(reg,'');
-                this.showLoading=true;
-                this.$http.get('/api/baseTag/queryListBySearch.gm?searchContent='+searchContent).then(function (response) {
-                    this.showLoading=false;
-                    this.setFour(response);
-                })
+                if(this.addGroupSearchCon!=''){
+                    this.j=-1;
+                    var reg=/\s+/g;
+                    var searchContent=this.addGroupSearchCon.replace(reg,'');
+                    this.showLoading=true;
+                    this.$http.get('/api/baseTag/queryListBySearch.gm?searchContent='+searchContent).then(function (response) {
+                        this.showLoading=false;
+                        this.setFour(response);
+                    })
+                }
             },
             /*搜索及点出四级树后的操作*/
             setFour(response){
