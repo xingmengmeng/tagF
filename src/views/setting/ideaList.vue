@@ -80,6 +80,7 @@ export default {
             pageNum:1,
             pageCount:1,
             minY:0,
+            addNext:true,
         }
     },
     mounted(){
@@ -101,6 +102,10 @@ export default {
                         this.resData=res.data.dataInfo.dataList;
                     }else{
                         this.resData=[...this.resData,...res.data.dataInfo.dataList].concat();//es6合并两个数组
+                    }
+                    //如果有一次返回值列表为空 则代表到了最后一页  下次滑动到下方则不再请求
+                    if(res.data.dataInfo.dataList.length==0){
+                        this.addNext=false;
                     }
                     this.pageCount=res.data.dataInfo.pageCount;
                     this.$nextTick(function(){
@@ -127,7 +132,10 @@ export default {
                             _this.minY = _this.minY<this.y ? _this.minY : this.y;
                             if (this.y-_this.minY>=0 && (this.directionY===1)) {
                                 //console.log('到底部了')
-                                _this.showMore();
+                                console.log(_this.addNext)
+                                if(_this.addNext){
+                                    _this.showMore();
+                                } 
                             }
                         });
                     })
