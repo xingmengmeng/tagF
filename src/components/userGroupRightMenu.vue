@@ -7,7 +7,7 @@
             <li>
                 <router-link to="/userGroup/userDetail/userLabel">用户标签</router-link>
             </li>
-            <li v-if="hasCsv=='true'">
+            <li v-show="hasCsv=='true'">
                 <router-link to="/userGroup/userDetail/downloadLink">CSV下载</router-link>
             </li>
             <li>

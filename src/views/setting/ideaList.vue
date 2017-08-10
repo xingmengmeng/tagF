@@ -92,6 +92,7 @@ export default {
     updated(){
         this.$nextTick(function(){
             this.setHeight();
+            this.ideaScroll.refresh();
         }) 
     },
     methods:{

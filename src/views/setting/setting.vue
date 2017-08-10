@@ -115,14 +115,10 @@
             }
         },
         mounted(){
-            this.$nextTick(function(){
-                LayOut.setHeight.init();
-            })
+            LayOut.setHeight.init();
         },
         updated(){
-            this.$nextTick(function(){
-                LayOut.setHeight.init();
-            })
+            LayOut.setHeight.init();
         },
         methods: {
             navShow(id){
