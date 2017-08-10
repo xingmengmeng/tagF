@@ -46,22 +46,22 @@
                     </div>
                 </div>
                 <!--国美保险-->
-                <div class="everyTagWrap clearfix">
+                <!--<div class="everyTagWrap clearfix">
                     <h5><span>美借</span></h5>
                     <div class="countWrap">
                         <span>0/0</span>
                         <div class="lineWrap">
-                            <div style="width:0%'"></div><!--上方占比条-->
+                            <div style="width:0%'"></div>
                         </div>
                     </div>
                     <ul>
-                        <!--<li>数据1</li>
                         <li>数据1</li>
                         <li>数据1</li>
                         <li>数据1</li>
-                        <li>数据1</li>-->
+                        <li>数据1</li>
+                        <li>数据1</li>
                     </ul>
-                </div>
+                </div>-->
             </div>
         </div>
         <!--搜索出的内容 end-->
