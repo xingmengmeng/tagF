@@ -408,6 +408,9 @@
                     });
                 }
                 this.pingAry();
+                this.$nextTick(function () {
+                    this.addUserRightScroll.refresh();
+                });
             },
             /*选中状态*/
             checkTrue(checkData,aryData){
