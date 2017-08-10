@@ -89,6 +89,11 @@ export default {
         }) 
         this.getData();
     },
+    updated(){
+        this.$nextTick(function(){
+            this.setHeight();
+        }) 
+    },
     methods:{
         setHeight(){
             let mainWrap=document.getElementById('mainWrap').style.height.split('p')[0],
@@ -104,9 +109,7 @@ export default {
                         this.resData=[...this.resData,...res.data.dataInfo.dataList].concat();//es6合并两个数组
                     }
                     //如果有一次返回值列表为空 则代表到了最后一页  下次滑动到下方则不再请求
-                    if(res.data.dataInfo.dataList.length==0){
-                        this.addNext=false;
-                    }
+                    
                     this.pageCount=res.data.dataInfo.pageCount;
                     this.$nextTick(function(){
                         if(!this.ideaScroll){
