@@ -93,6 +93,8 @@
                 this.$http.post('/api/feedback/save.gm',{"content":this.textaresCon},{emulateJSON:true}).then(function(res){
                     if(res.data.code==200){
                         this.textaresCon='';
+                        this.enterNum=this.maxNum=400;
+                        this.enterStr='您还可以输入200个字';
                         this.$emit('hideOverFn','saveSuccess');
                         //this.$emit('hideOverFn');
                     }
@@ -100,6 +102,8 @@
             },
             hideBox(){
                 this.textaresCon='';
+                this.enterNum=this.maxNum=400;
+                this.enterStr='您还可以输入200个字';
                 this.$emit('hideOverFn');
             },
         }
