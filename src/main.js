@@ -37,7 +37,7 @@ import userLabel from './views/userGroup/userLabel.vue';
 import downloadLink from './views/userGroup/downloadLink.vue';
 import liabry from './views/userGroup/liabry.vue';
 import userList from './views/userGroup/userList.vue';
-import pushActivities from './views/activity/pushActivities.vue';
+import pushActivities from './views/activity/pushActivities.vue';df
 
 const router = new VueRouter({
     //hashbang:true,//路径已#/开头  防止刷新报404
