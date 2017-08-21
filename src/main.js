@@ -28,7 +28,9 @@ import loginHistory from './views/setting/loginHistory.vue';
 import notice from './views/setting/notice.vue';
 import ideaList from './views/setting/ideaList.vue';
 
-import tagView from './views/tagView/tagView.vue';
+import tagView from './views/tagView/tagMain.vue';
+import tagMap from './views/tagView/tagView.vue';
+import tagSet from './views/tagView/tagSet.vue';
 import addUserGroup from './views/userGroup/addUserGroup.vue';
 import userGroup from './views/userGroup/userGroup.vue';
 import userDetail from './views/userGroup/userDetail.vue';
@@ -37,7 +39,7 @@ import userLabel from './views/userGroup/userLabel.vue';
 import downloadLink from './views/userGroup/downloadLink.vue';
 import liabry from './views/userGroup/liabry.vue';
 import userList from './views/userGroup/userList.vue';
-import pushActivities from './views/activity/pushActivities.vue';df
+import pushActivities from './views/activity/pushActivities.vue';
 
 const router = new VueRouter({
     //hashbang:true,//路径已#/开头  防止刷新报404
@@ -62,8 +64,12 @@ const router = new VueRouter({
                 { path:'micDetail',component:micDetail}
             ]
         },
-        { path: '/tagView',component:tagView},
-        { path: '/tagView(\\w+)?',redirect:'/tagView'},
+        { path: '/tagView',component:tagView,redirect:'/tagView/tagMap',
+            children:[
+                { path:'tagMap',component:tagMap},
+                { path:'tagSet',component:tagSet},
+            ]
+        },
         { path: '/userGroup', component: userGroup,
             children:[
                 { path:'',component:userList},
@@ -89,7 +95,7 @@ const router = new VueRouter({
                 { path:'ideaList',component:ideaList},/*意见反馈*/
             ]
         },
-        { path: "*", redirect: '/index' },
+        /*{ path: "*", redirect: '/index' },*/
     ]
 })
 
@@ -97,7 +103,7 @@ Vue.http.interceptors.push(function(request, next) {
     next(function(response) {
         if(response.status==200){
             if(response.body.code==203||response.body.code==undefined){
-                window.location.href='login.html';
+                window.location.href='/login.html';
             }
         }
         return response;

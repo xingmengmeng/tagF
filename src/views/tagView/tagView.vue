@@ -1,23 +1,23 @@
 <template>
-    <section class="container" id="mainWrap">
+    <section class="container" id="mainWrap" style="height:100%">
         <!--left side start-->
-        <section class="leftSide">
+        <!--<section class="leftSide">
             <ul id="leftMenu">
-                <!--<li>
-                    <router-link to="/tagGroup">标签体系</router-link>
-                </li>-->
                 <li>
                     <router-link to="/tagView">标签画像</router-link>
+                </li>
+                <li>
+                    <router-link to="/tagView/tagSet">标签设置</router-link>
                 </li>
             </ul>
             <div class="show-hide" id="show-hide" @click="changeHeight">
                 显示隐藏按钮
             </div>
-        </section>
+        </section>-->
         <!--left side end-->
         <!--右侧大块 start-->
-        <section class="rightSide clearfix">
-            <div class="app appList clearfix">
+        <section style="height:100%">
+            <div style="height:100%">
                 <!--左侧 start-->
                 <div class="tagLeft clearfix">
                     <div class="selectWrapFir clearfix">
@@ -128,7 +128,7 @@
             </div>
         </section>
         <!--右侧大块 end-->
-        <my-foot></my-foot>
+        <!--<my-foot></my-foot>-->
 
         <over-box v-show="noSelectP==1" @hideOverFn="hideMarkWrap" :mark-con="pushMsg"></over-box>
         <set-tag v-show="showSet" @hideOverFn="hideMarkWrap" ref="setTag"></set-tag>
