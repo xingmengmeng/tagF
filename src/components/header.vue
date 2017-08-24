@@ -81,7 +81,8 @@ marquee{
                 /*得到公告信息*/
                 this.$http.get('/api/notice/get.gm').then(function(res){
                     if(res.data.code=='200'){
-                        this.$store.state.notice=res.data.dataInfo;
+                        //this.$store.state.notice=res.data.dataInfo;
+                        this.$store.dispatch('changeNotice',res.data.dataInfo);
                     }
                 })
                 //获取天眼登录过来需要存储的两个值

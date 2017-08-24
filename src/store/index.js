@@ -7,8 +7,14 @@ export default new Vuex.Store({
         setRouteData:[],//设置页面的路由数据
     },
     mutations:{
-        changeNotice(state){
-            console.log(state.notice);
+        changeNotice(state,con){
+            state.notice=con;
+            //console.log('c:'+con);
+        }
+    },
+    actions:{
+        changeNotice({commit},con){
+            commit('changeNotice',con);
         }
     }
 })
