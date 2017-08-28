@@ -64,7 +64,7 @@ const router = new VueRouter({
                 { path:'micDetail',component:micDetail}
             ]
         },
-        { path: '/tagView',component:tagView,redirect:'/tagView/tagMap',
+        { path: '/tagView',component:tagView,redirect:'/tagView/tagSet',
             children:[
                 { path:'tagMap',component:tagMap},
                 { path:'tagSet',component:tagSet},

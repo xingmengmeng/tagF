@@ -7,10 +7,10 @@
                     <router-link to="/tagGroup">标签体系</router-link>
                 </li>-->
                 <li>
-                    <router-link to="/tagView/tagMap">标签画像</router-link>
+                    <router-link to="/tagView/tagSet">标签体系</router-link>
                 </li>
                 <li>
-                    <router-link to="/tagView/tagSet">标签设置</router-link>
+                    <router-link to="/tagView/tagMap">标签画像</router-link>
                 </li>
             </ul>
             <div class="show-hide" id="show-hide" @click="changeHeight">
