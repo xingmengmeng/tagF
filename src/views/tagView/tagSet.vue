@@ -27,10 +27,10 @@
                 </div>
                 <div class="clearfix">
                     <!--<input type="checkbox" class="checkboxClass" id="checkboxModelId" @click="checkedAll($event)" v-model="allSelect">
-                    <label for="checkboxModelId" class="allSelectLabel" :class="allSelect?'active':''" v-show="fourResData.length!=0">全选</label>-->
-                    <span class="sortSpan" :class="sortFlag?'':'active'" @click="sortFn" v-show="fourResData.length!=0">排序</span>
+                    <label for="checkboxModelId" class="allSelectLabel" :class="allSelect?'active':''" v-show="fourResData.length!=0">全选</label>
+                    <span class="sortSpan" :class="sortFlag?'':'active'" @click="sortFn" v-show="fourResData.length!=0">排序</span>-->
                 </div>
-                <div class="clearfix fourWrap">
+                <div class="clearfix fourWrap" style="margin-top:30px"><!--有全选 排序时删掉style-->
                     <ul class="four_scroll">
                         <li v-for="fourData in fourResData" class="clearfix" v-cloak>
                             <!--<input type="checkbox" class="checks" v-model="fourData.checked" @click="getSendData(fourData)">
@@ -42,7 +42,13 @@
             </div>
         </div>
         <div class="left addUsersRight">
-            
+            <div class="biWrap">
+                <!--滚动块下方内容 start-->
+                <div class="clearfix biFooter">
+                    
+                </div>
+                <!--滚动块下方内容 end-->
+            </div>
         </div>
     </section>
 </template>
@@ -92,11 +98,11 @@
             this.saveGroup();
             /*提交按钮样式*/
             LayOut.setHeight.init();
-           // LayOut.serBiWrap.init();
+            LayOut.serBiWrap.init();
         },
         updated(){
             LayOut.setHeight.init();
-            //LayOut.serBiWrap.init();
+            LayOut.serBiWrap.init();
         },
         components:{
             'loading': loading,
@@ -115,12 +121,6 @@
                             bounce: false,
                             interactiveScrollbars:true
                         });
-                        /*this.addUserCenterScroll=new IScroll('.fourWrap',{
-                         mouseWheel: true,
-                         scrollbars: true,
-                         checkDOMChanges:true,
-                         bounce: false
-                         });*/
                         /*this.addUserRightScroll=new IScroll('.biWrap',{
                             mouseWheel: true,
                             scrollbars: true,
@@ -209,6 +209,19 @@
                         this.fourTreeScroll.refresh();
                     }
                 });
+            },
+            /*搜索*/
+            addUserGroupSearch(){
+                if(this.addGroupSearchCon!=''){
+                    this.j=-1;
+                    var reg=/\s+/g;
+                    var searchContent=this.addGroupSearchCon.replace(reg,'');
+                    this.showLoading=true;
+                    this.$http.get('/api/baseTag/queryListBySearch.gm?searchContent='+searchContent).then(function (response) {
+                        this.showLoading=false;
+                        this.setFour(response);
+                    })
+                }
             },
             /*点击四级标签事件  添加到右侧*/
             getSendData(checkData){
