@@ -8,9 +8,9 @@
                     <h5 @click="navShow(index)" :class="showMenu==index?'active':''">{{secondLink.name}}</h5>
                     <ul v-show="showMenu==index">
                         <li v-for="(threeLink,threeIndex) in secondLink.children" :key="threeIndex" :data-menu="index">
-                            <router-link :to="threeLink.href">{{threeLink.name}}</router-link>
+                            <router-link :to="'/setting/'+threeLink.href">{{threeLink.name}}</router-link>
                         </li>
-                    </ul>
+                    </ul> 
                 </div>
                 <!--<div class="clearfix linkWrap">
                     <h5 @click="navShow('yh1')" id='yh1' :class="showMenu=='yh1'?'active':''">用户访问控制</h5>

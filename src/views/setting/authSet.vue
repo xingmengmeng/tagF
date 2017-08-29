@@ -11,6 +11,7 @@
                 <textarea name="" id="" cols="30" rows="10"></textarea>
             </li>
         </ul>
+        <!--<trees  :model='model' v-for='model in listData'></trees>-->
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
@@ -47,6 +48,7 @@ export default {
       return{
         noticeCon:'',
         showSuccess:false,
+        listData:[],
       }
   },
   components:{

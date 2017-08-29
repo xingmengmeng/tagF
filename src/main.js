@@ -27,6 +27,9 @@ import setUser from './views/setting/setUser.vue';
 import loginHistory from './views/setting/loginHistory.vue';
 import notice from './views/setting/notice.vue';
 import ideaList from './views/setting/ideaList.vue';
+import auth from './views/setting/auth.vue';
+import authList from './views/setting/authList.vue';
+import authSet from './views/setting/authSet.vue';
 
 import tagView from './views/tagView/tagMain.vue';
 import tagMap from './views/tagView/tagView.vue';
@@ -93,6 +96,14 @@ const router = new VueRouter({
                 { path:'loginHistory',component:loginHistory},/*登录历史*/
                 { path:'notice',component:notice},/*公告*/
                 { path:'ideaList',component:ideaList},/*意见反馈*/
+                { path:'auth',component:auth,
+                    children:[
+                        { path:'authList',component:authList},/*权限管理*/
+                        { path:'authSet',component:authSet},
+                    ]
+                },
+                
+                /*{ path:'authSet/:id',component:authSet},*/
             ]
         },
         /*{ path: "*", redirect: '/index' },*/

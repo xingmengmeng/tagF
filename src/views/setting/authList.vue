@@ -24,7 +24,7 @@
                     <td>{{item.name}}</td>
                     <td>{{item.deptRoleName}}</td>
                     <td>{{item.loginName}}</td>
-                    <td>编辑</td>
+                    <td><router-link to="/setting/auth/authSet">编辑</router-link></td>
                 </tr>
             </tbody>
         </table>
