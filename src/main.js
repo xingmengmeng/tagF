@@ -96,7 +96,7 @@ const router = new VueRouter({
                 { path:'loginHistory',component:loginHistory},/*登录历史*/
                 { path:'notice',component:notice},/*公告*/
                 { path:'ideaList',component:ideaList},/*意见反馈*/
-                { path:'auth',component:auth,
+                { path:'auth',component:auth,redirect:'auth/authList',
                     children:[
                         { path:'authList',component:authList},/*权限管理*/
                         { path:'authSet',component:authSet},

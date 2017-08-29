@@ -3,15 +3,16 @@
         <h4>权限配置</h4>
         <ul>
             <li>
-                <lable>部门角色：</lable>
+                <label>部门角色：</label>
                 <span>大数据</span>
             </li>
             <li>
-                <lable>权限描述：</lable>
+                <label>权限描述：</label>
                 <textarea name="" id="" cols="30" rows="10"></textarea>
             </li>
         </ul>
-        <!--<trees  :model='model' v-for='model in listData'></trees>-->
+        <span>编辑标签权限：</span>
+        <trees  :model='model' v-for='(model,index) in listData' :key='index'></trees>
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
@@ -43,16 +44,70 @@
 </style>
 <script>
 import successBox from '../../components/successBox.vue';
+import trees from '../../components/tree.vue';
 export default {
   data(){
       return{
         noticeCon:'',
         showSuccess:false,
-        listData:[],
+        listData:[{
+                "id": "1",
+                "data": {
+                    "menuName": "项目管理",
+                    "menuCode": "",
+                },
+                "childTreeNode": [{
+                    "data": {
+                        "menuName": "项目",
+                        "menuCode": "BusProject",
+                    },
+                    "childTreeNode": [
+                        {
+                    "data": {
+                        "menuName": "项目2",
+                        "menuCode": "BusProject",
+                    },}
+                    ]
+                }, {
+                    "data": {
+                        "menuName": "我的任务",
+                        "menuCode": "BusProject",
+                    },
+                    "childTreeNode": []
+                }, {
+                    "data": {
+                        "menuName": "人员周报",
+                        "menuCode": "BusProject",
+                    },
+                    "childTreeNode": []
+                }]
+            }, {
+                "id": "2",
+                "data": {
+                    "menuName": "数据统计",
+                    "menuCode": "BusClock",
+                },
+                "childTreeNode": []
+            }, {
+                "id": "3",
+                "data": {
+                    "menuName": "人事管理",
+                    "menuCode": "",
+                },
+                "childTreeNode": []
+            }, {
+                "id": "4",
+                "data": {
+                    "menuName": "基础管理",
+                    "menuCode": "",
+                },
+                "childTreeNode": []
+            }],
       }
   },
   components:{
     'success-box':successBox,
+    trees,
   },
   methods:{
     saveNotice(){
