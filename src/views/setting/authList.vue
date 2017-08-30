@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="messWrap">
-            <input type="button" value="数据同步" class="left syncUserBtn" @click="syncUserFn">
+            <input type="button" value="新建部门" class="left syncUserBtn" @click="creatAuth">
             <!--分页-->
             <div class="right pages clearfix" @click="getPageData">
                 <span class="allPage" v-cloak>1-{{pageCount}}</span>
@@ -15,21 +15,24 @@
                 <tr>
                     <th>部门角色</th>
                     <th>修改时间</th>
-                    <th width="40">权限描述</th>
+                    <th width="40%">权限描述</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in queryList">
+                <tr v-for="(item,index) in queryList" :key="index">
                     <td>{{item.name}}</td>
-                    <td>{{item.deptRoleName}}</td>
-                    <td>{{item.loginName}}</td>
-                    <td><router-link to="/setting/auth/authSet">编辑</router-link></td>
+                    <td>{{item.updateTime}}</td>
+                    <td>{{item.remark}}</td>
+                    <td>
+                        <span>删除</span>
+                        <router-link :to="{ path: '/setting/auth/authSet', query: {id:item.id}}">编辑</router-link>
+                    </td>
                 </tr>
             </tbody>
         </table>
         <transition name="slide-fade">
-            <success-box v-show="showSuccess" cur="同步成功！"></success-box>
+            <success-box v-show="showSuccess" cur="保存成功！"></success-box>
         </transition>
     </div>
 </template>
@@ -89,7 +92,7 @@ export default {
   methods: {
       //得到表格数据
       getTabList(){
-          var url='/api/user/queryList.gm?pageNum='+this.pageNum;
+          var url='/api/auth/queryList.gm?pageNum='+this.pageNum;
           this.$http.get(url).then(function(res) {
               if(res.data.code==200){
                   this.pageCount=res.data.dataInfo.pageCount;
@@ -130,18 +133,9 @@ export default {
               this.gotoPage=this.pageNum;
           }
       },
-      //数据同步
-      syncUserFn(){
-          this.$http.get('/api/user/syncUserFromOa.gm').then(function(res){
-              if(res.data.code==200){
-                  this.showSuccess=true;
-                  setTimeout(()=>{
-                      this.showSuccess=false;
-                  },2000);
-                  this.pageNum=this.gotoPage=1;
-                  this.getTabList();
-              }
-          })
+      //新建部门
+      creatAuth(){
+          
       }
   }
 }

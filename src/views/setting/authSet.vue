@@ -4,15 +4,34 @@
         <ul>
             <li>
                 <label>部门角色：</label>
-                <span>大数据</span>
+                <span>{{this.name}}</span>
             </li>
             <li>
                 <label>权限描述：</label>
-                <textarea name="" id="" cols="30" rows="10"></textarea>
+                <textarea name="" id="" cols="30" rows="10" v-model="remark"></textarea>
             </li>
         </ul>
         <span>编辑标签权限：</span>
-        <trees  :model='model' v-for='(model,index) in listData' :key='index'></trees>
+        <!--树级结构-->
+        <div>
+            <ul>
+                <li v-for="(first,index) in listData" :key="index" >
+                    <input type="checkbox" :value="first.id" v-model="select"><span>{{first.name}}</span>
+                    <ul v-show="isOpen">
+                        <li v-for="(second,index) in first.children" :key="index">
+                            <input type="checkbox" :value="second.id" v-model="select">{{second.name}}
+                            <ul>
+                                <li v-for="(three,index) in second.children" :key="index">
+                                    <input type="checkbox" :value="three.id" v-model="select">{{three.name}}
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <input type="button" value="取消" @click="goBack">
+        <input type="button" value="保存" @click="saveAuth">
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
@@ -44,83 +63,56 @@
 </style>
 <script>
 import successBox from '../../components/successBox.vue';
-import trees from '../../components/tree.vue';
 export default {
-  data(){
-      return{
-        noticeCon:'',
-        showSuccess:false,
-        listData:[{
-                "id": "1",
-                "data": {
-                    "menuName": "项目管理",
-                    "menuCode": "",
-                },
-                "childTreeNode": [{
-                    "data": {
-                        "menuName": "项目",
-                        "menuCode": "BusProject",
-                    },
-                    "childTreeNode": [
-                        {
-                    "data": {
-                        "menuName": "项目2",
-                        "menuCode": "BusProject",
-                    },}
-                    ]
-                }, {
-                    "data": {
-                        "menuName": "我的任务",
-                        "menuCode": "BusProject",
-                    },
-                    "childTreeNode": []
-                }, {
-                    "data": {
-                        "menuName": "人员周报",
-                        "menuCode": "BusProject",
-                    },
-                    "childTreeNode": []
-                }]
-            }, {
-                "id": "2",
-                "data": {
-                    "menuName": "数据统计",
-                    "menuCode": "BusClock",
-                },
-                "childTreeNode": []
-            }, {
-                "id": "3",
-                "data": {
-                    "menuName": "人事管理",
-                    "menuCode": "",
-                },
-                "childTreeNode": []
-            }, {
-                "id": "4",
-                "data": {
-                    "menuName": "基础管理",
-                    "menuCode": "",
-                },
-                "childTreeNode": []
-            }],
-      }
-  },
-  components:{
-    'success-box':successBox,
-    trees,
-  },
-  methods:{
-    saveNotice(){
-        this.$http.post('/api/notice/save.gm',{"message":this.noticeCon},{emulateJSON:true}).then(function(res){
-            if(res.data.code=='200'){
-                this.showSuccess=true;
-                setTimeout(()=>{
-                    this.showSuccess=false;
-                },2000);
-                this.$store.state.notice=this.noticeCon;
-            }
-        })
+    data(){
+        return{
+            authId:0,
+            noticeCon:'',
+            showSuccess:false,
+            listData:[],
+            name:'',
+            remark:'',
+            select:[],
+            isOpen:false,
+        }
+    },
+    components:{
+        'success-box':successBox,
+    },
+    mounted(){
+        this.authId=this.$route.query.id;
+        this.getAuth();
+    },
+    methods:{
+        //查看部门内容
+        getAuth(){
+            this.$http.get('/api/auth/getById.gm?id='+this.authId).then(function(res){
+                if(res.data.code=='200'){
+                    this.listData=res.data.dataInfo.allTags;
+                    this.name=res.data.dataInfo.name;
+                    this.remark=res.data.dataInfo.remark;
+                    this.select=res.data.dataInfo.selectedList.concat();
+                }
+            })
+        },
+        //取消
+        goBack(){
+            this.$router.push("/setting/auth/authList");
+            //window.location.href="/setting/auth/authList";
+        },
+        //保存
+        saveAuth(){
+            var ids=this.select.toString();
+            this.$http.post('/api/auth/update.gm',{"id":this.authId,"tagIds":ids,"remark":this.remark},{emulateJSON:true}).then(function(res){
+                if(res.data.code=='200'){
+                    this.showSuccess=true;
+                    setTimeout(()=>{
+                        this.showSuccess=false;
+                    },2000);
+                    this.$store.state.notice=this.noticeCon;
+                }
+            })
+        }
     }
-  }
 }
 </script>
