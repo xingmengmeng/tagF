@@ -5,7 +5,7 @@
             <li>
                 <label>部门角色：</label>
                 <span>{{this.name}}</span>
-                <input type="time">
+                <input type="text" id="test1">
             </li>
             <li>
                 <label>权限描述：</label>
@@ -64,6 +64,9 @@
 </style>
 <script>
 import successBox from '../../components/successBox.vue';
+import * as laydate from '../../assets/laydate/laydate.js';
+require('../../assets/laydate/theme/default/laydate.css');
+    
 export default {
     data(){
         return{
@@ -83,6 +86,11 @@ export default {
     mounted(){
         this.authId=this.$route.query.id;
         this.getAuth();
+        laydate.render({
+            elem: '#test1', //指定元素
+            type:'datetime',
+            theme: '#1078f5'
+        });
     },
     methods:{
         //查看部门内容
