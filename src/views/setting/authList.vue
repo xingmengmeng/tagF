@@ -135,7 +135,7 @@ export default {
       },
       //新建部门
       creatAuth(){
-          
+          console.log('新建部门');
       }
   }
 }
