@@ -51,7 +51,7 @@
                                     <input type="checkbox" class="checks" v-model="fourData.checked" @click="getSendData(fourData)">
                                     <!--<i :class="fourData.checked?'classA':'classB'"></i>-->
                                     <i :class="checkdId.indexOf(fourData.id)!=-1?'classA':'classB'"></i>
-                                    <label class="checkLabel"><span v-cloak>{{fourData.name}}</span><span v-cloak>({{fourData.count}})</span><span>{{fourData.rate}}</span></label>
+                                    <label class="checkLabel"><span v-cloak>{{fourData.name}}({{fourData.count}}){{fourData.rate}}</span></label>
                                 </li>
                             </ul>
                         </div>
