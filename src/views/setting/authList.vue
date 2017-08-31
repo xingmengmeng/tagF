@@ -10,13 +10,13 @@
                 <span id="next">下一页</span>
             </div>
         </div>
-        <table width="100%" class="tab">
+        <table width="100%" class="table">
             <thead>
                 <tr>
                     <th>部门角色</th>
                     <th>修改时间</th>
                     <th width="40%">权限描述</th>
-                    <th></th>
+                    <th width="80"></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,8 +25,8 @@
                     <td>{{item.updateTime}}</td>
                     <td>{{item.remark}}</td>
                     <td>
-                        <span>删除</span>
-                        <router-link :to="{ path: '/setting/auth/authSet', query: {id:item.id}}">编辑</router-link>
+                        <a href="javascript:;" @click="deleteUserGroup(item.id)" class="listDeleteBtn" v-show="item.useStatus!='已使用'">删除</a>
+                        <router-link class="listDetailLink" :to="{ path:'/setting/auth/authSet', query: {id:item.id}}">编辑</router-link>
                     </td>
                 </tr>
             </tbody>
@@ -34,6 +34,39 @@
         <transition name="slide-fade">
             <success-box v-show="showSuccess" cur="保存成功！"></success-box>
         </transition>
+        <!--弹框遮罩 start-->
+        <div class="overlay"></div>
+        <!--新增活动的弹框-->
+        <div class="markWarp addUserGroup">
+            <div class="markTitle clearfix">
+                <h5>新增部门</h5>
+                <i class="right close" @click="hideMark">关闭</i>
+            </div>
+            <ul class="clearfix">
+                <li class="clearfix">
+                    <label class="left"><strong>*</strong>部门名称：</label>
+                    <input type="text" v-model="authName" placeholder="最多可输入10个字符" class="left txt">
+                </li>
+                <li class="errorLi clearfix" style="padding:0px 0 0 120px;height: 14px; font-size: 12px; color: #B40606;">
+                    <span v-cloak>{{saveError}}</span>
+                </li>
+                <li class="clearfix btnWrap">
+                    <input type="button" value="取消" @click="hideMark">
+                    <input type="button" value="确定" @click="saveNewAuth">
+                </li>
+            </ul>
+        </div>
+
+        <!--删除弹框-->
+        <div class="markDelet">
+            <p>您确定要删除这个部门角色吗？</p>
+            <div class="btnWrap">
+                <input type="button" value="否" @click="deletFalse">
+                <input type="button" value="是" @click="deleteTrue">
+            </div>
+        </div>
+
+        <!--弹框遮罩 end-->
     </div>
 </template>
 <style lang="less" scoped>
@@ -72,6 +105,8 @@
 import successBox from '../../components/successBox.vue';
 require('../../assets/css/pages.less');
 require('../../assets/css/tab.less');
+require('../../assets/css/userGroup.less');
+import LayOut from '../../assets/js/layout';
 const echarts = require('echarts');
 export default {
   data () {
@@ -81,6 +116,8 @@ export default {
           gotoPage:'1',
           queryList:[],//用户数组
           showSuccess:false,
+          authName:'',//部门名称
+          saveError:''
       }
   },
   components: {
@@ -113,8 +150,8 @@ export default {
             this.getTabList();/*ajax后台获取要显示数据*/
           }
       },
-      //分页跳转
-      gotoPageFn(){
+    //分页跳转
+    gotoPageFn(){
         if(isNaN(Number(this.gotoPage))){
             this.gotoPage=this.pageNum;
             return;
@@ -126,17 +163,75 @@ export default {
             this.pageNum=this.gotoPage;
             this.getTabList();/*ajax后台获取要显示数据*/
         }
-      },
-      //失去焦点  如果为非数字  则返回原页码
-      getPage(){
-          if(typeof this.gotoPage !='number'){
-              this.gotoPage=this.pageNum;
-          }
-      },
-      //新建部门
-      creatAuth(){
-          console.log('新建部门');
-      }
+    },
+    //失去焦点  如果为非数字  则返回原页码
+    getPage(){
+        if(typeof this.gotoPage !='number'){
+            this.gotoPage=this.pageNum;
+        }
+    },
+    /*关闭按钮 隐藏弹框*/
+    hideMark(){
+        var overlay=document.querySelector('.overlay'),
+            markWarp=document.querySelector('.addUserGroup'),
+            markDelet=document.querySelector('.markDelet');
+        overlay.style.display=markWarp.style.display=markDelet.style.display='none';
+    },
+    //新建部门
+    creatAuth(){
+        this.authName=this.saveError='';
+        var overlay=document.querySelector('.overlay'),
+            markWarp=document.querySelector('.addUserGroup');
+        overlay.style.display=markWarp.style.display='block';
+    },
+    /*提交事件*/
+    saveNewAuth(){
+        var subjectLength=this.authName.gblen();
+        if(subjectLength>10){
+            this.saveError='主题最多输入10个字符';
+            return false;
+        }else if(subjectLength==0){
+            this.saveError='部门名称不能为空';
+            return false;
+        }
+        this.$http.post('/api/auth/save.gm',{"name":this.authName},{emulateJSON:true}).then(function (res) {
+            if(res.data.code==200){
+                var overlay=document.querySelector('.overlay'),
+                    markWarp=document.querySelector('.addUserGroup');
+                /*弹框消失  列表刷新*/
+                overlay.style.display=markWarp.style.display='none';
+                this.getTabList();
+            }
+        })
+    },
+    deleteUserGroup(id){
+        /*显示弹框  确定否  然后点确定  则删除*/
+        var overlay=document.querySelector('.overlay'),
+                markDelet=document.querySelector('.markDelet');
+        overlay.style.display=markDelet.style.display='block';
+        console.log(id);
+        localStorage.authDeleteId=id;
+    },
+    deletFalse(){
+        /*取消  关弹框*/
+        var overlay=document.querySelector('.overlay'),
+            markDelet=document.querySelector('.markDelet');
+        overlay.style.display=markDelet.style.display='none';
+    },
+    deleteTrue(){
+        /*确定  删除  关弹框*/
+        var id=localStorage.authDeleteId;
+        console.log(id);
+        this.$http.delete('/api/auth/delete.gm?id='+id).then(function (res) {
+            if(res.data.code==200){
+                var overlay=document.querySelector('.overlay'),
+                    markDelet=document.querySelector('.markDelet');
+                overlay.style.display=markDelet.style.display='none';
+                /*前台页面列表数组删除此条数据  或者再走一次接口*/
+                this.getTabList();
+            }
+        })
+    },
   }
 }
 </script>

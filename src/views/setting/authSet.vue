@@ -98,13 +98,13 @@ export default {
         //取消
         goBack(){
             this.$router.push("/setting/auth/authList");
-            //window.location.href="/setting/auth/authList";
         },
         //保存
         saveAuth(){
             var ids=this.select.toString();
             this.$http.post('/api/auth/update.gm',{"id":this.authId,"tagIds":ids,"remark":this.remark},{emulateJSON:true}).then(function(res){
                 if(res.data.code=='200'){
+                    this.$router.push("/setting/auth/authList");
                     this.showSuccess=true;
                     setTimeout(()=>{
                         this.showSuccess=false;
