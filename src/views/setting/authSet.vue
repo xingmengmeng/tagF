@@ -5,6 +5,7 @@
             <li>
                 <label>部门角色：</label>
                 <span>{{this.name}}</span>
+                <input type="time">
             </li>
             <li>
                 <label>权限描述：</label>

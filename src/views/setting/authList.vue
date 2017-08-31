@@ -13,7 +13,7 @@
         <table width="100%" class="table">
             <thead>
                 <tr>
-                    <th>部门角色</th>
+                    <th>部门名称</th>
                     <th>修改时间</th>
                     <th width="40%">权限描述</th>
                     <th width="80"></th>
@@ -59,7 +59,7 @@
 
         <!--删除弹框-->
         <div class="markDelet">
-            <p>您确定要删除这个部门角色吗？</p>
+            <p>您确定要删除这个部门吗？</p>
             <div class="btnWrap">
                 <input type="button" value="否" @click="deletFalse">
                 <input type="button" value="是" @click="deleteTrue">
