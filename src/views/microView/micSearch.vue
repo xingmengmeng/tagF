@@ -231,7 +231,7 @@
                 &:nth-of-type(3){
                     h5{
                         span{
-                            background: url('../../assets/images/tag2.png') left center no-repeat;
+                            background: url('../../assets/images/tag4.png') left center no-repeat;
                         }
                     }
                     .countWrap{
@@ -245,7 +245,7 @@
                 &:nth-of-type(4){
                     h5{
                         span{
-                            background: url('../../assets/images/tag3.png') left center no-repeat;
+                            background: url('../../assets/images/tag2.png') left center no-repeat;
                         }
                     }
                     .countWrap{
@@ -259,7 +259,7 @@
                 &:nth-of-type(5){
                     h5{
                         span{
-                            background: url('../../assets/images/tag5.png') left center no-repeat;
+                            background: url('../../assets/images/tag3.png') left center no-repeat;
                         }
                     }
                     .countWrap{
