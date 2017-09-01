@@ -317,7 +317,7 @@
                                 ulWrapScrollAry[i].style.height=winHeight-260+'px';
                             }
                             /*加滚动条*/
-                            for(var i=0;i<4;i++){
+                            for(var i=0;i<5;i++){
                                 if(typeof this.scrollAry[i]=='string'){
                                     this.scrollAry[i]=new IScroll('.scrollDiv'+i,{
                                         mouseWheel: true,
