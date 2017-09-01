@@ -17,13 +17,13 @@
         <div>
             <ul>
                 <li v-for="(first,index) in listData" :key="index" >
-                    <input type="checkbox" :value="first.id" v-model="select"><span>{{first.name}}</span>
-                    <ul v-show="isOpen">
+                    <input type="checkbox" :value="first.id" v-model="select" @click="changeCheck(first,'first',$event)"><span>{{first.name}}</span>
+                    <ul class="secondUl">
                         <li v-for="(second,index) in first.children" :key="index">
-                            <input type="checkbox" :value="second.id" v-model="select">{{second.name}}
-                            <ul>
+                            <input type="checkbox" :value="second.id" v-model="select" @click="changeCheck(second,'second',$event)">{{second.name}}
+                            <ul class="threeUl">
                                 <li v-for="(three,index) in second.children" :key="index">
-                                    <input type="checkbox" :value="three.id" v-model="select">{{three.name}}
+                                    <input type="checkbox" :value="three.id" v-model="select" @click="changeCheck(three,'three',$event)">{{three.name}}
                                 </li>
                             </ul>
                         </li>
@@ -60,6 +60,12 @@
     }
     textarea{
         resize: none;
+    }
+    .secondUl{
+        padding-left:20px;
+    }
+    .threeUl{
+        .secondUl;
     }
 </style>
 <script>
@@ -121,6 +127,102 @@ export default {
                     this.$store.state.notice=this.noticeCon;
                 }
             })
+        },
+        changeCheck(item,str,e){
+            let id=item.id,
+                pId=item.parentId;
+
+            if(e.target.checked){//选中
+                if(str=='first'){
+                    for(let second of item.children){
+                        this.select.push(second.id);
+                        for(let three of second.children){
+                            this.select.push(three.id);
+                        }
+                    }        
+                }else if(str=='second'){//二级选中
+                    //下面的三级都选中
+                    for(let three of item.children){
+                        this.select.push(three.id);
+                    }
+                    //上层一级选中
+                    for(let first of this.listData){
+                        if(first.id==pId){
+                            this.select.push(first.id);
+                            break;
+                        }  
+                    }
+                }else if(str=='three'){//三级选中
+                    //二级选中  一级选中
+                    this.select.push(pId);
+                    //一级选中
+                    let secondPid='';
+                    for(let first of this.listData){
+                        for(let second of first.children){
+                            if(second.id==pId){
+                                secondPid=second.parentId;
+                                break;
+                            };
+                        } 
+                    }
+                    for(let first of this.listData){
+                        if(first.id==secondPid){
+                            this.select.push(first.id);
+                            break;
+                        };
+                    }
+                }
+                this.select=[...new Set(this.select)];//去重
+            }else{
+                if(str=='first'){//一级反选
+                    for(let second of item.children){
+                        this.select=this.select.filter(cur=>second.id!=cur);
+                        for(let three of second.children){
+                            this.select=this.select.filter(cur=>three.id!=cur);
+                        }
+                    }        
+                }else if(str=='second'){//二级不选中
+                    for(let three of item.children){
+                        this.select=this.select.filter(cur=>three.id!=cur);
+                    }
+                    //判断其一级是不是要选中
+                    this.unSelect(pId)   
+                }else if(str=='three'){//三级不选中
+                    let secondPid='';//二级的父id  一级的id
+                    for(let first of this.listData){
+                        for(let second of first.children){
+                            if(second.id==pId){
+                                secondPid=first.id;
+                                let firstFlg=false;
+                                for(let three of second.children){
+                                    let tempAry=this.select.filter(item=>item==three.id);
+                                    firstFlg=tempAry.length==0?false:true;
+                                    if(firstFlg) break;
+                                }
+                                if(!firstFlg) this.select=this.select.filter(cur=>pId!=cur);
+                                break;
+                            }
+                        }
+                    }
+                    this.unSelect(secondPid);
+                } 
+            }
+            console.log(this.select);
+        },
+        //二级不选中  判断其一级父级是不是选中
+        unSelect(pId){
+            for(let first of this.listData){
+                if(first.id==pId){//得到其一级父级
+                    let firstFlg=false;
+                    for(let second of first.children){
+                        let tempAry=this.select.filter(item=>item==second.id);
+                        firstFlg=tempAry.length==0?false:true;
+                        if(firstFlg) break;
+                    }
+                    if(!firstFlg) this.select=this.select.filter(cur=>pId!=cur);
+                    break;
+                }
+            }
         }
     }
 }
