@@ -34,6 +34,9 @@ import authSet from './views/setting/authSet.vue';
 import tagView from './views/tagView/tagMain.vue';
 import tagMap from './views/tagView/tagView.vue';
 import tagSet from './views/tagView/tagSet.vue';
+import tagw from './views/tagView/tagw.vue';
+import tagSetDetail from './views/tagView/tagSetDetail.vue';
+
 import addUserGroup from './views/userGroup/addUserGroup.vue';
 import userGroup from './views/userGroup/userGroup.vue';
 import userDetail from './views/userGroup/userDetail.vue';
@@ -67,10 +70,15 @@ const router = new VueRouter({
                 { path:'micDetail',component:micDetail}
             ]
         },
-        { path: '/tagView',component:tagView,redirect:'/tagView/tagSet',
+        { path: '/tagView',component:tagView,redirect:'/tagView/tagw',
             children:[
                 { path:'tagMap',component:tagMap},
-                { path:'tagSet',component:tagSet},
+                { path:'tagw',component:tagw,redirect:'/tagView/tagw/tagSet',
+                    children:[
+                        { path:'tagSet',component:tagSet},
+                        { path:'tagSetDetail',component:tagSetDetail},
+                    ]
+                },
             ]
         },
         { path: '/userGroup', component: userGroup,

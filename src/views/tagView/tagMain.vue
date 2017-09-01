@@ -7,7 +7,7 @@
                     <router-link to="/tagGroup">标签体系</router-link>
                 </li>-->
                 <li>
-                    <router-link to="/tagView/tagSet">标签体系</router-link>
+                    <router-link to="/tagView/tagw">标签体系</router-link>
                 </li>
                 <li>
                     <router-link to="/tagView/tagMap">标签画像</router-link>
