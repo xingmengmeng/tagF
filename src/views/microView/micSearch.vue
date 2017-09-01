@@ -217,7 +217,7 @@
                 &:nth-of-type(2){
                     h5{
                         span{
-                            background: url('../../assets/images/tag4.png') left center no-repeat;
+                            /*background: url('../../assets/images/tag4.png') left center no-repeat;*/
                         }
                     }
                     .countWrap{
