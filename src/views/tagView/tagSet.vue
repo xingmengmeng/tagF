@@ -35,7 +35,7 @@
                         <li v-for="fourData in fourResData" class="clearfix" v-cloak>
                             <!--<input type="checkbox" class="checks" v-model="fourData.checked" @click="getSendData(fourData)">
                             <i :class="checkdId.indexOf(fourData.id)!=-1?'classA':'classB'"></i>-->
-                            <label class="checkLabel"><span v-cloak>{{fourData.name}}</span><span v-cloak>({{fourData.count}})</span><span>{{fourData.rate}}</span></label>
+                            <label class="checkLabel"><span v-cloak>{{fourData.name}}({{fourData.count}}){{fourData.rate}}<i v-if="fourData.createrId&&fourData.createrId=='canDel'">删除</i> </span></label>
                         </li>
                     </ul>
                 </div>
@@ -44,11 +44,11 @@
         <div class="left addUsersRight">
             <div class="biWrap">
                 <ul>
-                    <li>定制标签</li>
-                    <li>白名单</li>
+                    <li @click="showCon='tagWrap'">定制标签</li>
+                    <li @click="showCon='vipWrap'">白名单</li>
                 </ul>
                 <!--定制标签 start-->
-                <div>
+                <div v-show="showCon=='tagWrap'">
                     <ul>
                         <li>
                             <label>一级标签</label>
@@ -85,14 +85,19 @@
                 </div>
                 <!--定制标签 end-->
                 <!--白名单  start-->
-                <div>
+                <div v-show="showCon=='vipWrap'">
                     白名单
                 </div>
                 <!--白名单  end-->
             </div>
             <!--滚动块下方内容 start-->
-            <div class="clearfix biFooter">  
+            <!--定制标签模块-->
+            <div class="clearfix biFooter" v-show="showCon=='tagWrap'">  
                 <input type="button" value="提交" @click="saveTags" id="saveGroup" class="tagBtn right"> 
+            </div>
+            <!--白名单模块-->
+            <div class="clearfix biFooter" v-show="showCon=='vipWrap'">  
+                <input type="button" value="新增" @click="whiteListSet" class="tagBtn right"> 
             </div>
             <!--滚动块下方内容 end-->
         </div>
@@ -145,12 +150,14 @@
                 sortFlag:true,//排序
                 i: -1, /*二级树的class样式*/
                 j: -1, /*三级树点击后状态  文字颜色变化*/
+
+                showCon:'tagWrap',//最后侧显示的模块
                 tagData:[],//标签联动数据
                 secondData:[],
                 threeData:[],
                 firstId:'auto',
                 secondId:'auto',
-                threeId:'auto',
+                threeId:'auto',//三级id
             }
         },
         mounted(){
@@ -398,38 +405,49 @@
             },
             /*pData:父级数据  pId父级选中的id  cData子数据*/
             changeSelet(pData,pId,cData){
-                console.log(pId,cData)
+                //如果选择了默认状态 则下级都默认到初始状态
+                if(pId=='auto'){
+                    if(cData=='second'){
+                        this.secondId=this.threeId='auto';
+                        this.threeData.length=this.secondData.length=0;
+                    }else if(cData=='three'){
+                        this.threeId='auto';
+                        this.threeData.length=0;
+                    }
+                    return;
+                }
+                //没有选择到默认选项时  所执行逻辑
                 for(let cur of pData){
                     if(cur.id==pId){
                         if(cData=='second'){//得到二级
-                            if(pId=='auto'){
-                                this.secondId=this.threeId='auto';
-                                this.threeData.length=this.secondData.length=0;
-                            }else{
-                                this.secondData=cur.children;
-                                this.secondId=this.threeId='auto';
-                                this.threeData=[];
-                            }  
+                            this.secondData=JSON.parse(JSON.stringify(cur.children));
+                            this.secondId=this.threeId='auto';
+                            this.threeData.length=0;
                         }else if(cData=='three'){//得到三级
-                            console.log(pId)
-                            if(pId=='auto'){
-                                this.threeId='auto';
-                                this.threeData=[];
-                            }else{
-                                this.threeData=cur.children;
-                                this.threeId='auto';
-                            } 
+                            this.threeData=JSON.parse(JSON.stringify(cur.children));
+                            this.threeId='auto';
                         }
                         break;
                     }
                 }
             },
+            //选择三级后  查询可自定义内容
             getFourData(id){
                 console.log(id);
+                this.$http.get('/api/tagDefined/queryConfigByTagId.gm?tagId='+id).then(function(res){
+                    if(res.data.code==200){
+
+                    }
+                })
+
             },
             //保存定制标签
             saveTags(){
                 
+            },
+            //跳转到白名单设置页面
+            whiteListSet(){
+                this.$router.push('/tagView/tagw/whiteListSet');
             }
         }
     }

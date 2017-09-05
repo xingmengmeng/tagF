@@ -35,7 +35,7 @@ import tagView from './views/tagView/tagMain.vue';
 import tagMap from './views/tagView/tagView.vue';
 import tagSet from './views/tagView/tagSet.vue';
 import tagw from './views/tagView/tagw.vue';
-import tagSetDetail from './views/tagView/tagSetDetail.vue';
+import whiteListSet from './views/tagView/whiteListSet.vue';
 
 import addUserGroup from './views/userGroup/addUserGroup.vue';
 import userGroup from './views/userGroup/userGroup.vue';
@@ -76,7 +76,7 @@ const router = new VueRouter({
                 { path:'tagw',component:tagw,redirect:'/tagView/tagw/tagSet',
                     children:[
                         { path:'tagSet',component:tagSet},
-                        { path:'tagSetDetail',component:tagSetDetail},
+                        { path:'whiteListSet',component:whiteListSet},
                     ]
                 },
             ]
