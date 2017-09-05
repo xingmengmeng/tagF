@@ -19,6 +19,10 @@
                     <input type="text" id="endTime" v-model="endTimes">
                 </li>
             </ul>
+            <div class="right">
+                <label>描述：</label>
+                <textarea></textarea>
+            </div>
         </section>
         <h4>用户明细</h4>
         <div class="left messWrap">
@@ -62,7 +66,7 @@
                 </tr>
             </tbody>
         </table>
-        <input type="button" value="取消">
+        <input type="button" value="取消" @click="goBack">
         <input type="button" value="保存" @click="saveWhite">
     </div>
 </template>
@@ -223,6 +227,9 @@ export default {
         //保存白名单
         saveWhite(){
             console.log(this.startTimes,this.endTimes);
+        },
+        goBack(){
+            this.$router.push('/tagView/tagw/tagSet');
         },
         //上传文件
         fileSelected(){
