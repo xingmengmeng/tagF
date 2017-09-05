@@ -23,6 +23,9 @@
         <h4>用户明细</h4>
         <div class="left messWrap">
             <section class="left">
+                <div>
+                    <input type="file" name="file" @change="fileSelected" id="fileInput"/>
+                </div>
                 <span>最近一次成功上传23,00 条数据，当前总用户人数：32,323</span>
             </section>
 
@@ -220,6 +223,11 @@ export default {
         //保存白名单
         saveWhite(){
             console.log(this.startTimes,this.endTimes);
+        },
+        //上传文件
+        fileSelected(){
+            let fileInput=document.querySelector('#fileInput');
+            console.log(fileInput.value);
         }
     }
 }
