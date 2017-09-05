@@ -43,12 +43,58 @@
         </div>
         <div class="left addUsersRight">
             <div class="biWrap">
-                <!--滚动块下方内容 start-->
-                <div class="clearfix biFooter">
-                    
+                <ul>
+                    <li>定制标签</li>
+                    <li>白名单</li>
+                </ul>
+                <!--定制标签 start-->
+                <div>
+                    <ul>
+                        <li>
+                            <label>一级标签</label>
+                            <select v-model="firstId" @change="changeSelet(tagData,firstId,'second')">
+                                <option value="auto">请选择</option>
+                                <option :value="firstTag.id" v-for="(firstTag,index) in tagData" :key="index">{{firstTag.name}}</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>二级标签</label>
+                            <select v-model="secondId" @change="changeSelet(secondData,secondId,'three')">
+                                <option value="auto">请选择</option>
+                                <option :value="secondTag.id" v-for="(secondTag,index) in secondData" :key="index">{{secondTag.name}}</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>三级标签</label>
+                            <select v-model="threeId" @change="getFourData(threeId)">
+                                <option value="auto">请选择</option>
+                                <option :value="threeTag.id" v-for="(threeTag,index) in threeData" :key="index">{{threeTag.name}}</option>
+                            </select>
+                        </li>
+                        <li>
+                            提示： 该标签限制范围：100~10000元 。
+                        </li> 
+                        <li>
+                            <label>月收入</label>
+                            <input type="text">
+                            <span>-</span>
+                            <input type="text">
+                            <span>元</span>
+                        </li>  
+                    </ul>
                 </div>
-                <!--滚动块下方内容 end-->
+                <!--定制标签 end-->
+                <!--白名单  start-->
+                <div>
+                    白名单
+                </div>
+                <!--白名单  end-->
             </div>
+            <!--滚动块下方内容 start-->
+            <div class="clearfix biFooter">  
+                <input type="button" value="提交" @click="saveTags" id="saveGroup" class="tagBtn right"> 
+            </div>
+            <!--滚动块下方内容 end-->
         </div>
     </section>
 </template>
@@ -68,6 +114,15 @@
     }
     .sortSpan{
         .allSelectLabel;
+    }
+    .tagBtn{
+        width: 80px;
+        height: 30px;
+        border: 0;
+        border-radius: 3px;
+        cursor: pointer;
+        background: #1078f5; 
+        color:#fff;
     }
 </style>
 <script>
@@ -90,6 +145,12 @@
                 sortFlag:true,//排序
                 i: -1, /*二级树的class样式*/
                 j: -1, /*三级树点击后状态  文字颜色变化*/
+                tagData:[],//标签联动数据
+                secondData:[],
+                threeData:[],
+                firstId:'auto',
+                secondId:'auto',
+                threeId:'auto',
             }
         },
         mounted(){
@@ -99,6 +160,7 @@
             /*提交按钮样式*/
             LayOut.setHeight.init();
             LayOut.serBiWrap.init();
+            this.getTags();//得到标签选择数据
         },
         updated(){
             LayOut.setHeight.init();
@@ -325,6 +387,49 @@
                     this.fourResData=this.temConAry.concat();
                 }
                 this.sortFlag=!this.sortFlag;
+            },
+            //得到标签联动数据
+            getTags(){
+                this.$http.get('/api/tagDefined/queryCanDefinedTagList.gm').then(function(res){
+                    if(res.data.code==200){
+                        this.tagData=res.data.dataInfo
+                    }
+                })
+            },
+            /*pData:父级数据  pId父级选中的id  cData子数据*/
+            changeSelet(pData,pId,cData){
+                console.log(pId,cData)
+                for(let cur of pData){
+                    if(cur.id==pId){
+                        if(cData=='second'){//得到二级
+                            if(pId=='auto'){
+                                this.secondId=this.threeId='auto';
+                                this.threeData.length=this.secondData.length=0;
+                            }else{
+                                this.secondData=cur.children;
+                                this.secondId=this.threeId='auto';
+                                this.threeData=[];
+                            }  
+                        }else if(cData=='three'){//得到三级
+                            console.log(pId)
+                            if(pId=='auto'){
+                                this.threeId='auto';
+                                this.threeData=[];
+                            }else{
+                                this.threeData=cur.children;
+                                this.threeId='auto';
+                            } 
+                        }
+                        break;
+                    }
+                }
+            },
+            getFourData(id){
+                console.log(id);
+            },
+            //保存定制标签
+            saveTags(){
+                
             }
         }
     }

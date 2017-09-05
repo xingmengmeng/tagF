@@ -94,6 +94,12 @@
                                         </select>
                                     </li>
                                     <li class="clearfix">
+                                        <label><strong>*</strong>短信业务：</label>
+                                        <!--<select v-model="selected" class="left">
+                                            <option v-for="op in querySystemList" :value="op">{{op}}</option>
+                                        </select>-->
+                                    </li>
+                                    <li class="clearfix">
                                         <label><strong>*</strong>主题名称：</label>
                                         <input type="text" v-model="subject" class="txt" placeholder="最多输入20个字符">
                                     </li>
@@ -101,6 +107,42 @@
                                         <label><strong>*</strong>覆盖用户数：</label>
                                         <span class="left countNum" v-cloak>{{counts}}</span>
                                         <!--<button @click="countNum" class="countBtn">刷新</button>-->
+                                    </li>
+                                    <li class="clearfix">
+                                        <label><strong>*</strong>对接字段：</label>
+                                        <div>
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>&nbsp;</th>
+                                                        <th>字段内容</th>
+                                                        <th>数量（条）</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="radio"></td>
+                                                        <td>Passportid</td>
+                                                        <td>11,123</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="radio"></td>
+                                                        <td>Passportid</td>
+                                                        <td>11,123</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="radio"></td>
+                                                        <td>Passportid</td>
+                                                        <td>11,123</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="radio"></td>
+                                                        <td>Passportid</td>
+                                                        <td>11,123</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </li>
                                     <li class="clearfix saveErrorLi">
                                         <span>{{saveError}}</span>
