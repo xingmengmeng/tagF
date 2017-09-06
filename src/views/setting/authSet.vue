@@ -1,37 +1,47 @@
 <template>
     <div>
         <h4>权限配置</h4>
-        <ul>
-            <li>
-                <label>部门角色：</label>
+        <ul class="ulWraper">
+            <li class="fLi">
+                <label><strong>*</strong>部门角色：</label>
                 <span>{{this.name}}</span>
             </li>
-            <li>
+            <li class="fLi">
                 <label>权限描述：</label>
                 <textarea name="" id="" cols="30" rows="10" v-model="remark"></textarea>
             </li>
-        </ul>
-        <span>编辑标签权限：</span>
-        <!--树级结构-->
-        <div>
-            <ul>
-                <li v-for="(first,index) in listData" :key="index" >
-                    <input type="checkbox" :value="first.id" v-model="select" @click="changeCheck(first,'first',$event)"><span>{{first.name}}</span>
-                    <ul class="secondUl">
-                        <li v-for="(second,index) in first.children" :key="index">
-                            <input type="checkbox" :value="second.id" v-model="select" @click="changeCheck(second,'second',$event)">{{second.name}}
-                            <ul class="threeUl">
-                                <li v-for="(three,index) in second.children" :key="index">
-                                    <input type="checkbox" :value="three.id" v-model="select" @click="changeCheck(three,'three',$event)">{{three.name}}
+            <li class="fLi">
+                <label>编辑标签权限：</label>
+                <!--树级结构-->
+                <div class="treeWrap">
+                    <ul>
+                        <li v-for="(first,index) in listData" :key="index">
+                            <i class="showOrHide" @click="showNext(first,'first')" :class="secondShowId==first.id?'active':''"></i>
+                            <input type="checkbox" :value="first.id" v-model="select" @click="changeCheck(first,'first',$event)">
+                            <span @click="showNext(first,'first')">{{first.name}}</span>
+                            <ul class="secondUl" v-show="secondShowId==first.id">
+                                <li v-for="(second,index) in first.children" :key="index">
+                                    <i class="showOrHide" @click="showNext(second,'second')"  :class="threeShowId==second.id?'active':''"></i>
+                                    <input type="checkbox" :value="second.id" v-model="select" @click="changeCheck(second,'second',$event)">
+                                    <span @click="showNext(second,'second')">{{second.name}}</span>
+                                    <ul class="threeUl" v-show="threeShowId==second.id">
+                                        <li v-for="(three,index) in second.children" :key="index" class="threeTagCl">
+                                            <input type="checkbox" :value="three.id" v-model="select" @click="changeCheck(three,'three',$event)">
+                                            <span>{{three.name}}</span>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </li>
+        </ul>
+        <div class="right btnWrap">
+            <input type="button" value="取消" @click="goBack">
+            <input type="button" value="保存" @click="saveAuth" class="blue">
         </div>
-        <input type="button" value="取消" @click="goBack">
-        <input type="button" value="保存" @click="saveAuth">
+        
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
@@ -64,7 +74,70 @@
         padding-left:20px;
     }
     .threeUl{
-        .secondUl;
+        margin-left: 48px;
+        border-left:2px solid #d8e9fd;
+    }
+    .ulWraper{
+        width: 100%;
+        padding:0 20px;
+        box-sizing: border-box;
+        .fLi{
+            float: left;
+            margin-bottom:15px;
+            width: 100%;
+            cursor: pointer;
+        }
+        label{
+            float: left;
+            width: 120px;
+            text-align: right;
+        }
+        textarea{
+            float: left;
+            padding:10px;
+            width: 900px;
+            height: 77px;
+            border: 1px solid #ECECEC;
+            box-sizing: border-box;
+        }
+        strong{
+            color: #f9915a;
+        }
+    }
+    .treeWrap{
+        float: left;
+        li{
+            line-height: 180%;
+            i{
+                display: inline-block;
+                margin-right: 10px;
+                width: 14px;
+                height: 14px;
+                background: url(../../assets/images/list_close.png) left 0px no-repeat;
+                &.active{
+                    background: url(../../assets/images/list_open.png) left 0px no-repeat;
+                }
+            }
+            
+            &.threeTagCl{
+                padding-left:45px;
+                background: url(../../assets/images/icon7.png) left 5px no-repeat;
+            }
+        }
+    }
+    .btnWrap{
+        input{
+            width: 80px;
+            height: 30px;
+            border: 0;
+            border-radius: 3px;
+            color: #252525;
+            cursor: pointer;
+            &.blue{
+                background: #1078f5;
+                color:#fff;
+            }
+        }
     }
 </style>
 <script>
@@ -81,6 +154,8 @@ export default {
             remark:'',
             select:[],
             isOpen:false,
+            secondShowId:-1,
+            threeShowId:-1,
         }
     },
     components:{
@@ -214,6 +289,21 @@ export default {
                     if(!firstFlg) this.select=this.select.filter(cur=>pId!=cur);
                     break;
                 }
+            }
+        },
+        showNext(item,str){
+            if(str=='first'){
+                if(this.secondShowId==item.id){
+                    this.secondShowId=-1;
+                    return;
+                }
+                this.secondShowId=item.id;
+            }else if(str=='second'){
+                if(this.threeShowId==item.id){
+                    this.threeShowId=-1;
+                    return;
+                }
+                this.threeShowId=item.id;
             }
         }
     }
