@@ -186,12 +186,11 @@ export default {
             var ids=this.select.toString();
             this.$http.post('/api/auth/update.gm',{"id":this.authId,"tagIds":ids,"remark":this.remark},{emulateJSON:true}).then(function(res){
                 if(res.data.code=='200'){
-                    this.$router.push("/setting/auth/authList");
+                    //this.$router.push("/setting/auth/authList");
                     this.showSuccess=true;
                     setTimeout(()=>{
                         this.showSuccess=false;
                     },2000);
-                    this.$store.state.notice=this.noticeCon;
                 }
             })
         },
