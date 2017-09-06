@@ -43,36 +43,39 @@
         </div>
         <div class="left addUsersRight">
             <div class="biWrap">
-                var aa=1;
-
-                console.log(aa);
-                <ul>
-                    <li @click="showCon='tagWrap'">定制标签</li>
-                    <li @click="showCon='vipWrap'">白名单</li>
+                <ul class="tagSetNav clearfix">
+                    <li @click="showCon='tagWrap'" :class="showCon=='tagWrap'?'active':''">定制标签</li>
+                    <li @click="showCon='vipWrap'" :class="showCon=='vipWrap'?'active':''">白名单</li>
                 </ul>
                 <!--定制标签 start-->
-                <div v-show="showCon=='tagWrap'">
+                <div v-show="showCon=='tagWrap'" class="tagSetDiv">
                     <ul>
-                        <li>
-                            <label>一级标签</label>
-                            <select v-model="firstId" @change="changeSelet(tagData,firstId,'second')">
-                                <option value="auto">请选择</option>
-                                <option :value="firstTag.id" v-for="(firstTag,index) in tagData" :key="index">{{firstTag.name}}</option>
-                            </select>
+                        <li class="tagLis">
+                            <label>一级标签：</label>
+                            <div class="rightTag">
+                                <select v-model="firstId" @change="changeSelet(tagData,firstId,'second')">
+                                    <option value="auto">请选择</option>
+                                    <option :value="firstTag.id" v-for="(firstTag,index) in tagData" :key="index">{{firstTag.name}}</option>
+                                </select>
+                            </div>
                         </li>
-                        <li>
-                            <label>二级标签</label>
-                            <select v-model="secondId" @change="changeSelet(secondData,secondId,'three')">
-                                <option value="auto">请选择</option>
-                                <option :value="secondTag.id" v-for="(secondTag,index) in secondData" :key="index">{{secondTag.name}}</option>
-                            </select>
+                        <li class="tagLis">
+                            <label>二级标签：</label>
+                            <div class="rightTag">
+                                <select v-model="secondId" @change="changeSelet(secondData,secondId,'three')">
+                                    <option value="auto">请选择</option>
+                                    <option :value="secondTag.id" v-for="(secondTag,index) in secondData" :key="index">{{secondTag.name}}</option>
+                                </select>
+                            </div>
                         </li>
-                        <li>
-                            <label>三级标签</label>
-                            <select v-model="threeId" @change="getFourData(threeId)">
-                                <option value="auto">请选择</option>
-                                <option :value="threeTag.id" v-for="(threeTag,index) in threeData" :key="index">{{threeTag.name}}</option>
-                            </select>
+                        <li class="tagLis">
+                            <label>三级标签：</label>
+                            <div class="rightTag">
+                                <select v-model="threeId" @change="getFourData(threeId)">
+                                    <option value="auto">请选择</option>
+                                    <option :value="threeTag.id" v-for="(threeTag,index) in threeData" :key="index">{{threeTag.name}}</option>
+                                </select>
+                            </div>  
                         </li>
                         <li v-if="tagCon">
                             提示： {{tagCon.tips}}
@@ -114,8 +117,8 @@
         <div class="overlay"></div>
         <!--删除弹框-->
         <div class="markDelet">
-            <p>此标签已配置了用户群，如果删除，则相关用户群和活动将失效。您确定要删除？</p>
-            <div class="btnWrap">
+            <p>您确定要删除此标签吗？如果删除，可能会使相</br>关联的用户群、活动状态失效，以及宏观对比人群被移除。</p>
+            <div class="btnWrap" style="margin:0 auto;">
                 <input type="button" value="否" @click="deletFalse">
                 <input type="button" value="是" @click="deleteTrue">
             </div>
@@ -167,6 +170,44 @@
         font-size: 0;
         background: url(../../assets/images/tagDle.png);
         cursor: pointer;
+    }
+    .tagSetNav{
+        width: 100%;
+        border-bottom: 1px #F1F4FA solid;
+        li{
+            float: left;
+            padding:5px 30px;
+            border-bottom: 2px #F1F4FA solid;
+            cursor: pointer;
+            &.active{
+                border-bottom: 2px #1078F5 solid;
+            }
+        }
+    }
+    .tagSetDiv{
+        .tagLis{
+            margin-top: 10px;
+            padding:10px 30px;
+            width: 100%;
+            background: #f9f9f9;
+            box-sizing: border-box;
+            label{
+                float: left;
+                height: 30px;
+                line-height: 30px;
+            }
+            .rightTag{
+                padding-left:85px;
+                width: 100%;
+                box-sizing: border-box;
+                select{
+                    width: 100%;
+                    height: 30px;
+                    border: 1px #ECECEC solid;
+                    box-sizing: border-box;
+                }
+            }
+        }
     }
 </style>
 <script>
@@ -515,7 +556,7 @@
             },
             deleteTrue(){
                 /*确定  删除  关弹框*/
-                this.$http.delete('/api/tagDefined/delete.gm?id='+this.deleteId).then(function (res) {
+                this.$http.delete('/api/baseTag/delete.gm?id='+this.deleteId).then(function (res) {
                     if(res.data.code==200){
                         var overlay=document.querySelector('.overlay'),
                             markDelet=document.querySelector('.markDelet');
