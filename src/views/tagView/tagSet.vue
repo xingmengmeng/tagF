@@ -77,17 +77,17 @@
                                 </select>
                             </div>  
                         </li>
-                        <li v-if="tagCon">
+                        <li v-if="tagCon" class="tagConMes">
                             提示： {{tagCon.tips}}
                         </li> 
                         <li v-if="tagCon">
-                            <label>{{tagCon.tagName}}</label>
+                            <span class="tagTitle">{{tagCon.tagName}}</span></br>
                             <input type="text" v-model="minTxt">
                             <span>~</span>
                             <input type="text" v-model="maxTxt">
                             <span>{{tagCon.unit}}</span>
                             <span v-if="tagCon.unit=='元'">(小数点后2位)</span>
-                            <span v-if="tagCon.unit=='次'||tagCon.unit=='天'">(输入整数)</span>
+                            <span v-if="tagCon.unit=='次'||tagCon.unit=='天'||tagCon.unit=='个'">(输入整数)</span>
                         </li>  
                     </ul>
                 </div>
@@ -101,7 +101,7 @@
             <!--滚动块下方内容 start-->
             <!--定制标签模块-->
             <div class="clearfix biFooter" v-show="showCon=='tagWrap'">  
-                <span>{{error}}</span>
+                <span class="errorSpan">{{error}}</span>
                 <input type="button" value="提交" @click="saveTags" class="tagBtn right"> 
             </div>
             <!--白名单模块-->
@@ -208,6 +208,31 @@
                 }
             }
         }
+        .tagConMes{
+            padding:20px 0;
+            font-size: 14px;
+            color: #1078F5;
+        }
+        input{
+            padding:0 5px;
+            width: 120px;
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #ECECEC;
+            box-sizing: border-box;
+        }
+        .tagTitle{
+            float: left;
+            width: 100%;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+    }
+    .errorSpan{
+        float: left;
+        margin-top:10px;
+        font-size: 12px;
+        color: #b40606;
     }
 </style>
 <script>
