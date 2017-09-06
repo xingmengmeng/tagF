@@ -35,7 +35,7 @@
                         <li v-for="fourData in fourResData" class="clearfix" v-cloak>
                             <!--<input type="checkbox" class="checks" v-model="fourData.checked" @click="getSendData(fourData)">
                             <i :class="checkdId.indexOf(fourData.id)!=-1?'classA':'classB'"></i>-->
-                            <label class="checkLabel"><span v-cloak>{{fourData.name}}({{fourData.count}}){{fourData.rate}}<i v-if="fourData.createrId&&fourData.createrId=='canDel'">删除</i> </span></label>
+                            <label class="checkLabel"><span v-cloak>{{fourData.name}}({{fourData.count}}){{fourData.rate}}<i v-if="fourData.createrId&&fourData.createrId=='canDel'" class='tagDle' @click="deleteTag(fourData.id)">删除</i> </span></label>
                         </li>
                     </ul>
                 </div>
@@ -43,6 +43,9 @@
         </div>
         <div class="left addUsersRight">
             <div class="biWrap">
+                var aa=1;
+
+                console.log(aa);
                 <ul>
                     <li @click="showCon='tagWrap'">定制标签</li>
                     <li @click="showCon='vipWrap'">白名单</li>
@@ -71,15 +74,17 @@
                                 <option :value="threeTag.id" v-for="(threeTag,index) in threeData" :key="index">{{threeTag.name}}</option>
                             </select>
                         </li>
-                        <li>
-                            提示： 该标签限制范围：100~10000元 。
+                        <li v-if="tagCon">
+                            提示： {{tagCon.tips}}
                         </li> 
-                        <li>
-                            <label>月收入</label>
-                            <input type="text">
-                            <span>-</span>
-                            <input type="text">
-                            <span>元</span>
+                        <li v-if="tagCon">
+                            <label>{{tagCon.tagName}}</label>
+                            <input type="text" v-model="minTxt">
+                            <span>~</span>
+                            <input type="text" v-model="maxTxt">
+                            <span>{{tagCon.unit}}</span>
+                            <span v-if="tagCon.unit=='元'">(小数点后2位)</span>
+                            <span v-if="tagCon.unit=='次'||tagCon.unit=='天'">(输入整数)</span>
                         </li>  
                     </ul>
                 </div>
@@ -93,7 +98,8 @@
             <!--滚动块下方内容 start-->
             <!--定制标签模块-->
             <div class="clearfix biFooter" v-show="showCon=='tagWrap'">  
-                <input type="button" value="提交" @click="saveTags" id="saveGroup" class="tagBtn right"> 
+                <span>{{error}}</span>
+                <input type="button" value="提交" @click="saveTags" class="tagBtn right"> 
             </div>
             <!--白名单模块-->
             <div class="clearfix biFooter" v-show="showCon=='vipWrap'">  
@@ -101,9 +107,32 @@
             </div>
             <!--滚动块下方内容 end-->
         </div>
+        <transition name="slide-fade">
+            <success-box v-show="showSuccess"></success-box>
+        </transition>
+
+        <div class="overlay"></div>
+        <!--删除弹框-->
+        <div class="markDelet">
+            <p>此标签已配置了用户群，如果删除，则相关用户群和活动将失效。您确定要删除？</p>
+            <div class="btnWrap">
+                <input type="button" value="否" @click="deletFalse">
+                <input type="button" value="是" @click="deleteTrue">
+            </div>
+        </div>
     </section>
 </template>
 <style scoped lang="less">
+    .slide-fade-enter-active {
+        transition: all .2s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to{
+        transform: translateX(100px);
+        opacity: 0;
+    }
     .checkboxClass{
         float: left;
         opacity: 0;
@@ -129,9 +158,20 @@
         background: #1078f5; 
         color:#fff;
     }
+    .tagDle{
+        display: inline-block;
+        margin-left:10px;
+        vertical-align: -7px;
+        width: 12px;
+        height: 12px;
+        font-size: 0;
+        background: url(../../assets/images/tagDle.png);
+        cursor: pointer;
+    }
 </style>
 <script>
     import loading from '../../components/loading.vue';
+    import successBox from '../../components/successBox.vue';
 
     const IScroll = require('iscroll');
     import LayOut from '../../assets/js/layout';
@@ -151,6 +191,8 @@
                 i: -1, /*二级树的class样式*/
                 j: -1, /*三级树点击后状态  文字颜色变化*/
 
+                showSuccess:false,
+
                 showCon:'tagWrap',//最后侧显示的模块
                 tagData:[],//标签联动数据
                 secondData:[],
@@ -158,12 +200,16 @@
                 firstId:'auto',
                 secondId:'auto',
                 threeId:'auto',//三级id
+                tagCon:null,//标签信息
+                minTxt:'',
+                maxTxt:'',
+                error:'',//自定义标签错误提示
+                deleteId:'',
             }
         },
         mounted(){
             this.getData();
             this.getUrlPage();//地址栏参数判断
-            this.saveGroup();
             /*提交按钮样式*/
             LayOut.setHeight.init();
             LayOut.serBiWrap.init();
@@ -175,6 +221,7 @@
         },
         components:{
             'loading': loading,
+            'success-box':successBox,
         },
         methods:{
             /*得到树的数据*/
@@ -311,22 +358,6 @@
                 }
                 
             },
-            /*设置提交按钮状态*/
-            saveGroup(){
-                /*var btnsave=document.querySelector('#saveGroup');
-                console.log(this.statisUsers.count);
-                if(this.statisUsers.count==0){
-                    btnsave.style.background='#ddd';
-                    btnsave.style.color='#333';
-                    btnsave.style.cursor='default';
-                    btnsave.setAttribute('disabled','true');
-                }else{
-                    btnsave.style.background='#1078f5';
-                    btnsave.style.color='#fff';
-                    btnsave.style.cursor='pointer';
-                    btnsave.removeAttribute('disabled');
-                }*/
-            },
             /*全选*/
             comAllSelect(){
                 var cc=this.fourResData.filter(item=>{
@@ -436,19 +467,64 @@
                 console.log(id);
                 this.$http.get('/api/tagDefined/queryConfigByTagId.gm?tagId='+id).then(function(res){
                     if(res.data.code==200){
-
+                        this.tagCon=res.data.dataInfo;
                     }
                 })
 
             },
+            //校验填入的内容
+            validatTag(){
+                if(isNaN(Number(this.minTxt))||isNaN(Number(this.maxTxt))){//其中有一个数字非数字  返回
+                    this.error='请在输入框内，填写具体的数字';
+                    return;
+                }
+            },
             //保存定制标签
             saveTags(){
-                
+                this.validatTag();
+                if(this.minTxt==''||this.maxTxt==''){
+                    this.error='设置范围不能为空';
+                    return;
+                }
+                this.$http.post('/api/tagDefined/save.gm',{"tagId":this.threeId,"minValue":this.minTxt,"maxValue":this.maxTxt},{emulateJSON:true}).then(function(res){
+                    if(res.data.code=='200'){
+                        this.showSuccess=true;
+                        setTimeout(()=>{
+                            this.showSuccess=false;
+                        },2000);
+                    }
+                })
             },
             //跳转到白名单设置页面
             whiteListSet(){
                 this.$router.push('/tagView/tagw/whiteListSet');
-            }
+            },
+            //删除配置标签
+            deleteTag(id){
+                this.deleteId=id;
+                /*显示弹框  确定否  然后点确定  则删除*/
+                var overlay=document.querySelector('.overlay'),
+                        markDelet=document.querySelector('.markDelet');
+                overlay.style.display=markDelet.style.display='block';
+            },
+            deletFalse(){
+                /*取消  关弹框*/
+                var overlay=document.querySelector('.overlay'),
+                    markDelet=document.querySelector('.markDelet');
+                overlay.style.display=markDelet.style.display='none';
+            },
+            deleteTrue(){
+                /*确定  删除  关弹框*/
+                this.$http.delete('/api/tagDefined/delete.gm?id='+this.deleteId).then(function (res) {
+                    if(res.data.code==200){
+                        var overlay=document.querySelector('.overlay'),
+                            markDelet=document.querySelector('.markDelet');
+                        overlay.style.display=markDelet.style.display='none';
+                        /*前台页面列表数组删除此条数据  或者再走一次接口*/
+                        this.getData();
+                    }
+                })
+            },
         }
     }
 </script>
