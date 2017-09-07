@@ -93,7 +93,7 @@
                 </div>
                 <!--定制标签 end-->
                 <!--白名单  start-->
-                <div v-show="showCon=='vipWrap'">
+                <div v-show="showCon=='vipWrap'" class="whiteScroll">
                     <ul class="whiteListUl">
                         <li class="whiteList nostart">
                             <ul>
@@ -283,6 +283,11 @@
         font-size: 12px;
         color: #b40606;
     }
+    .whiteScroll{
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
     .whiteList{
         width: 100%;
         margin-top:10px;
@@ -360,6 +365,7 @@
                 maxTxt:'',
                 error:'',//自定义标签错误提示
                 deleteId:'',
+                whiteScroll:null,
             }
         },
         mounted(){
@@ -377,6 +383,13 @@
         components:{
             'loading': loading,
             'success-box':successBox,
+        },
+        watch:{
+            showCon(str){
+                if(str=='vipWrap'){
+                    this.getWhiteData();//得到白名单列表
+                }
+            }
         },
         methods:{
             /*得到树的数据*/
@@ -676,12 +689,14 @@
                         markDelet=document.querySelector('.markDelet');
                 overlay.style.display=markDelet.style.display='block';
             },
+            //删除配置标签
             deletFalse(){
                 /*取消  关弹框*/
                 var overlay=document.querySelector('.overlay'),
                     markDelet=document.querySelector('.markDelet');
                 overlay.style.display=markDelet.style.display='none';
             },
+            //删除配置标签
             deleteTrue(){
                 /*确定  删除  关弹框*/
                 this.$http.delete('/api/baseTag/delete.gm?id='+this.deleteId).then(function (res) {
@@ -700,6 +715,36 @@
                     }
                 })
             },
+            //白名单   得到白名单列表
+            getWhiteData(){
+                let biWrap=document.querySelector('.biWrap'),
+                    whiteScroll=document.querySelector('.whiteScroll');
+                whiteScroll.style.height=Number(biWrap.style.height.replace('px',''))-100+'px';
+                console.log('c'+whiteScroll.style.height)
+                this.$nextTick(function(){
+                    new IScroll('.whiteScroll',{
+                        mouseWheel: true,
+                        scrollbars: true,
+                        checkDOMChanges:true,
+                        bounce: false,
+                        interactiveScrollbars:true
+                    });
+                })
+                            
+                this.$http.get('/api/tagWhiteList/queryList.gm').then(function(res){
+                    if(res.data.code==200){
+                        this.$nextTick(function(){
+                            new IScroll('.whiteScroll',{
+                                mouseWheel: true,
+                                scrollbars: true,
+                                checkDOMChanges:true,
+                                bounce: false,
+                                interactiveScrollbars:true
+                            });
+                        })
+                    }
+                })
+            }
         }
     }
 </script>

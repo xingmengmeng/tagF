@@ -1,16 +1,16 @@
 <template>
     <div class="whiteWrap">
         <h4>白名单标签</h4>
-        <section>
-            <ul>
+        <section class="whiteSetUl">
+            <ul class="left leftUl">
                 <li>
                     <label><strong>*</strong>标签名称：</label>
-                    <input type="text">
+                    <input type="text" v-model="tagName">
                 </li>
                 <li>
                     <label><strong>*</strong>状态：</label>
-                    <input type="radio" id="unable"><label for="unable">启用</label>
-                    <input type="radio" id="ableId"><label for="ableId">禁用</label>
+                    <input type="radio" id="unable" value="1" v-model="status"><label for="unable">启用</label>
+                    <input type="radio" id="ableId" value="0" v-model="status"><label for="ableId">禁用</label>
                 </li>
                 <li>
                     <label><strong>*</strong>有效时间：</label>
@@ -21,8 +21,10 @@
             </ul>
             <div class="right">
                 <label>描述：</label>
-                <textarea></textarea>
+                <textarea v-model="remark"></textarea>
             </div>
+            <input type="button" value="取消" @click="goBack">
+            <input type="button" value="保存" @click="saveWhite">
         </section>
         <h4>用户明细</h4>
         <div class="left messWrap">
@@ -66,8 +68,6 @@
                 </tr>
             </tbody>
         </table>
-        <input type="button" value="取消" @click="goBack">
-        <input type="button" value="保存" @click="saveWhite">
     </div>
 </template>
 
@@ -131,6 +131,9 @@
         cursor: pointer;
       }
     }
+    .whiteSetUl{
+
+    }
 </style>
 <script>
 require('../../assets/css/pages.less');
@@ -147,6 +150,9 @@ export default {
             queryList:[],//表格列表
             startTimes:'',
             endTimes:'',
+            remark:'',
+            tagName:'',
+            status:0,
         }
     },
     mounted () {
@@ -227,6 +233,9 @@ export default {
         //保存白名单
         saveWhite(){
             console.log(this.startTimes,this.endTimes);
+            this.$http.post('/api/tagWhiteList/save.gm',{"name":this.tagName,"status":this.status,"beginTime":this.startTimes,"endTime":this.endTimes,"remark":this.remark},{emulateJSON:true}).then(function(res){
+
+            })
         },
         goBack(){
             this.$router.push('/tagView/tagw/tagSet');
