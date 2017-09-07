@@ -82,9 +82,9 @@
                         </li> 
                         <li v-if="tagCon">
                             <span class="tagTitle">{{tagCon.tagName}}</span></br>
-                            <input type="text" v-model="minTxt" @blur="valiMin(minTxt)">
+                            <input type="text" v-model="minTxt" @blur="valiMin(minTxt)" placeholder="≤ 数值">
                             <span>~</span>
-                            <input type="text" v-model="maxTxt" @blur="valiMin(maxTxt)">
+                            <input type="text" v-model="maxTxt" @blur="valiMin(maxTxt)" placeholder="< 数值">
                             <span>{{tagCon.unit}}</span>
                             <span v-if="tagCon.unit=='元'">(小数点后2位)</span>
                             <span v-if="tagCon.unit=='次'||tagCon.unit=='天'||tagCon.unit=='个'">(输入整数)</span>
@@ -539,12 +539,6 @@
 
             },
             //校验填入的内容
-            validatTag(){
-                if(isNaN(Number(this.minTxt))||isNaN(Number(this.maxTxt))){//其中有一个数字非数字  返回
-                    this.error='请在输入框内，填写具体的数字';
-                    return;
-                }
-            },
             valiMin(txt){
                 if(isNaN(Number(txt))){//其中有一个数字非数字  返回
                     this.error='请在输入框内，填写具体的数字';
@@ -556,7 +550,10 @@
             },
             //保存定制标签
             saveTags(){
-                this.validatTag();
+                if(isNaN(Number(this.minTxt))||isNaN(Number(this.maxTxt))){//其中有一个数字非数字  返回
+                    this.error='请在输入框内，填写具体的数字';
+                    return;
+                }
                 if(this.minTxt==''||this.maxTxt==''){
                     this.error='设置范围不能为空';
                     return;
