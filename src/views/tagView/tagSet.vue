@@ -94,7 +94,56 @@
                 <!--定制标签 end-->
                 <!--白名单  start-->
                 <div v-show="showCon=='vipWrap'">
-                    白名单
+                    <ul class="whiteListUl">
+                        <li class="whiteList nostart">
+                            <ul>
+                                <li class="whiteTitle clearfix">
+                                    <span class="left">金融超市白名单1</span>
+                                    <i class="right delWhite"></i>
+                                </li>
+                                <li class="whiteMess clearfix">
+                                    <span class="left">有效期：2017/06/28~2017/08/30</span>
+                                    <span class="right">用户数：32,200</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="whiteList unable">
+                            <ul>
+                                <li class="whiteTitle clearfix">
+                                    <span class="left">金融超市白名单1</span>
+                                    <i class="right delWhite"></i>
+                                </li>
+                                <li class="whiteMess clearfix">
+                                    <span class="left">有效期：2017/06/28~2017/08/30</span>
+                                    <span class="right">用户数：32,200</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="whiteList normal">
+                            <ul>
+                                <li class="whiteTitle clearfix">
+                                    <span class="left">金融超市白名单1</span>
+                                    <i class="right delWhite"></i>
+                                </li>
+                                <li class="whiteMess clearfix">
+                                    <span class="left">有效期：2017/06/28~2017/08/30</span>
+                                    <span class="right">用户数：32,200</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="whiteList outTime">
+                            <ul>
+                                <li class="whiteTitle clearfix">
+                                    <span class="left">金融超市白名单1</span>
+                                    <i class="right delWhite"></i>
+                                </li>
+                                <li class="whiteMess clearfix">
+                                    <span class="left">有效期：2017/06/28~2017/08/30</span>
+                                    <span class="right">用户数：32,200</span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
                 <!--白名单  end-->
             </div>
@@ -233,6 +282,46 @@
         margin-top:10px;
         font-size: 12px;
         color: #b40606;
+    }
+    .whiteList{
+        width: 100%;
+        margin-top:10px;
+        padding:20px;
+        box-sizing: border-box;
+        &.nostart{
+            background: #f9f9f9 url(../../assets/images/tagIcon4.png) top left no-repeat;
+        }
+        &.unable{
+            background: #f9f9f9 url(../../assets/images/tagIcon3.png) top left no-repeat;
+        }
+        &.normal{
+            background: #f9f9f9 url(../../assets/images/tagIcon2.png) top left no-repeat;
+        }
+        &.outTime{
+            background: #f9f9f9 url(../../assets/images/tagIcon1.png) top left no-repeat;
+        }
+
+        .whiteTitle{
+            padding:0 15px;
+            height: 30px;
+            line-height: 30px;
+            background: #FFFFFF;
+            border: 1px solid #ECECEC;
+            box-sizing: border-box;
+
+            i{
+                margin-top:10px;
+                width: 7px;
+                height: 7px;
+                background: url(../../assets/images/tagDel.png);
+                cursor: pointer;
+            }
+        }
+        .whiteMess{
+            border: 1px #f9f9f9 solid;
+            font-size: 11px;
+            color: #999999;
+        }
     }
 </style>
 <script>

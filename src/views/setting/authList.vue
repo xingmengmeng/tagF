@@ -25,8 +25,8 @@
                     <td>{{item.updateTime}}</td>
                     <td>{{item.remark}}</td>
                     <td>
-                        <a href="javascript:;" @click="deleteUserGroup(item.id)" class="listDeleteBtn" v-show="item.useStatus!='已使用'">删除</a>
                         <router-link class="listDetailLink" :to="{ path:'/setting/auth/authSet', query: {id:item.id}}">编辑</router-link>
+                        <a href="javascript:;" @click="deleteUserGroup(item.id)" class="listDeleteBtn" v-show="item.useStatus!='已使用'">删除</a>
                     </td>
                 </tr>
             </tbody>
@@ -187,8 +187,8 @@ export default {
     /*提交事件*/
     saveNewAuth(){
         var subjectLength=this.authName.gblen();
-        if(subjectLength>10){
-            this.saveError='主题最多输入10个字符';
+        if(subjectLength>20){
+            this.saveError='主题最多输入20个字符';
             return false;
         }else if(subjectLength==0){
             this.saveError='部门名称不能为空';
