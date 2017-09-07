@@ -82,9 +82,9 @@
                         </li> 
                         <li v-if="tagCon">
                             <span class="tagTitle">{{tagCon.tagName}}</span></br>
-                            <input type="text" v-model="minTxt">
+                            <input type="text" v-model="minTxt" @blur="valiMin(minTxt)">
                             <span>~</span>
-                            <input type="text" v-model="maxTxt">
+                            <input type="text" v-model="maxTxt" @blur="valiMin(maxTxt)">
                             <span>{{tagCon.unit}}</span>
                             <span v-if="tagCon.unit=='元'">(小数点后2位)</span>
                             <span v-if="tagCon.unit=='次'||tagCon.unit=='天'||tagCon.unit=='个'">(输入整数)</span>
@@ -100,7 +100,7 @@
             </div>
             <!--滚动块下方内容 start-->
             <!--定制标签模块-->
-            <div class="clearfix biFooter" v-show="showCon=='tagWrap'">  
+            <div class="clearfix biFooter" v-show="showCon=='tagWrap'" v-if="tagCon">  
                 <span class="errorSpan">{{error}}</span>
                 <input type="button" value="提交" @click="saveTags" class="tagBtn right"> 
             </div>
@@ -545,6 +545,15 @@
                     return;
                 }
             },
+            valiMin(txt){
+                if(isNaN(Number(txt))){//其中有一个数字非数字  返回
+                    this.error='请在输入框内，填写具体的数字';
+                    return;
+                }
+                if(!isNaN(Number(this.minTxt))&&!isNaN(Number(this.maxTxt))){
+                    this.error='';
+                }
+            },
             //保存定制标签
             saveTags(){
                 this.validatTag();
@@ -558,6 +567,14 @@
                         setTimeout(()=>{
                             this.showSuccess=false;
                         },2000);
+                        this.showLoading=true;
+                        this.$http.get('/api/baseTag/queryByParentId.gm?parentId=defined_tag').then(function (response) {
+                            this.showLoading=false;
+                            this.sortFlag=true;//排序恢复默认
+                            this.setFour(response);
+                        })
+                    }else{
+                        this.error=res.data.msg.replace('参数校验不通过:','');
                     }
                 })
             },
@@ -588,6 +605,12 @@
                         overlay.style.display=markDelet.style.display='none';
                         /*前台页面列表数组删除此条数据  或者再走一次接口*/
                         this.getData();
+                        this.showLoading=true;
+                        this.$http.get('/api/baseTag/queryByParentId.gm?parentId=defined_tag').then(function (response) {
+                            this.showLoading=false;
+                            this.sortFlag=true;//排序恢复默认
+                            this.setFour(response);
+                        })
                     }
                 })
             },
