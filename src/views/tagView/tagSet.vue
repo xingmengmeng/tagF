@@ -95,51 +95,15 @@
                 <!--白名单  start-->
                 <div v-show="showCon=='vipWrap'" class="whiteScroll">
                     <ul class="whiteListUl">
-                        <li class="whiteList nostart">
+                        <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未开始'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
                             <ul>
                                 <li class="whiteTitle clearfix">
-                                    <span class="left">金融超市白名单1</span>
-                                    <i class="right delWhite"></i>
+                                    <span class="left">{{curWhite.name}}</span>
+                                    <i class="right delWhite" @click="delWhite(curWhite.id)" v-if="curWhite.createrId&&curWhite.createrId=='canDel'"></i>
                                 </li>
                                 <li class="whiteMess clearfix">
-                                    <span class="left">有效期：2017/06/28~2017/08/30</span>
-                                    <span class="right">用户数：32,200</span>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="whiteList unable">
-                            <ul>
-                                <li class="whiteTitle clearfix">
-                                    <span class="left">金融超市白名单1</span>
-                                    <i class="right delWhite"></i>
-                                </li>
-                                <li class="whiteMess clearfix">
-                                    <span class="left">有效期：2017/06/28~2017/08/30</span>
-                                    <span class="right">用户数：32,200</span>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="whiteList normal">
-                            <ul>
-                                <li class="whiteTitle clearfix">
-                                    <span class="left">金融超市白名单1</span>
-                                    <i class="right delWhite"></i>
-                                </li>
-                                <li class="whiteMess clearfix">
-                                    <span class="left">有效期：2017/06/28~2017/08/30</span>
-                                    <span class="right">用户数：32,200</span>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="whiteList outTime">
-                            <ul>
-                                <li class="whiteTitle clearfix">
-                                    <span class="left">金融超市白名单1</span>
-                                    <i class="right delWhite"></i>
-                                </li>
-                                <li class="whiteMess clearfix">
-                                    <span class="left">有效期：2017/06/28~2017/08/30</span>
-                                    <span class="right">用户数：32,200</span>
+                                    <span class="left">有效期：{{curWhite.beginTime}}~{{curWhite.endTime}}</span>
+                                    <span class="right">用户数：{{curWhite.userCount}}</span>
                                 </li>
                             </ul>
                         </li>
@@ -366,6 +330,7 @@
                 error:'',//自定义标签错误提示
                 deleteId:'',
                 whiteScroll:null,
+                whiteData:[],//白名单列表数据
             }
         },
         mounted(){
@@ -719,20 +684,10 @@
             getWhiteData(){
                 let biWrap=document.querySelector('.biWrap'),
                     whiteScroll=document.querySelector('.whiteScroll');
-                whiteScroll.style.height=Number(biWrap.style.height.replace('px',''))-100+'px';
-                console.log('c'+whiteScroll.style.height)
-                this.$nextTick(function(){
-                    new IScroll('.whiteScroll',{
-                        mouseWheel: true,
-                        scrollbars: true,
-                        checkDOMChanges:true,
-                        bounce: false,
-                        interactiveScrollbars:true
-                    });
-                })
-                            
+                whiteScroll.style.height=Number(biWrap.style.height.replace('px',''))-100+'px';         
                 this.$http.get('/api/tagWhiteList/queryList.gm').then(function(res){
                     if(res.data.code==200){
+                        this.whiteData=res.data.dataInfo;
                         this.$nextTick(function(){
                             new IScroll('.whiteScroll',{
                                 mouseWheel: true,

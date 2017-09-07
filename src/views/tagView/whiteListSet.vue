@@ -233,7 +233,7 @@ export default {
         //保存白名单
         saveWhite(){
             console.log(this.startTimes,this.endTimes);
-            this.$http.post('/api/tagWhiteList/save.gm',{"name":this.tagName,"status":this.status,"beginTime":this.startTimes,"endTime":this.endTimes,"remark":this.remark},{emulateJSON:true}).then(function(res){
+            this.$http.post('/api/tagWhiteList/save.gm',{"name":this.tagName,"status":this.status,"beginTimeStr":this.startTimes,"endTimeStr":this.endTimes,"remark":this.remark},{emulateJSON:true}).then(function(res){
 
             })
         },
