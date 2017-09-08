@@ -214,10 +214,15 @@ export default {
             remark:'',
             tagName:'',
             status:0,
+            id:'',
         }
     },
     mounted () {
         const _this=this;
+        if(this.$route.query.id){
+            this.id=this.$route.query.id;
+            this.getWhite();
+        }
         this.getTabList();//table数据
         laydate.render({
             elem: '#startTime', //指定元素
@@ -240,6 +245,12 @@ export default {
         });
     },
     methods: {
+        //如果存在id 则为编辑
+        getWhite(){
+            this.$http.get('/api/tagWhiteList/getById.gm?id='+this.id).then(function(res){
+
+            })
+        },
         //得到表格数据
         getTabList(){
             var reg=/\s+/g;

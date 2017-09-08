@@ -98,8 +98,8 @@
                         <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未开始'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
                             <ul>
                                 <li class="whiteTitle clearfix">
-                                    <span class="left">{{curWhite.name}}</span>
-                                    <i class="right delWhite" @click="delWhite(curWhite.id)" v-if="curWhite.createrId&&curWhite.createrId=='canDel'"></i>
+                                    <span class="left whiteSpan" @click="goWhiteDetail(curWhite.id)">{{curWhite.name}}</span>
+                                    <i class="right delWhite" @click="deleteTag(curWhite.id,'white')" v-if="curWhite.createrId&&curWhite.createrId=='canDel'"></i>
                                 </li>
                                 <li class="whiteMess clearfix">
                                     <span class="left">有效期：{{curWhite.beginTime}}~{{curWhite.endTime}}</span>
@@ -132,8 +132,8 @@
         <div class="markDelet">
             <p>您确定要删除此标签吗？如果删除，可能会使相</br>关联的用户群、活动状态失效，以及宏观对比人群被移除。</p>
             <div class="btnWrap" style="margin:0 auto;">
-                <input type="button" value="否" @click="deletFalse">
-                <input type="button" value="是" @click="deleteTrue">
+                <input type="button" value="否" @click="deletFalse('white')">
+                <input type="button" value="是" @click="deleteTrue('white')">
             </div>
         </div>
     </section>
@@ -268,6 +268,12 @@
         }
         &.outTime{
             background: #f9f9f9 url(../../assets/images/tagIcon1.png) top left no-repeat;
+        }
+        .whiteSpan{
+            cursor: pointer;
+            &:hover{
+                color: #1078f5;
+            }
         }
 
         .whiteTitle{
@@ -647,8 +653,13 @@
                 this.$router.push('/tagView/tagw/whiteListSet');
             },
             //删除配置标签
-            deleteTag(id){
-                this.deleteId=id;
+            deleteTag(id,str){
+                if(str){
+                    this.whiteId=id;
+                }else{
+                    this.deleteId=id;
+                }
+                
                 /*显示弹框  确定否  然后点确定  则删除*/
                 var overlay=document.querySelector('.overlay'),
                         markDelet=document.querySelector('.markDelet');
@@ -662,9 +673,12 @@
                 overlay.style.display=markDelet.style.display='none';
             },
             //删除配置标签
-            deleteTrue(){
+            deleteTrue(str){
+                let id='';
+                //判断是删除标签还是删除右侧白名单
+                id=str?this.whiteId:this.deleteId;
                 /*确定  删除  关弹框*/
-                this.$http.delete('/api/baseTag/delete.gm?id='+this.deleteId).then(function (res) {
+                this.$http.delete('/api/baseTag/delete.gm?id='+id).then(function (res) {
                     if(res.data.code==200){
                         var overlay=document.querySelector('.overlay'),
                             markDelet=document.querySelector('.markDelet');
@@ -699,6 +713,9 @@
                         })
                     }
                 })
+            },
+            goWhiteDetail(id){
+                this.$router.push({ path: '/tagView/tagw/whiteListSet', query: { id: id }});
             }
         }
     }
