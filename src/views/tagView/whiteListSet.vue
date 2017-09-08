@@ -2,29 +2,31 @@
     <div class="whiteWrap">
         <h4>白名单标签</h4>
         <section class="whiteSetUl">
-            <ul class="left leftUl">
-                <li>
-                    <label><strong>*</strong>标签名称：</label>
-                    <input type="text" v-model="tagName">
+            <ul class="left leftUl" style="position:relative;">
+                <li class="clearfix">
+                    <label class="lab"><strong>*</strong>标签名称：</label>
+                    <input type="text" v-model="tagName" class="langTxt" placeholder="限制20个字符，支持中英文数字">
                 </li>
-                <li>
-                    <label><strong>*</strong>状态：</label>
-                    <input type="radio" id="unable" value="1" v-model="status"><label for="unable">启用</label>
+                <li class="clearfix">
+                    <label class="lab"><strong>*</strong>状态：</label>
+                    <input type="radio" id="unable" value="1" v-model="status"><label for="unable" class="labr">启用</label>
                     <input type="radio" id="ableId" value="0" v-model="status"><label for="ableId">禁用</label>
                 </li>
-                <li>
-                    <label><strong>*</strong>有效时间：</label>
-                    <input type="text" id="startTime" v-model="startTimes">
+                <li class="clearfix">
+                    <label class="lab"><strong>*</strong>有效时间：</label>
+                    <input type="text" id="startTime" v-model="startTimes" class="smallTxt">
                     <span>~</span>
-                    <input type="text" id="endTime" v-model="endTimes">
+                    <input type="text" id="endTime" v-model="endTimes" class="smallTxt">
                 </li>
             </ul>
-            <div class="right">
-                <label>描述：</label>
+            <div class="right messDetail">
+                <label class="lab">描述：</label>
                 <textarea v-model="remark"></textarea>
+                <div class="btnWrap right">
+                    <input type="button" value="取消" @click="goBack">
+                    <input type="button" value="保存" @click="saveWhite">
+                </div>
             </div>
-            <input type="button" value="取消" @click="goBack">
-            <input type="button" value="保存" @click="saveWhite">
         </section>
         <h4>用户明细</h4>
         <div class="left messWrap">
@@ -132,7 +134,66 @@
       }
     }
     .whiteSetUl{
-
+        padding:0 20px;
+        height:160px;
+        li{
+            margin:10px 0;
+        }
+        .lab{
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+            strong{
+                color: #F56010;
+            }
+        }
+        .labr{
+            margin-right:20px;
+        }
+        .langTxt{
+            padding:0 10px;
+            width: 370px;
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #ECECEC;
+        }
+        .smallTxt{
+            .langTxt;
+            width: 165px;
+            background: url(../../assets/images/canl.png) 160px center no-repeat;
+        }
+        .messDetail{
+            label{
+                float: left;
+            }
+            textarea{
+                float: left;
+                padding:5px 10px;
+                width: 440px;
+                height: 112px;
+                border: 1px solid #ECECEC;
+                box-sizing: border-box;
+            }
+            .btnWrap{
+                padding:10px 0;
+                clear:left;
+                width: 200px;
+                input{
+                    float: left;
+                    width: 80px;
+                    height: 30px;
+                    border: 0;
+                    border-radius: 3px;
+                    color: #252525;
+                    cursor: pointer;
+                    &:nth-of-type(2){
+                        float: right;
+                        color: #fff;
+                        background: #1078f5;
+                    }
+                }
+            }
+        }
     }
 </style>
 <script>
@@ -162,6 +223,7 @@ export default {
             elem: '#startTime', //指定元素
             type:'datetime',
             theme: '#1078f5',
+            value: _this.startTimes,
             done(value, date){
                 //console.log('你选择的日期是：' + value + '\n获得的对象是' + JSON.stringify(date));
                 _this.startTimes=value;
@@ -171,6 +233,7 @@ export default {
             elem: '#endTime', //指定元素
             type:'datetime',
             theme: '#1078f5',
+            value: _this.endTimes,
             done(value, date){
                 _this.endTimes=value;
             }
