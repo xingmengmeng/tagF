@@ -18,6 +18,9 @@
                     <span>~</span>
                     <input type="text" id="endTime" v-model="endTimes" class="smallTxt">
                 </li>
+                <li>
+                    <span class="redFont">{{saveError}}</span>
+                </li>
             </ul>
             <div class="right messDetail">
                 <label class="lab">描述：</label>
@@ -28,18 +31,18 @@
                 </div>
             </div>
         </section>
-        <h4>用户明细</h4>
-        <div class="left messWrap">
+        <h4 v-if="id!==''">用户明细</h4>
+        <div class="left messWrap" v-if="id!==''">
             <section class="left">
-                <div>
+                <div class="left whiteTool" @mouseenter="toolEnterW" @mouseleave="toolLeaveW">
                     <span>操作</span>
-                    <ul class="left">
+                    <ul class="left" v-show="showTool">
                         <li @click="deleteWhite">删除</li>
                         <li @click="showPushMarket">导入</li>
                         <li @click="downWhite">导出</li>
                     </ul>
                 </div>
-                <span class="left">最近一次成功上传23,00 条数据，当前总用户人数：32,323</span>
+                <span class="left whiteCount">最近一次成功上传23,00 条数据，当前总用户人数：32,323</span>
             </section>
 
             <!--分页-->
@@ -55,7 +58,7 @@
                 <button class="searchBtn" @click="searchFun(shContent)"></button>
             </div>
         </div>
-        <table width="100%" class="tab">
+        <table width="100%" class="tab" v-if="id!==''">
             <thead>
                 <tr>
                     <th><input type="checkbox"></th>
@@ -77,7 +80,7 @@
         </table>
 
         <div class="overlay"></div>
-        <!--删除弹框-->
+        <!--上传白名单弹框-->
         <div class="markWarp markPush">
             <i class="closeMark" @click="hideAll"></i>
             <ul class="pushUl">
@@ -101,10 +104,23 @@
             </ul>
             
         </div>
+        <transition name="slide-fade">
+            <success-box v-show="showSuccess"></success-box>
+        </transition>
     </div>
 </template>
 
 <style scoped lang="less">
+    .slide-fade-enter-active {
+        transition: all .2s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to{
+        transform: translateX(100px);
+        opacity: 0;
+    }
     .whiteWrap{
         padding-bottom:60px;
         background: #fff;
@@ -129,10 +145,49 @@
         padding: 0 20px;
         margin-bottom: 10px;
         box-sizing: border-box;
-        select{
-            padding: 3px 2px;
-            border: 1px solid #ECECEC;
-            border-radius: 2px;
+        .whiteTool{
+            position: relative;
+            span{
+                padding-right:10px;
+                float: left;
+                width: 60px;
+                height: 30px;
+                line-height: 30px;
+                background:#DEECFC url(../../assets/images/vtoBot2.png) 45px center no-repeat;
+                text-align: center;
+                box-sizing: border-box;
+                cursor: pointer;
+            }
+            ul{
+                position: absolute;
+                top:32px;
+                width: 100px;
+                border: 1px solid #DFDFDF;
+                box-shadow: 0 2px 6px 0 rgba(25,32,88,0.44);
+                border-radius: 4px;
+                background: #fff;
+                li{
+                    padding:6px 0;
+                    width: 100%;
+                    text-align: center;
+                    box-sizing: border-box;
+                    font-size: 12px;
+                    cursor: pointer;
+                    &:hover{
+                        background: #DEECFC;
+                    }
+
+                    &:nth-of-type(1){
+                        border-bottom: 1px solid #DFDFDF;
+                    }
+                }
+            }
+        }
+        .whiteCount{
+            float: left;
+            margin-left: 20px;
+            height: 30px;
+            line-height: 30px;
         }
     }
     #messSelect{
@@ -318,6 +373,7 @@ require('../../assets/css/pages.less');
 require('../../assets/css/tab.less');
 import * as laydate from '../../assets/laydate/laydate.js';
 require('../../assets/laydate/theme/default/laydate.css');
+import successBox from '../../components/successBox.vue';
 export default {
     data () {
         return {
@@ -335,7 +391,14 @@ export default {
             inputCon:'未选择任何文件',
             loadClicking:false,
             loading:false,
+            showTool:false,
+            timer:null,
+            showSuccess:false,
+            saveError:'',
         }
+    },
+    components:{
+        'success-box':successBox,
     },
     mounted () {
         const _this=this;
@@ -368,7 +431,14 @@ export default {
         //如果存在id 则为编辑
         getWhite(){
             this.$http.get('/api/tagWhiteList/getById.gm?id='+this.id).then(function(res){
-
+                if(res.data.code==200){
+                    let resData=res.data.dataInfo;
+                    this.tagName=resData.name;
+                    this.status=resData.status;
+                    this.startTimes=resData.beginTime;
+                    this.endTimes=resData.endTime;
+                    this.remark=resData.remark;
+                }
             })
         },
         //得到表格数据
@@ -426,9 +496,23 @@ export default {
         },
         //保存白名单
         saveWhite(){
-            console.log(this.startTimes,this.endTimes);
-            this.$http.post('/api/tagWhiteList/save.gm',{"name":this.tagName,"status":this.status,"beginTimeStr":this.startTimes,"endTimeStr":this.endTimes,"remark":this.remark},{emulateJSON:true}).then(function(res){
-
+            let obj={};
+            if(this.id==''){//新增
+                obj={"name":this.tagName,"status":this.status,"beginTimeStr":this.startTimes,"endTimeStr":this.endTimes,"remark":this.remark};
+            }else{
+                obj={"id":this.id,"name":this.tagName,"status":this.status,"beginTimeStr":this.startTimes,"endTimeStr":this.endTimes,"remark":this.remark};
+            }
+            this.$http.post('/api/tagWhiteList/save.gm',obj,{emulateJSON:true}).then(function(res){
+                if(res.data.code=='200'){
+                    this.saveError='';
+                    this.id=res.data.dataInfo.id;
+                    this.showSuccess=true;
+                    setTimeout(()=>{
+                        this.showSuccess=false;
+                    },2000);
+                }else{
+                    this.saveError=res.data.msg.replace('参数校验不通过:','');
+                }
             })
         },
         goBack(){
@@ -441,21 +525,25 @@ export default {
         },
         //删除
         deleteWhite(){
-
+            this.showTool=false;
         },
         //导入
         showPushMarket(){
+            this.showTool=false;
             var overlay=document.querySelector('.overlay'),
                 markPush=document.querySelector('.markPush');
             overlay.style.display=markPush.style.display='block';
         },
         //导出
         downWhite(){
-
+            this.showTool=false;
+            window.location.href='/api/tagWhiteList/exportDetail.gm?id='+this.id;
         },
         //上传
         pushFn(){
+            this.$http.post('/api/tagWhiteList/importDetail.gm',{"id":this.id,"file":this.inputCon},{emulateJSON:true}).then(function(res){
 
+            })
         },
         hideAll(){
             var overlay=document.querySelector('.overlay'),
@@ -469,6 +557,16 @@ export default {
         //下载模板
         downModel(){
 
+        },
+        toolEnterW(){
+            clearTimeout(this.timer);
+            this.showTool=true;
+        },
+        toolLeaveW(){
+            console.log(1)
+            this.timer=setTimeout(()=> {
+                this.showTool=false;
+            },100)
         }
     }
 }
