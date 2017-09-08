@@ -32,9 +32,14 @@
         <div class="left messWrap">
             <section class="left">
                 <div>
-                    <input type="file" name="file" @change="fileSelected" id="fileInput"/>
+                    <span>操作</span>
+                    <ul class="left">
+                        <li @click="deleteWhite">删除</li>
+                        <li @click="showPushMarket">导入</li>
+                        <li @click="downWhite">导出</li>
+                    </ul>
                 </div>
-                <span>最近一次成功上传23,00 条数据，当前总用户人数：32,323</span>
+                <span class="left">最近一次成功上传23,00 条数据，当前总用户人数：32,323</span>
             </section>
 
             <!--分页-->
@@ -70,6 +75,32 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class="overlay"></div>
+        <!--删除弹框-->
+        <div class="markWarp markPush">
+            <i class="closeMark" @click="hideAll"></i>
+            <ul class="pushUl">
+                <li class="clearfix">
+                    <span class="inputSpan">{{inputCon}}</span>
+                    <a href="javascript:;" class="file">选择文件
+                        <input type="file" name="file" @change="fileSelected" id="fileInput">
+                    </a>
+                    <input type="button" value="上传" class="pushBtn" @click="pushFn">
+                </li>
+                <li class="pushDoe clearfix">
+                    <span>支持的文件类型：csv  ，成功上传的新数据将第2天生效。</span>
+                    <span class="downLink" @click="downModel">下载模板</span>
+                </li>
+                <li class="pushMess clearfix" v-if="!loadClicking">
+                    <span class="loadingSpan" v-show="!loading">上传数据中...</span>
+                    <span class="pushedMes" v-show="!loading">
+                        提示：文件格式不支持
+                    </span>
+                </li>
+            </ul>
+            
+        </div>
     </div>
 </template>
 
@@ -195,6 +226,92 @@
             }
         }
     }
+    .markPush{
+        i{
+            margin: 5px 10px;
+            float: right;
+            width: 17px;
+            height: 17px;
+            background: url(../../assets/images/close.png);
+            cursor: pointer;
+        }
+        .pushUl{
+            clear: right;
+            padding:5px 25px;
+            .inputSpan{
+                padding:0 10px;
+                float: left;
+                width: 322px;
+                height: 30px;
+                line-height: 30px;
+                border: 1px solid #ECECEC;
+                box-sizing: border-box;
+                overflow: hidden;
+            }
+            .file{
+                margin:0 10px;
+                padding:0 8px;
+                float: left;
+                height: 30px;
+                line-height: 30px;
+                position: relative;
+                cursor: pointer;
+                color: #666;
+                background: #BAD8FC;
+                font-size: 12px;
+                overflow: hidden;
+                input {
+                    position: absolute;
+                    font-size: 100px;
+                    right: 0;
+                    top: 0;
+                    opacity: 0;
+                    cursor: pointer;
+                }
+            }
+            .pushBtn{
+                float: left;
+                width: 60px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 12px;
+                color: #fff;
+                background: #1078F5;
+                border:0;
+                cursor: pointer;
+            }
+            .pushDoe{
+                font-size: 12px;
+                color: #666666;
+                .downLink{
+                    margin-left: 24px;
+                    color: #1078F5;
+                    text-decoration: underline;
+                }
+            }
+            .pushMess{
+                padding:0 10px;
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
+                font-size: 10px;
+                color: #666666;
+                background: #E5F1FF;
+                box-sizing: border-box;
+                .loadingSpan{
+                    padding-left:20px;
+                    background: url(../../assets/images/loadMore.gif) left center no-repeat;
+                    box-sizing: border-box;
+                }
+                .pushedMes{
+                    padding-left:20px;
+                    background: url(../../assets/images/tishi.png) left center no-repeat;
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
+    
 </style>
 <script>
 require('../../assets/css/pages.less');
@@ -215,6 +332,9 @@ export default {
             tagName:'',
             status:0,
             id:'',
+            inputCon:'未选择任何文件',
+            loadClicking:false,
+            loading:false,
         }
     },
     mounted () {
@@ -317,7 +437,38 @@ export default {
         //上传文件
         fileSelected(){
             let fileInput=document.querySelector('#fileInput');
-            console.log(fileInput.value);
+            this.inputCon=fileInput.value;
+        },
+        //删除
+        deleteWhite(){
+
+        },
+        //导入
+        showPushMarket(){
+            var overlay=document.querySelector('.overlay'),
+                markPush=document.querySelector('.markPush');
+            overlay.style.display=markPush.style.display='block';
+        },
+        //导出
+        downWhite(){
+
+        },
+        //上传
+        pushFn(){
+
+        },
+        hideAll(){
+            var overlay=document.querySelector('.overlay'),
+                markPush=document.querySelector('.markPush');
+            overlay.style.display=markPush.style.display='none';
+
+            let fileInput=document.querySelector('#fileInput');
+            fileInput.value='';
+            this.inputCon='未选择任何文件';
+        },
+        //下载模板
+        downModel(){
+
         }
     }
 }
