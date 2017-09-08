@@ -95,8 +95,8 @@
                     <span>支持的文件类型：csv  ，成功上传的新数据将第2天生效。</span>
                     <span class="downLink" @click="downModel">下载模板</span>
                 </li>
-                <li class="pushMess clearfix" v-if="!loadClicking">
-                    <span class="loadingSpan" v-show="!loading">上传数据中...</span>
+                <li class="pushMess clearfix" v-show="loadClicking">
+                    <span class="loadingSpan" v-show="loading">上传数据中...</span>
                     <span class="pushedMes" v-show="!loading">
                         提示：文件格式不支持
                     </span>
@@ -556,7 +556,7 @@ export default {
         },
         //下载模板
         downModel(){
-
+            window.location.href='/api/tagWhiteList/exportTemplate.gm';
         },
         toolEnterW(){
             clearTimeout(this.timer);
