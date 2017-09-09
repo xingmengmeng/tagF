@@ -132,8 +132,8 @@
         <div class="markDelet">
             <p>您确定要删除此标签吗？如果删除，可能会使相</br>关联的用户群、活动状态失效，以及宏观对比人群被移除。</p>
             <div class="btnWrap" style="margin:0 auto;">
-                <input type="button" value="否" @click="deletFalse('white')">
-                <input type="button" value="是" @click="deleteTrue('white')">
+                <input type="button" value="否" @click="deletFalse(tagName)">
+                <input type="button" value="是" @click="deleteTrue(tagName)">
             </div>
         </div>
     </section>
@@ -337,6 +337,7 @@
                 deleteId:'',
                 whiteScroll:null,
                 whiteData:[],//白名单列表数据
+                tagName:'',//要删除的三级标签名
             }
         },
         mounted(){
@@ -656,8 +657,10 @@
             deleteTag(id,str){
                 if(str){
                     this.whiteId=id;
+                    this.tagName='white';
                 }else{
                     this.deleteId=id;
+                    this.tagName='';
                 }
                 
                 /*显示弹框  确定否  然后点确定  则删除*/
@@ -676,7 +679,10 @@
             deleteTrue(str){
                 let id='';
                 //判断是删除标签还是删除右侧白名单
-                id=str?this.whiteId:this.deleteId;
+                id=str!=''?this.whiteId:this.deleteId;
+                //判断是白名单还是定制标签  判断删除完走的逻辑id
+                let listId='';
+                listId=str!=''?'white_list':'defined_tag';
                 /*确定  删除  关弹框*/
                 this.$http.delete('/api/baseTag/delete.gm?id='+id).then(function (res) {
                     if(res.data.code==200){
@@ -686,7 +692,7 @@
                         /*前台页面列表数组删除此条数据  或者再走一次接口*/
                         this.getData();
                         this.showLoading=true;
-                        this.$http.get('/api/baseTag/queryByParentId.gm?parentId=defined_tag').then(function (response) {
+                        this.$http.get('/api/baseTag/queryByParentId.gm?parentId='+listId).then(function (response) {
                             this.showLoading=false;
                             this.sortFlag=true;//排序恢复默认
                             this.setFour(response);
