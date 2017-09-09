@@ -98,7 +98,7 @@
                 <li class="pushMess clearfix" v-show="loadClicking">
                     <span class="loadingSpan" v-show="loading">上传数据中...</span>
                     <span class="pushedMes" v-show="!loading">
-                        提示：文件格式不支持
+                        提示：{{pushMsg}}
                     </span>
                 </li>
             </ul>
@@ -390,11 +390,12 @@ export default {
             id:'',
             inputCon:'未选择任何文件',
             loadClicking:false,
-            loading:false,
+            loading:true,
             showTool:false,
             timer:null,
             showSuccess:false,
             saveError:'',
+            pushMsg:'',
         }
     },
     components:{
@@ -427,6 +428,13 @@ export default {
             }
         });
     },
+    watch:{
+        inputCon(str){
+            if(str!=='未选择任何文件'){
+                this.loadClicking=false;
+            }
+        }
+    },
     methods: {
         //如果存在id 则为编辑
         getWhite(){
@@ -446,9 +454,9 @@ export default {
             var reg=/\s+/g;
             var searchContent=this.shContent.replace(reg,'');
             if(this.shContent==''){
-                var url='/api/marketActivity/queryList.gm?pageNum='+this.pageNum+'&date='+Date.now();
+                var url='/api/tagWhiteList/queryDetailList.gm?whiteListId='+this.id+'&pageNum='+this.pageNum+'&date='+Date.now();
             }else{
-                var url='/api/marketActivity/queryList.gm?pageNum='+this.pageNum+'&searchContent='+searchContent+'&date='+Date.now();
+                var url='/api/tagWhiteList/queryDetailList.gm?whiteListId='+this.id+'&pageNum='+this.pageNum+'&searchContent='+searchContent+'&date='+Date.now();
             }
             this.$http.get(url).then(function(res) {
                 if(res.data.code==200){
@@ -541,9 +549,22 @@ export default {
         },
         //上传
         pushFn(){
-            this.$http.post('/api/tagWhiteList/importDetail.gm',{"id":this.id,"file":this.inputCon},{emulateJSON:true}).then(function(res){
+            if(this.inputCon=='未选择任何文件'){
+                this.loadClicking=true;
+                this.loading=false;
+                this.pushMsg='请选择上传文件';
+            }else{
+                this.loadClicking=this.loading=true;
+                this.$http.post('/api/tagWhiteList/importDetail.gm',{"id":this.id,"file":this.inputCon},{emulateJSON:true}).then(function(res){
+                    if(res.data.code==200){
 
-            })
+                    }else{
+                        this.pushMsg=res.data.msg;
+                    }
+                    this.loading=false;
+                })
+            }
+            
         },
         hideAll(){
             var overlay=document.querySelector('.overlay'),
@@ -553,6 +574,7 @@ export default {
             let fileInput=document.querySelector('#fileInput');
             fileInput.value='';
             this.inputCon='未选择任何文件';
+            this.loadClicking=false;
         },
         //下载模板
         downModel(){
