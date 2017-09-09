@@ -14,9 +14,9 @@
                 </li>
                 <li class="clearfix">
                     <label class="lab"><strong>*</strong>有效时间：</label>
-                    <input type="text" id="startTime" v-model="startTimes" class="smallTxt">
+                    <input type="text" id="startTime" v-model="startTimes" class="smallTxt" readonly>
                     <span>~</span>
-                    <input type="text" id="endTime" v-model="endTimes" class="smallTxt">
+                    <input type="text" id="endTime" v-model="endTimes" class="smallTxt" readonly>
                 </li>
                 <li>
                     <span class="redFont">{{saveError}}</span>
