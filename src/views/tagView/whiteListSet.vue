@@ -306,7 +306,7 @@
         }
         .pushUl{
             clear: right;
-            padding:5px 25px;
+            padding:25px 25px;
             .inputSpan{
                 padding:0 10px;
                 float: left;
@@ -607,6 +607,7 @@ export default {
                     if(res.data.code==200){
                         let resd=res.data.dataInfo;
                         this.pushMsg='成功上传了'+resd.successCount+'条数据，失败'+resd.failCount+'条，已删除重复数据'+resd.coverCount+'条';
+                        this.getTabList();
                     }else{
                         this.pushMsg=res.data.msg;
                     }
