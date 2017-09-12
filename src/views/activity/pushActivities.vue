@@ -95,9 +95,9 @@
                                     </li>
                                     <li class="clearfix">
                                         <label><strong>*</strong>短信业务：</label>
-                                        <!--<select v-model="selected" class="left">
-                                            <option v-for="op in querySystemList" :value="op">{{op}}</option>
-                                        </select>-->
+                                        <select v-model="selectedSer" class="left">
+                                            <option v-for="op in selectedSerList" :value="op">{{op}}</option>
+                                        </select>
                                     </li>
                                     <li class="clearfix">
                                         <label><strong>*</strong>主题名称：</label>
@@ -108,37 +108,22 @@
                                         <span class="left countNum" v-cloak>{{counts}}</span>
                                         <!--<button @click="countNum" class="countBtn">刷新</button>-->
                                     </li>
-                                    <li class="clearfix">
+                                    <li class="clearfix" v-if="serviceList">
                                         <label><strong>*</strong>对接字段：</label>
-                                        <div>
-                                            <table>
+                                        <div class="tabWrap">
+                                            <table width="100%">
                                                 <thead>
                                                     <tr>
-                                                        <th>&nbsp;</th>
-                                                        <th>字段内容</th>
-                                                        <th>数量（条）</th>
+                                                        <th width="10%">&nbsp;</th>
+                                                        <th width="60%">字段内容</th>
+                                                        <th width="30%">数量（条）</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td><input type="radio"></td>
-                                                        <td>Passportid</td>
-                                                        <td>11,123</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input type="radio"></td>
-                                                        <td>Passportid</td>
-                                                        <td>11,123</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input type="radio"></td>
-                                                        <td>Passportid</td>
-                                                        <td>11,123</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input type="radio"></td>
-                                                        <td>Passportid</td>
-                                                        <td>11,123</td>
+                                                    <tr v-for="(cur,index) in serviceList" :key="index">
+                                                        <td><input type="radio" :value="cur.code" name="serviceCode" v-model="servicCode"></td>
+                                                        <td>{{cur.name}}</td>
+                                                        <td>{{cur.value}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -147,7 +132,7 @@
                                     <li class="clearfix saveErrorLi">
                                         <span>{{saveError}}</span>
                                     </li>
-                                    <li class="clearfix btnWrap">
+                                    <li class="clearfix btnWrap fixBtn">
                                         <input type="button" value="取消" @click="hideMark">
                                         <input type="button" value="确定" @click="addUserGroupFn">
                                     </li>
@@ -216,6 +201,29 @@
         <my-foot></my-foot>
     </section>
 </template>
+<style lang="less" scoped>
+    .fixBtn{
+        position: absolute;
+        bottom: 10px;
+        left:160px;
+    }
+    .tabWrap{
+        float: left;
+        width: 270px;
+        th{
+            padding:5px 0;
+            background: #F7FAFE;
+            border: 1px solid #ECECEC;
+            text-align: center;
+        }
+        td{
+            padding:5px 0;
+            border: 1px solid #ECECEC;
+            text-align: center;
+        }
+    }
+</style>
+
 <script type="text/ecmascript-6">
     import LayOut from '../../assets/js/layout';
     import Footer from '../../components/footer.vue';
@@ -232,6 +240,11 @@
                 activeName:'',
                 selected:'',/*选中的对接系统*/
                 selectedGroup:'',/*选中的用户群*/
+                selectedSer:'',/*短信业务下拉 选中*/
+                selectedSerList:null,/*短信业务下拉*/
+                serviceList:null,/*对接字段数据*/
+                servicCode:'',
+
                 systemId:'',/*对接系统id*/
                 subject:'',/*活动主题*/
                 counts:0,/*覆盖用户数*/
@@ -273,6 +286,9 @@
                 this.$http.get('/api/marketActivity/querySystemList.gm').then(function (response) {
                     this.querySystemList=response.data.dataInfo;
                 })
+                this.$http.get('/api/marketActivity/queryServiceList.gm').then(function (response) {
+                    this.selectedSerList=response.data.dataInfo;
+                })
             },
             /*得到列表信息*/
             getTabList(){
@@ -304,6 +320,7 @@
                 this.subject='';
                 this.counts=0;
                 this.saveError='';
+                this.serviceList=null;
                 var overlay=document.querySelector('.overlay'),
                         markWarp=document.querySelector('.markAddAct');
                 overlay.style.display=markWarp.style.display='block';
@@ -326,13 +343,15 @@
                     this.saveError='主题最多输入20个字符';
                     return false;
                 }
-                this.$http.post('/api/marketActivity/save.gm',{"systemCode":this.systemId,"userGroupId":this.gropId,"subject":this.subject},{emulateJSON:true}).then(function (res) {
+                this.$http.post('/api/marketActivity/save.gm',{"systemCode":this.systemId,"userGroupId":this.gropId,"subject":this.subject,"systemService":this.selectedSer,"pushField":this.servicCode},{emulateJSON:true}).then(function (res) {
                     if(res.data.code==200){
                         var overlay=document.querySelector('.overlay'),
                                 markWarp=document.querySelector('.markAddAct');
                         /*弹框消失  列表刷新*/
                         overlay.style.display=markWarp.style.display='none';
                         this.getTabList();
+                    }else{
+                        this.saveError=res.data.msg.replace('参数校验不通过:','');
                     }
                 })
             },
@@ -340,6 +359,9 @@
             countNum(){
                 this.$http.get('/api/userGroup/queryUserCount.gm?id='+this.gropId).then(function (res) {
                     this.counts=res.data.dataInfo;
+                })
+                this.$http.get('/api/marketActivity/queryPushFieldList.gm?userGroupId='+this.gropId).then(function (response) {
+                    this.serviceList=response.data.dataInfo;
                 })
             },
             getPageData(e){
