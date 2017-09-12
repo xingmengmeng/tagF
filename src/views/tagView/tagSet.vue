@@ -95,7 +95,7 @@
                 <!--白名单  start-->
                 <div v-show="showCon=='vipWrap'" class="whiteScroll">
                     <ul class="whiteListUl">
-                        <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未开始'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
+                        <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未生效'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
                             <ul>
                                 <li class="whiteTitle clearfix">
                                     <span class="left whiteSpan" @click="goWhiteDetail(curWhite.id)">{{curWhite.name}}</span>
