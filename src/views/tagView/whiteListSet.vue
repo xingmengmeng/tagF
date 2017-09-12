@@ -42,7 +42,7 @@
                         <li @click="downWhite">导出</li>
                     </ul>
                 </div>
-                <span class="left whiteCount">最近一次成功上传23,00 条数据，当前总用户人数：32,323</span>
+                <span class="left whiteCount" v-if="whiteTotal">最近一次成功上传{{whiteTotal.uploadCount}}条数据，当前总用户人数：{{whiteTotal.total}}</span>
             </section>
 
             <!--分页-->
@@ -61,7 +61,7 @@
         <table width="100%" class="tab" v-if="id!==''">
             <thead>
                 <tr>
-                    <th><input type="checkbox"></th>
+                    <th><input type="checkbox" @click="selectAll($event)"></th>
                     <th>Passport ID</th>
                     <th>User ID</th>
                     <th>姓名</th>
@@ -69,12 +69,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in queryList">
-                    <td><input type="checkbox"></td>
-                    <td>{{item.deptRole}}</td>
-                    <td>{{item.loginIp}}</td>
-                    <td>{{item.createTime}}</td>
-                    <td>{{item.type}}</td>
+                <tr v-for="(item,index) in queryList" :key="index">
+                    <td><input type="checkbox" :value="item.id" v-model="selectAry"></td>
+                    <td>{{item.passportId}}</td>
+                    <td>{{item.userId}}</td>
+                    <td>{{item.userName}}</td>
+                    <td>{{item.mobile}}</td>
                 </tr>
             </tbody>
         </table>
@@ -107,9 +107,20 @@
             </ul>
             
         </div>
+        <!--弹框遮罩 start-->
+        <!--删除弹框-->
+        <div class="markDelet">
+            <p>你确定要删除选定的记录吗？</p>
+            <div class="btnWrap">
+                <input type="button" value="否" @click="hideAll">
+                <input type="button" value="是" @click="deletWhiteTrue">
+            </div>
+        </div>
+
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
+        <oneline markCon="请至少选择一条记录" v-show="oneLineShow" @hideOverFn="hideOver"></oneline>
     </div>
 </template>
 
@@ -377,6 +388,7 @@ require('../../assets/css/tab.less');
 import * as laydate from '../../assets/laydate/laydate.js';
 require('../../assets/laydate/theme/default/laydate.css');
 import successBox from '../../components/successBox.vue';
+import oneline from '../../components/overBoxOneLine.vue';
 export default {
     data () {
         return {
@@ -399,10 +411,15 @@ export default {
             showSuccess:false,
             saveError:'',
             pushMsg:'',
+            selectAry:[],/*删除选中的数组*/
+            selectAryAll:[],/*接口返回的所有数据id数组*/
+            oneLineShow:false,
+            whiteTotal:null,
         }
     },
     components:{
         'success-box':successBox,
+        'oneline':oneline,
     },
     mounted () {
         const _this=this;
@@ -466,6 +483,16 @@ export default {
                     this.pageCount=res.data.dataInfo.pageCount;
                     this.queryList=res.data.dataInfo.dataList;
                     this.gotoPage=this.pageNum;
+
+                    this.selectAryAll.length=0;
+                    this.queryList.forEach((item)=> {
+                        this.selectAryAll.push(item.id);
+                    });
+                }
+            })
+            this.$http.get('/api/tagWhiteList/querySummary.gm?whiteListId='+this.id).then(function(res){
+                if(res.data.code==200){
+                    this.whiteTotal=res.data.dataInfo;
                 }
             })
         },
@@ -537,6 +564,21 @@ export default {
         //删除
         deleteWhite(){
             this.showTool=false;
+            if(this.selectAry.length==0){
+                this.oneLineShow=true;
+                return;
+            }
+            var overlay=document.querySelector('.overlay'),
+                markDelet=document.querySelector('.markDelet');
+            overlay.style.display=markDelet.style.display='block';
+        },
+        deletWhiteTrue(){
+            this.$http.delete('/api/tagWhiteList/deleteDetail.gm?ids='+this.selectAry).then(function(res){
+                if(res.data.code==200){
+                    this.getTabList();
+                    this.hideAll();
+                }
+            })
         },
         //导入
         showPushMarket(){
@@ -592,8 +634,9 @@ export default {
         },
         hideAll(){
             var overlay=document.querySelector('.overlay'),
+                markDelet=document.querySelector('.markDelet'),
                 markPush=document.querySelector('.markPush');
-            overlay.style.display=markPush.style.display='none';
+            overlay.style.display=markDelet.style.display=markPush.style.display='none';
 
             let fileInput=document.querySelector('#fileInput');
             fileInput.value='';
@@ -608,11 +651,22 @@ export default {
             clearTimeout(this.timer);
             this.showTool=true;
         },
-        toolLeaveW(){
-            console.log(1)
+        toolLeaveW(){  
             this.timer=setTimeout(()=> {
                 this.showTool=false;
             },100)
+        },
+        /*删除  全选*/
+        selectAll(e){
+            let sel=e.target.checked;
+            if(sel){
+                this.selectAry=this.selectAryAll.concat();
+            }else{
+                this.selectAry=[];
+            }
+        },
+        hideOver(){
+            this.oneLineShow=false;
         }
     }
 }
