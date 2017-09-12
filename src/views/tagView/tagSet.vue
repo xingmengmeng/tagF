@@ -335,9 +335,11 @@
                 maxTxt:'',
                 error:'',//自定义标签错误提示
                 deleteId:'',
-                whiteScroll:null,
                 whiteData:[],//白名单列表数据
                 tagName:'',//要删除的三级标签名
+                whiteScroll:null,
+                addUserLeftScroll:null,
+                fourTreeScroll:null,
             }
         },
         mounted(){
@@ -370,20 +372,17 @@
                     this.treeResData=response.data.dataInfo;
 
                     this.$nextTick(function(){
-                        this.addUserLeftScroll=new IScroll('.addUsersLeft',{
-                            mouseWheel: true,
-                            scrollbars: true,
-                            checkDOMChanges:true,
-                            bounce: false,
-                            interactiveScrollbars:true
-                        });
-                        /*this.addUserRightScroll=new IScroll('.biWrap',{
-                            mouseWheel: true,
-                            scrollbars: true,
-                            checkDOMChanges:true,
-                            bounce: false,
-                            interactiveScrollbars:true
-                        });*/
+                        if(this.addUserLeftScroll==null){
+                            this.addUserLeftScroll=new IScroll('.addUsersLeft',{
+                                mouseWheel: true,
+                                scrollbars: true,
+                                checkDOMChanges:true,
+                                bounce: false,
+                                interactiveScrollbars:true
+                            });
+                        }else{
+                            this.addUserLeftScroll.refresh();
+                        }
                     })
                 })
             },
@@ -684,7 +683,13 @@
                 let listId='';
                 listId=str!=''?'white_list':'defined_tag';
                 /*确定  删除  关弹框*/
-                this.$http.delete('/api/baseTag/delete.gm?id='+id).then(function (res) {
+                let url='';
+                if(listId=='white_list'){
+                    url='/api/baseTag/delete.gm?id='+id+'&tagType=white';
+                }else{
+                    url='/api/baseTag/delete.gm?id='+id;
+                }
+                this.$http.delete(url).then(function (res) {
                     if(res.data.code==200){
                         var overlay=document.querySelector('.overlay'),
                             markDelet=document.querySelector('.markDelet');
@@ -697,6 +702,9 @@
                             this.sortFlag=true;//排序恢复默认
                             this.setFour(response);
                         })
+                        if(listId=='white_list'){
+                            this.getWhiteData();
+                        }
                     }
                 })
             },
@@ -709,14 +717,19 @@
                     if(res.data.code==200){
                         this.whiteData=res.data.dataInfo;
                         this.$nextTick(function(){
-                            new IScroll('.whiteScroll',{
-                                mouseWheel: true,
-                                scrollbars: true,
-                                checkDOMChanges:true,
-                                bounce: false,
-                                interactiveScrollbars:true
-                            });
+                            if(this.whiteScroll==null){
+                                this.whiteScroll=new IScroll('.whiteScroll',{
+                                    mouseWheel: true,
+                                    scrollbars: true,
+                                    checkDOMChanges:true,
+                                    bounce: false,
+                                    interactiveScrollbars:true
+                                })
+                            }else {
+                                this.whiteScroll.refresh();
+                            }
                         })
+                        
                     }
                 })
             },
