@@ -557,35 +557,36 @@ export default {
                 this.loading=false;
                 this.pushMsg='请选择上传文件';
             }else{
-                /*const formData = new FormData(document.getElementById('uploadForm'));
+                const formData = new FormData(document.getElementById('uploadForm'));
                 formData.append('id', this.id);
                 this.loadClicking=this.loading=true;
 
                 this.$http.post('/api/tagWhiteList/importDetail.gm',formData).then(function(res){
                     if(res.data.code==200){
-
+                        let resd=res.data.dataInfo;
+                        this.pushMsg='成功上传了'+resd.successCount+'条数据，失败'+resd.failCount+'条，已删除重复数据'+resd.coverCount+'条';
                     }else{
                         this.pushMsg=res.data.msg;
                     }
                     this.loading=false;
-                })*/
-                var vFD = new FormData(document.getElementById('uploadForm')),    //建立请求和数据
+                })
+                /*var vFD = new FormData(document.getElementById('uploadForm')),    //建立请求和数据
                     oXHR = new XMLHttpRequest();
-                vFD.append('id',this.id);
-                oXHR.addEventListener('load', function(resUpload) {
-                    //成功
-                    console.log('成功');
-                }, false);
-                oXHR.addEventListener('error', function() {
-                    console.log('失败');
-                    //失败
-                }, false);
-                oXHR.addEventListener('abort', function() {
-                    console.log('中断');
-                    //上传中断
-                }, false);
-                oXHR.open('POST', '/api/tagWhiteList/importDetail.gm');
-                oXHR.send(vFD);
+                    vFD.append('id',this.id);
+                    oXHR.addEventListener('load', function(resUpload) {
+                        //成功
+                        console.log('成功');
+                    }, false);
+                    oXHR.addEventListener('error', function() {
+                        console.log('失败');
+                        //失败
+                    }, false);
+                    oXHR.addEventListener('abort', function() {
+                        console.log('中断');
+                        //上传中断
+                    }, false);
+                    oXHR.open('POST', '/api/tagWhiteList/importDetail.gm');
+                    oXHR.send(vFD);*/
             }
             
         },
