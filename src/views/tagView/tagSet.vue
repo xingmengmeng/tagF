@@ -679,16 +679,22 @@
                 let id='';
                 //判断是删除标签还是删除右侧白名单
                 id=str!=''?this.whiteId:this.deleteId;
+
+
                 //判断是白名单还是定制标签  判断删除完走的逻辑id
                 let listId='';
                 listId=str!=''?'white_list':'defined_tag';
                 /*确定  删除  关弹框*/
                 let url='';
+
+
                 if(listId=='white_list'){
                     url='/api/baseTag/delete.gm?id='+id+'&tagType=white';
                 }else{
                     url='/api/baseTag/delete.gm?id='+id;
                 }
+
+
                 this.$http.delete(url).then(function (res) {
                     if(res.data.code==200){
                         var overlay=document.querySelector('.overlay'),
@@ -697,13 +703,19 @@
                         /*前台页面列表数组删除此条数据  或者再走一次接口*/
                         this.getData();
                         this.showLoading=true;
-                        this.$http.get('/api/baseTag/queryByParentId.gm?parentId='+listId).then(function (response) {
-                            this.showLoading=false;
-                            this.sortFlag=true;//排序恢复默认
-                            this.setFour(response);
-                        })
-                        if(listId=='white_list'){
+                        
+                        if(listId=='white_list'){/*右侧白名单列表删除*/
                             this.getWhiteData();
+                            this.$http.get('/api/baseTag/queryByParentId.gm?parentId='+listId).then(function (response) {
+                                this.showLoading=false;
+                                this.sortFlag=true;//排序恢复默认
+                                this.setFour(response);
+                            })
+                        }else{/*四级树删除*/
+                            this.showLoading=false;
+                            this.fourResData=this.fourResData.filter(item=>{
+                                return item.id!=id;
+                            })
                         }
                     }
                 })
