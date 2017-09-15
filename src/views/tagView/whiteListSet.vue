@@ -54,7 +54,7 @@
             </div>
             <!--搜索-->
             <div class="right searchWrap">
-                <input type="text" v-model="shContent" placeholder="输入用户群名称/创建人" @keyup.enter="searchFun(shContent)">
+                <input type="text" v-model="shContent" placeholder="输入姓名/手机号/passportid/userid" @keyup.enter="searchFun(shContent)">
                 <button class="searchBtn" @click="searchFun(shContent)"></button>
             </div>
         </div>
@@ -534,6 +534,11 @@ export default {
         },
         //保存白名单
         saveWhite(){
+            var subjectLength=this.tagName.gblen();
+            if(subjectLength>20){
+                this.saveError='最多输入20个字符';
+                return false;
+            }
             let obj={};
             if(this.id==''){//新增
                 obj={"name":this.tagName,"status":this.status,"beginTimeStr":this.startTimes,"endTimeStr":this.endTimes,"remark":this.remark};
