@@ -401,7 +401,7 @@ export default {
             endTimes:'',
             remark:'',
             tagName:'',
-            status:0,
+            status:1,
             id:'',
             inputCon:'未选择任何文件',
             loadClicking:false,
