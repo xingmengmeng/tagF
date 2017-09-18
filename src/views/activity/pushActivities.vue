@@ -148,7 +148,11 @@
                                 <ul class="clearfix">
                                     <li class="clearfix">
                                         <label>对接系统：</label>
-                                        <span class="actSpan" v-cloak>{{actDetail. systemName}}</span>
+                                        <span class="actSpan" v-cloak>{{actDetail.systemName}}</span>
+                                    </li>
+                                    <li class="clearfix">
+                                        <label>短信业务：</label>
+                                        <span class="actSpan" v-cloak>{{actDetail.systemService}}</span>
                                     </li>
                                     <li class="clearfix">
                                         <label>主题名称：</label>
@@ -157,6 +161,10 @@
                                     <li class="clearfix">
                                         <label>覆盖用户数：</label>
                                         <span class="actSpan" v-cloak>{{actDetail.coverUserCount}}</span>
+                                    </li>
+                                    <li class="clearfix">
+                                        <label>对接字段：</label>
+                                        <span class="actSpan" v-cloak>{{actDetail.pushFieldName}}</span>
                                     </li>
                                     <li class="clearfix">
                                         <label>创建人：</label>
