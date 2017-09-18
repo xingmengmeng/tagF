@@ -2,9 +2,9 @@
     <div>
         <h4>权限配置</h4>
         <ul class="ulWraper">
-            <li class="fLi">
+            <li class="fLi2">
                 <label><strong>*</strong>部门角色：</label>
-                <span>{{this.name}}</span>
+                <span class="curNormal">{{this.name}}</span>
             </li>
             <li class="fLi">
                 <label>权限描述：</label>
@@ -86,6 +86,11 @@
             margin-bottom:15px;
             width: 100%;
             cursor: pointer;
+        }
+        .fLi2{
+            float: left;
+            margin-bottom:15px;
+            width: 100%;
         }
         label{
             float: left;

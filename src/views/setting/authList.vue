@@ -20,13 +20,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index) in queryList" :key="index">
+                <tr v-for="(item,index) in queryList" :key="index" @click="trClickFn(item.id,$event)">
                     <td>{{item.name}}</td>
                     <td>{{item.updateTime}}</td>
                     <td>{{item.remark}}</td>
                     <td>
-                        <router-link class="listDetailLink" :to="{ path:'/setting/auth/authSet', query: {id:item.id}}">编辑</router-link>
-                        <a href="javascript:;" @click="deleteUserGroup(item.id)" class="listDeleteBtn" v-show="item.useStatus!='已使用'">删除</a>
+                        <!--<router-link class="listDetailLink" :to="{ path:'/setting/auth/authSet', query: {id:item.id}}">编辑</router-link>-->
+                        <a href="javascript:;" class="listDetailLink">编辑</a>
+                        <a href="javascript:;" class="listDeleteBtn" v-show="item.useStatus!='已使用'">删除</a>
                     </td>
                 </tr>
             </tbody>
@@ -203,6 +204,15 @@ export default {
                 this.getTabList();
             }
         })
+    },
+    //点击列表一行效果
+    trClickFn(id,e){
+        console.log(e.target.innerHTML)
+        if(e.target.innerHTML=='删除'){
+            this.deleteUserGroup(id);
+        }else{
+            this.$router.push({ path:'/setting/auth/authSet', query: {id:id}});
+        }
     },
     deleteUserGroup(id){
         /*显示弹框  确定否  然后点确定  则删除*/
