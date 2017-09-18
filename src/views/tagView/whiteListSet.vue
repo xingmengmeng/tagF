@@ -356,6 +356,7 @@
                     margin-left: 24px;
                     color: #1078F5;
                     text-decoration: underline;
+                    cursor: pointer;
                 }
             }
             .pushMess{
