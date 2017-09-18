@@ -97,9 +97,9 @@
                     <ul class="whiteListUl">
                         <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未生效'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
                             <ul>
-                                <li class="whiteTitle clearfix">
-                                    <span class="left whiteSpan" @click="goWhiteDetail(curWhite.id)">{{curWhite.name}}</span>
-                                    <i class="right delWhite" @click="deleteTag(curWhite.id,'white')" v-if="curWhite.createrId&&curWhite.createrId=='canDel'"></i>
+                                <li class="whiteTitle clearfix" @click="whiteClickFn(curWhite.id,'white',$event)">
+                                    <span class="left whiteSpan">{{curWhite.name}}</span>
+                                    <i class="right delWhite" v-if="curWhite.createrId&&curWhite.createrId=='canDel'"></i>
                                 </li>
                                 <li class="whiteMess clearfix">
                                     <span class="left">有效期：{{curWhite.beginTime}}~{{curWhite.endTime}}</span>
@@ -283,6 +283,7 @@
             background: #FFFFFF;
             border: 1px solid #ECECEC;
             box-sizing: border-box;
+            cursor: pointer;
 
             i{
                 margin-top:10px;
@@ -343,6 +344,11 @@
             }
         },
         mounted(){
+            //判断显示哪个选项卡
+            if(this.$route.query.tagBack){
+                this.showCon='vipWrap';
+            }
+
             this.getData();
             this.getUrlPage();//地址栏参数判断
             /*提交按钮样式*/
@@ -647,6 +653,14 @@
                         this.error=res.data.msg.replace('参数校验不通过:','');
                     }
                 })
+            },
+            //点击白名单列表，当鼠标移入某一行时，即可点击跳转至详情
+            whiteClickFn(id,str,e){
+                if(e.target.tagName.toLowerCase()=='i'){
+                    this.deleteTag(id,str)
+                }else{
+                    this.goWhiteDetail(id);
+                }
             },
             //跳转到白名单设置页面
             whiteListSet(){

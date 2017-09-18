@@ -559,7 +559,7 @@ export default {
             })
         },
         goBack(){
-            this.$router.push('/tagView/tagw/tagSet');
+            this.$router.push({ path: '/tagView/tagw/tagSet', query: { tagBack: 'true' }});
         },
         //上传文件
         fileSelected(){
