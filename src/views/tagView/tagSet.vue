@@ -81,7 +81,7 @@
                             提示： {{tagCon.tips}}
                         </li> 
                         <li v-if="tagCon">
-                            <span class="tagTitle">{{tagCon.tagName}}</span></br>
+                            <span class="tagTitle">{{tagCon.tagPrefix}}</span></br>
                             <input type="text" v-model="minTxt" @blur="valiMin(minTxt)" placeholder="≤ 数值">
                             <span>~</span>
                             <input type="text" v-model="maxTxt" @blur="valiMin(maxTxt)" placeholder="< 数值">
