@@ -124,7 +124,7 @@
             <!--滚动块下方内容 end-->
         </div>
         <transition name="slide-fade">
-            <success-box v-show="showSuccess"></success-box>
+            <success-box v-show="showSuccess" cur="提交成功！"></success-box>
         </transition>
 
         <div class="overlay"></div>

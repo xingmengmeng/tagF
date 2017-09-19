@@ -33,7 +33,7 @@
             </tbody>
         </table>
         <transition name="slide-fade">
-            <success-box v-show="showSuccess" cur="保存成功！"></success-box>
+            <success-box v-show="showSuccess" cur="提交成功！"></success-box>
         </transition>
         <!--弹框遮罩 start-->
         <div class="overlay"></div>
