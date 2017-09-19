@@ -190,7 +190,7 @@
         li{
             float: left;
             padding:5px 30px;
-            border-bottom: 2px #F1F4FA solid;
+            border-bottom: 2px #fff solid;
             cursor: pointer;
             &.active{
                 border-bottom: 2px #1078F5 solid;
