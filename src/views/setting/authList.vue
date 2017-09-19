@@ -45,7 +45,7 @@
             </div>
             <ul class="clearfix">
                 <li class="clearfix">
-                    <label class="left"><strong>*</strong>部门名称：</label>
+                    <label class="left"><strong>*</strong>部门角色：</label>
                     <input type="text" v-model="authName" placeholder="最多可输入30个字符" class="left txt">
                 </li>
                 <li class="errorLi clearfix" style="padding:0px 0 0 120px;height: 14px; font-size: 12px; color: #B40606;">
