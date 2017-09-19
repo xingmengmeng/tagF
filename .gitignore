@@ -6,6 +6,7 @@ ehthumbs.db
 .idea
 .node_modules
 node_modules/
+dev/
 test.html
 
 # Folder config file
