@@ -61,9 +61,9 @@
         <table width="100%" class="tab" v-if="id!==''">
             <thead>
                 <tr>
-                    <th><input type="checkbox" @click="selectAll($event)"></th>
-                    <th>Passport ID</th>
-                    <th>User ID</th>
+                    <th width="80"><input type="checkbox" @click="selectAll($event)"></th>
+                    <th>Passportuserid</th>
+                    <!--<th>User ID</th>-->
                     <th>姓名</th>
                     <th>手机</th>
                 </tr>
@@ -72,7 +72,7 @@
                 <tr v-for="(item,index) in queryList" :key="index">
                     <td><input type="checkbox" :value="item.id" v-model="selectAry"></td>
                     <td>{{item.passportId}}</td>
-                    <td>{{item.userId}}</td>
+                    <!--<td>{{item.userId}}</td>-->
                     <td>{{item.userName}}</td>
                     <td>{{item.mobile}}</td>
                 </tr>
