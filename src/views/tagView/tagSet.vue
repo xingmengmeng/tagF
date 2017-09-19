@@ -369,6 +369,11 @@
                 if(str=='vipWrap'){
                     this.getWhiteData();//得到白名单列表
                 }
+            },
+            threeId(str){
+                if(str=='auto'){
+                    this.tagCon=null;
+                }
             }
         },
         methods:{
@@ -609,7 +614,9 @@
             },
             //选择三级后  查询可自定义内容
             getFourData(id){
-                console.log(id);
+                if(id=='auto'){
+                    return;
+                }
                 this.$http.get('/api/tagDefined/queryConfigByTagId.gm?tagId='+id).then(function(res){
                     if(res.data.code==200){
                         this.tagCon=res.data.dataInfo;
