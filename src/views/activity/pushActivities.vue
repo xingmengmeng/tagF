@@ -108,7 +108,7 @@
                                         <span class="left countNum" v-cloak>{{counts}}</span>
                                         <!--<button @click="countNum" class="countBtn">刷新</button>-->
                                     </li>
-                                    <li class="clearfix" v-if="serviceList">
+                                    <li class="clearfix">
                                         <label><strong>*</strong>对接字段：</label>
                                         <div class="tabWrap">
                                             <table width="100%">
@@ -335,6 +335,9 @@
                 this.$http.get('/api/userGroup/querySelectList.gm').then(function (response) {
                     this.groupData=response.data.dataInfo;
                 });
+                this.$http.get('/api/marketActivity/queryPushFieldList.gm').then(function (response) {
+                    this.serviceList=response.data.dataInfo;
+                })
             },
             /*关闭按钮 隐藏弹框*/
             hideMark(){
