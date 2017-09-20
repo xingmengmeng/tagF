@@ -174,6 +174,7 @@
             }
             ul{
                 position: absolute;
+                padding:0 10px;
                 top:32px;
                 width: 100px;
                 border: 1px solid #DFDFDF;
@@ -181,9 +182,10 @@
                 border-radius: 4px;
                 background: #fff;
                 li{
-                    padding:6px 0;
+                    margin:4px 0;
+                    padding:4px 5px;
                     width: 100%;
-                    text-align: center;
+                    text-align: left;
                     box-sizing: border-box;
                     font-size: 12px;
                     cursor: pointer;
