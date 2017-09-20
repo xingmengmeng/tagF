@@ -70,7 +70,10 @@ const router = new VueRouter({
                 { path:'micDetail',component:micDetail}
             ]
         },
-        { path: '/tagView',component:tagView,redirect:'/tagView/tagw',
+        { path: '/tagView',component:tagView,redirect: to => {
+                //to 为参数  是一个对象
+                return localStorage.getItem('tagRoute');
+            },
             children:[
                 { path:'tagMap',component:tagMap},
                 { path:'tagw',component:tagw,redirect:'/tagView/tagw/tagSet',

@@ -119,6 +119,10 @@ marquee{
                             this.$store.state.setRouteData.push(item.children);
                             hasSet=true;
                         }
+                        if(item.type=='menu'&&item.name=='标签'){
+                            localStorage.setItem('tagRoute',item.children[0].href);
+                            this.$store.state.tagRouteData=item.children;
+                        }
                     });
                     if(hasSet){
                         localStorage.setItem('isAdmin',true);

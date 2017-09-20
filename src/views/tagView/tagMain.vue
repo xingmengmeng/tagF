@@ -3,15 +3,12 @@
         <!--left side start-->
         <section class="leftSide">
             <ul id="leftMenu">
+                <li v-for="(secondLink,index) in linkAry" :key="index">
+                    <router-link :to="secondLink.href">{{secondLink.name}}</router-link>
+                </li>
                 <!--<li>
-                    <router-link to="/tagGroup">标签体系</router-link>
-                </li>-->
-                <li>
-                    <router-link to="/tagView/tagw">标签体系</router-link>
-                </li>
-                <li>
                     <router-link to="/tagView/tagMap">标签画像</router-link>
-                </li>
+                </li>-->
             </ul>
             <div class="show-hide" id="show-hide" @click="changeHeight">
                 显示隐藏按钮
@@ -47,9 +44,11 @@
             LayOut.setHeight.init();
 
         },
-        /*updated(){
-            LayOut.setHeight.init();
-        },*/
+        computed: {
+            linkAry() {
+                return this.$store.state.tagRouteData;
+            }
+        },
         components:{
             'my-foot':Footer
         },
