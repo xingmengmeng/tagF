@@ -38,8 +38,8 @@
                     <span>操作</span>
                     <ul class="left" v-show="showTool">
                         <li @click="deleteWhite">删除</li>
-                        <li @click="showPushMarket">导入</li>
-                        <li @click="downWhite">导出</li>
+                        <li @click="showPushMarket">导入数据</li>
+                        <li @click="downWhite">导出所有数据</li>
                     </ul>
                 </div>
                 <span class="left whiteCount" v-if="whiteTotal">最近一次成功上传{{whiteTotal.uploadCount}}条数据，当前总用户人数：{{whiteTotal.total}}</span>
@@ -54,7 +54,7 @@
             </div>
             <!--搜索-->
             <div class="right searchWrap">
-                <input type="text" v-model="shContent" placeholder="输入姓名/手机号/passportid/userid" @keyup.enter="searchFun(shContent)">
+                <input type="text" v-model="shContent" placeholder="输入姓名/手机号/Passportuserid" @keyup.enter="searchFun(shContent)">
                 <button class="searchBtn" @click="searchFun(shContent)"></button>
             </div>
         </div>
@@ -65,7 +65,7 @@
                     <th>Passportuserid</th>
                     <!--<th>User ID</th>-->
                     <th>姓名</th>
-                    <th>手机</th>
+                    <th>手机号</th>
                 </tr>
             </thead>
             <tbody>
