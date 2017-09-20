@@ -423,31 +423,36 @@ export default {
         'oneline':oneline,
     },
     mounted () {
-        const _this=this;
         if(this.$route.query.id){
             this.id=this.$route.query.id;
             this.getWhite();
+        }else{
+            let _this=this;
+            let strTime=laydate.render({
+                elem: '#startTime', //指定元素
+                type:'datetime',
+                theme: '#1078f5',
+                value: _this.startTimes,
+                done(value, date){
+                    //console.log('你选择的日期是：' + value + '\n获得的对象是' + JSON.stringify(date));
+                    _this.startTimes=value;
+                    date.month=date.month-1;
+                    eTime.config.min=date;
+                }
+            });
+            let eTime=laydate.render({
+                elem: '#endTime', //指定元素
+                type:'datetime',
+                theme: '#1078f5',
+                value: _this.endTimes,
+                done(value, date){
+                    _this.endTimes=value;
+                    date.month=date.month-1;
+                    strTime.config.max=date;
+                }
+            });
         }
         this.getTabList();//table数据
-        laydate.render({
-            elem: '#startTime', //指定元素
-            type:'datetime',
-            theme: '#1078f5',
-            value: _this.startTimes,
-            done(value, date){
-                //console.log('你选择的日期是：' + value + '\n获得的对象是' + JSON.stringify(date));
-                _this.startTimes=value;
-            }
-        });
-        laydate.render({
-            elem: '#endTime', //指定元素
-            type:'datetime',
-            theme: '#1078f5',
-            value: _this.endTimes,
-            done(value, date){
-                _this.endTimes=value;
-            }
-        });
     },
     watch:{
         inputCon(str){
@@ -467,6 +472,31 @@ export default {
                     this.startTimes=resData.beginTime;
                     this.endTimes=resData.endTime;
                     this.remark=resData.remark;
+                    let _this=this;
+                    let strTime=laydate.render({
+                        elem: '#startTime', //指定元素
+                        type:'datetime',
+                        theme: '#1078f5',
+                        max:_this.endTimes,
+                        value: _this.startTimes,
+                        done(value, date){
+                            _this.startTimes=value;
+                            date.month=date.month-1;
+                            eTime.config.min=date;
+                        }
+                    });
+                    let eTime=laydate.render({
+                        elem: '#endTime', //指定元素
+                        type:'datetime',
+                        theme: '#1078f5',
+                        min:_this.startTimes,
+                        value: _this.endTimes,
+                        done(value, date){
+                            _this.endTimes=value;
+                            date.month=date.month-1;
+                            strTime.config.max=date;
+                        }
+                    });
                 }
             })
         },
