@@ -95,7 +95,7 @@
                     <input type="button" value="上传" class="pushBtn" @click="pushFn">
                 </li>
                 <li class="pushDoe clearfix">
-                    <span>支持的文件类型：csv  ，成功上传的新数据将第2天生效。</span>
+                    <span>支持的文件类型：.xlsx  ，成功上传的新数据将第2天生效。</span>
                     <span class="downLink" @click="downModel">下载模板</span>
                 </li>
                 <li class="pushMess clearfix" v-show="loadClicking">
