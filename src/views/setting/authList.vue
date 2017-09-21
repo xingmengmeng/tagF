@@ -46,7 +46,7 @@
             <ul class="clearfix">
                 <li class="clearfix">
                     <label class="left"><strong>*</strong>部门角色：</label>
-                    <input type="text" v-model="authName" placeholder="最多可输入30个字符" class="left txt">
+                    <input type="text" v-model="authName" placeholder="最多可输入40个字符" class="left txt">
                 </li>
                 <li class="errorLi clearfix" style="padding:0px 0 0 120px;height: 14px; font-size: 12px; color: #B40606;">
                     <span v-cloak>{{saveError}}</span>
@@ -188,8 +188,8 @@ export default {
     /*提交事件*/
     saveNewAuth(){
         var subjectLength=this.authName.gblen();
-        if(subjectLength>30){
-            this.saveError='最多输入30个字符';
+        if(subjectLength>40){
+            this.saveError='最多输入40个字符';
             return false;
         }else if(subjectLength==0){
             this.saveError='部门名称不能为空';
