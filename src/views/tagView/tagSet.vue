@@ -44,11 +44,11 @@
         <div class="left addUsersRight">
             <div class="biWrap">
                 <ul class="tagSetNav clearfix">
-                    <li @click="showCon='tagWrap'" :class="showCon=='tagWrap'?'active':''">定制标签</li>
-                    <li @click="showCon='vipWrap'" :class="showCon=='vipWrap'?'active':''">白名单</li>
+                    <li @click="showCon='tagWrap'" :class="showCon=='tagWrap'?'active':''" v-if="$store.state.hasTag">定制标签</li>
+                    <li @click="showCon='vipWrap'" :class="showCon=='vipWrap'?'active':''" v-if="$store.state.hasWhite">白名单</li>
                 </ul>
                 <!--定制标签 start-->
-                <div v-show="showCon=='tagWrap'" class="tagSetDiv">
+                <div v-show="showCon=='tagWrap'" class="tagSetDiv" v-if="$store.state.hasTag">
                     <ul>
                         <li class="tagLis">
                             <label>一级标签：</label>
@@ -93,7 +93,7 @@
                 </div>
                 <!--定制标签 end-->
                 <!--白名单  start-->
-                <div v-show="showCon=='vipWrap'" class="whiteScroll">
+                <div v-show="showCon=='vipWrap'" class="whiteScroll" v-if="$store.state.hasWhite">
                     <ul class="whiteListUl">
                         <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未生效'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
                             <ul>
@@ -351,6 +351,7 @@
 
             this.getData();
             this.getUrlPage();//地址栏参数判断
+            this.getState();
             /*提交按钮样式*/
             LayOut.setHeight.init();
             LayOut.serBiWrap.init();
@@ -395,6 +396,22 @@
                             this.addUserLeftScroll.refresh();
                         }
                     })
+                })
+            },
+            //得到定制标签与白名单的权限
+            getState(){
+                this.$http.get('/api/hasAuth.gm?api=/tagDefined/save.gm').then(function(res){
+                    if(res.data.code==200){
+                        this.$store.state.hasTag=res.data.dataInfo;
+                        if(!this.$store.state.hasTag){
+                            this.showCon='vipWrap';
+                        }
+                    }
+                })
+                this.$http.get('/api/hasAuth.gm?api=/tagWhiteList/save.gm').then(function(res){
+                    if(res.data.code==200){
+                        this.$store.state.hasWhite=res.data.dataInfo;
+                    }
                 })
             },
             /*显示三级树*/

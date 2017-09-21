@@ -7,6 +7,8 @@ export default new Vuex.Store({
         setRouteData:[],//设置页面的路由数据,
         tagRouteData:[],//标签页面的路由数据,
         authAry:[],
+        hasWhite:true,
+        hasTag:true,
     },
     mutations:{
         changeNotice(state,con){
