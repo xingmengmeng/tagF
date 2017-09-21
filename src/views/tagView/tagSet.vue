@@ -688,7 +688,7 @@
             },
             //跳转到白名单设置页面
             whiteListSet(){
-                this.$router.push('/tagView/tagw/whiteListSet');
+                this.$router.push('/tagView/tagw/tagSet/whiteListSet');
             },
             //删除配置标签
             deleteTag(id,str){
@@ -784,7 +784,7 @@
                 })
             },
             goWhiteDetail(id){
-                this.$router.push({ path: '/tagView/tagw/whiteListSet', query: { id: id }});
+                this.$router.push({ path: '/tagView/tagw/tagSet/whiteListSet', query: { id: id }});
             }
         }
     }

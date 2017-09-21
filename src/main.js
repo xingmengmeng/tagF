@@ -79,7 +79,7 @@ const router = new VueRouter({
                 { path:'tagw',component:tagw,redirect:'/tagView/tagw/tagSet',
                     children:[
                         { path:'tagSet',component:tagSet},
-                        { path:'whiteListSet',component:whiteListSet},
+                        { path:'tagSet/whiteListSet',component:whiteListSet},
                     ]
                 },
             ]
