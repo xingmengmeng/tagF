@@ -643,6 +643,7 @@
             },
             //校验填入的内容
             valiMin(txt){
+                
                 if(isNaN(Number(txt))){//其中有一个数字非数字  返回
                     this.error='请在输入框内，填写具体的数字';
                     return;
@@ -661,6 +662,8 @@
                     this.error='设置范围不能为空';
                     return;
                 }
+                this.minTxt=parseFloat(this.minTxt);
+                this.maxTxt=parseFloat(this.maxTxt);
                 this.$http.post('/api/tagDefined/save.gm',{"tagId":this.threeId,"minValue":this.minTxt,"maxValue":this.maxTxt},{emulateJSON:true}).then(function(res){
                     if(res.data.code=='200'){
                         this.showSuccess=true;
