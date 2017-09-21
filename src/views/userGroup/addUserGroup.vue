@@ -520,8 +520,10 @@
                 var tagRelationsStr=JSON.stringify(this.tagRelations);
                 //console.log('统计用户数');
                 this.$http.get('/api/baseTag/queryCount.gm?tagRelations='+tagRelationsStr).then(function (res) {
-                    this.statisUsers=res.data.dataInfo;
-                    this.saveGroup();
+                    if(res.data.code==200){
+                        this.statisUsers=res.data.dataInfo;
+                        this.saveGroup();
+                    }
                 });
                 console.log(JSON.stringify(this.tagRelations));
             },
