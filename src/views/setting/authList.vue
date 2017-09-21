@@ -188,7 +188,7 @@ export default {
     /*提交事件*/
     saveNewAuth(){
         var subjectLength=this.authName.gblen();
-        if(subjectLength>20){
+        if(subjectLength>30){
             this.saveError='最多输入30个字符';
             return false;
         }else if(subjectLength==0){
