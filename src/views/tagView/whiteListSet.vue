@@ -61,7 +61,7 @@
         <table width="100%" class="tab" v-if="id!==''">
             <thead>
                 <tr>
-                    <th width="80"><input type="checkbox" @click="selectAll($event)"></th>
+                    <th width="80"><input type="checkbox" @click="selectAll($event)" v-model="selectAllCheck"></th>
                     <th>Passportuserid</th>
                     <!--<th>User ID</th>-->
                     <th>姓名</th>
@@ -418,6 +418,7 @@ export default {
             selectAryAll:[],/*接口返回的所有数据id数组*/
             oneLineShow:false,
             whiteTotal:null,
+            selectAllCheck:false,
         }
     },
     components:{
@@ -615,6 +616,7 @@ export default {
                 if(res.data.code==200){
                     this.getTabList();
                     this.hideAll();
+                    this.selectAllCheck=false;
                 }
             })
         },
