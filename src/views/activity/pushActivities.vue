@@ -164,7 +164,7 @@
                                     </li>
                                     <li class="clearfix">
                                         <label>对接字段：</label>
-                                        <span class="actSpan" v-cloak>{{actDetail.pushFieldName}}</span>
+                                        <span class="actSpan" v-cloak>{{actDetail.pushFieldName}} &nbsp; {{actDetail.pushFieldCount}}</span>
                                     </li>
                                     <li class="clearfix">
                                         <label>创建人：</label>
