@@ -189,7 +189,7 @@ export default {
     saveNewAuth(){
         var subjectLength=this.authName.gblen();
         if(subjectLength>40){
-            this.saveError='最多输入40个字符';
+            this.saveError='最多可输入40个字符';
             return false;
         }else if(subjectLength==0){
             this.saveError='部门名称不能为空';
@@ -202,6 +202,8 @@ export default {
                 /*弹框消失  列表刷新*/
                 overlay.style.display=markWarp.style.display='none';
                 this.getTabList();
+            }else{
+                this.saveError=res.data.msg.replace('参数校验不通过:','');
             }
         })
     },
