@@ -64,7 +64,7 @@
                                     <td>
                                         <a href="javascript:;" class="listDetailLink" @click="showActDetail(item.id,$event)">详情</a>
                                         <a :href="'activity.html?sno='+item.sno" target="_blank" class="actInfoLink" v-show="item.useStatus=='已使用'">活动分析</a>
-                                        <a href="javascript:;" @click="deleteUserGroup(item.id)" class="listDeleteBtn" v-show="item.useStatus!='已使用'">删除</a>
+                                        <a href="javascript:;" @click="deleteUserGroup(item.id)" class="listDeleteBtn" v-show="item.useStatus!='已使用'" v-if="item.createrId&&item.createrId=='canDel'">删除</a>
                                     </td>
 
                                 </tr>
