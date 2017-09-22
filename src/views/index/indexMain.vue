@@ -7,7 +7,18 @@
 
             <div class="echarts-wraper">
                 <div class="div-title">
-                    <h5 class="ic1">入库客户数据</h5>
+                    <h5 class="ic1">
+                        <span class="left">入库客户数据</span>
+                        <div class="left messTsDiv">
+                            <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                            <ul class="messConUl" style="display:none;">
+                                <li>1.入库客户数：美易理财注册用户、美易分进件用户、美借注册用户及第三方推送进件用户；</li>
+                                <li>2.新增客户数：昨日各业务线新增的用户数；</li>
+                                <li>3.走势图指标：经过Passportid拉通后去重用户总数走势。</li>
+                            </ul>
+                        </div>
+                    </h5>
+                    
                 </div>
                 <!--可点击切换部分 start-->
 
@@ -74,7 +85,16 @@
 
             <div class="echarts-wraper">
                 <div class="div-title">
-                    <h5 class="ic4">美易理财画像</h5>
+                    <h5 class="ic4">
+                        <span class="left">美易理财画像</span>
+                        <div class="left messTsDiv">
+                            <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
+                            <ul class="messConUl" style="display:none;">
+                                <li>1.昨日理财投资：昨日理财投资用户，包括投资失败的用户。投资的产品类型包含定期、债转和票据；</li>
+                                <li>2.全部理财投资：美易理财全量注册用户。</li>
+                            </ul>
+                        </div>
+                    </h5>
                 </div>
                 <!--图表 start-->
                 <div id="words">
@@ -171,6 +191,16 @@
             } 
         }
     }
+    .messTsDiv{
+        margin-top:8px;
+        .messConUl{
+            width: 230px;
+            li{
+                line-height: 150%;
+            }
+        }
+    }
+    
 </style>
 
 <script type="text/ecmascript-6">
@@ -232,7 +262,15 @@
                 setTimeout(()=>{
                     this.showSuccess=false;
                 },2000);
-            }
+            },
+            showNext(e){
+                var cc=e.target.parentNode.getElementsByTagName('ul')[0];
+                cc.style.display='block';
+            },
+            hideNext(e){
+                var cc=e.target.parentNode.getElementsByTagName('ul')[0];
+                cc.style.display='none';
+            },
         }
     }
 </script>
