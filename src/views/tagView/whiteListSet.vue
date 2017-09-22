@@ -377,7 +377,7 @@
                 }
                 .pushedMes{
                     padding-left:20px;
-                    background: url(../../assets/images/tishi.png) left center no-repeat;
+                    background: url(../../assets/images/tishi2.png) left center no-repeat;
                     box-sizing: border-box;
                 }
             }
