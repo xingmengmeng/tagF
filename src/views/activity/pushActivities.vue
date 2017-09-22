@@ -45,8 +45,9 @@
                                     <th>对接系统</th>
                                     <th>主题名称</th>
                                     <th>覆盖用户数</th>
+                                    <th>状态</th>
                                     <th>创建时间</th>
-                                    <th>使用状态</th>
+                                    <th>使用情况</th>
                                     <th>使用时间</th>
                                     <th width="9%">&nbsp;</th>
                                 </tr>
@@ -58,6 +59,7 @@
                                     <td v-cloak>{{item.systemName}}</td>
                                     <td v-cloak>{{item.subject}}</td>
                                     <td v-cloak>{{item.coverUserCount}}</td>
+                                    <td v-cloak>{{item.status==0?'禁用':(item.status==2?'失效':'启用')}}</td>
                                     <td v-cloak>{{item.createTime}}</td>
                                     <td v-cloak>{{item.useStatus}}</td>
                                     <td v-cloak>{{item.useTime}}</td>
@@ -179,7 +181,7 @@
                                         <span class="actSpan" v-cloak>{{actDetail.createTime}}</span>
                                     </li>
                                     <li class="clearfix">
-                                        <label>使用状态：</label>
+                                        <label>使用情况：</label>
                                         <span class="actSpan" v-cloak>{{actDetail.useStatus}}</span>
                                     </li>
                                     <li class="clearfix">
