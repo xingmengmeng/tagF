@@ -649,7 +649,7 @@ export default {
                         this.pushMsg='成功上传了'+resd.successCount+'条数据，失败'+resd.failCount+'条，已删除重复数据'+resd.coverCount+'条';
                         this.getTabList();
                     }else{
-                        this.pushMsg=res.data.msg;
+                        this.pushMsg=res.data.msg.replace('参数校验不通过:','');;
                     }
                     this.loading=false;
                 })
