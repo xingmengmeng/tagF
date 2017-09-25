@@ -375,6 +375,7 @@
                 if(str=='auto'){
                     this.tagCon=null;
                 }
+                this.minTxt=this.maxTxt='';
             }
         },
         methods:{
@@ -667,6 +668,7 @@
                 this.$http.post('/api/tagDefined/save.gm',{"tagId":this.threeId,"minValue":this.minTxt,"maxValue":this.maxTxt},{emulateJSON:true}).then(function(res){
                     if(res.data.code=='200'){
                         this.showSuccess=true;
+                        this.minTxt=this.maxTxt=this.error='';
                         setTimeout(()=>{
                             this.showSuccess=false;
                         },2000);
