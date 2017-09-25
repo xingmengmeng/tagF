@@ -98,7 +98,7 @@
                                     <li class="clearfix">
                                         <label><strong>*</strong>短信业务：</label>
                                         <select v-model="selectedSer" class="left">
-                                            <option v-for="op in selectedSerList" :value="op">{{op}}</option>
+                                            <option v-for="(op,index) in selectedSerList" :value="index" :key="index">{{op}}</option>
                                         </select>
                                     </li>
                                     <li class="clearfix">
@@ -154,7 +154,7 @@
                                     </li>
                                     <li class="clearfix">
                                         <label>短信业务：</label>
-                                        <span class="actSpan" v-cloak>{{actDetail.systemService}}</span>
+                                        <span class="actSpan" v-cloak>{{actDetail.systemServiceName}}</span>
                                     </li>
                                     <li class="clearfix">
                                         <label>主题名称：</label>
