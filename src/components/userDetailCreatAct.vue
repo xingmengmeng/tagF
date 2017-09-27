@@ -27,7 +27,7 @@
                 <li class="clearfix">
                     <label><strong>*</strong>短信业务：</label>
                     <select v-model="selectedSer" class="left">
-                        <option v-for="op in selectedSerList" :value="op">{{op}}</option>
+                        <option v-for="(op,index) in selectedSerList" :value="index">{{op}}</option>
                     </select>
                 </li>
                 <li class="clearfix">
