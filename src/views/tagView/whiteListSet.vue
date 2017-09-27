@@ -655,8 +655,15 @@ export default {
                         this.pushMsg='成功上传了'+resd.successCount+'条数据，失败'+resd.failCount+'条，已删除重复数据'+resd.coverCount+'条';
                         this.getTabList();
                     }else{
-                        this.pushMsg=res.data.msg.replace('参数校验不通过:','');;
+                        this.pushMsg=res.data.msg.replace('参数校验不通过:','');
                     }
+                    this.loading=false;
+                    btnsave.removeAttribute('disabled');
+                    btnsave.style.cursor='pointer';
+                    btnsave.style.background='#1078f5';
+                    btnsave.style.color='#fff';
+                },function(res){
+                    this.pushMsg=res.status;
                     this.loading=false;
                     btnsave.removeAttribute('disabled');
                     btnsave.style.cursor='pointer';
