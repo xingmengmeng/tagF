@@ -92,7 +92,7 @@
                         </form>
                         <!--<input type="file" name="file" @change="fileSelected" id="fileInput">-->
                     </a>
-                    <input type="button" value="上传" class="pushBtn" @click="pushFn">
+                    <input type="button" value="上传" class="pushBtn" @click="pushFn" id="pushBtn">
                 </li>
                 <li class="pushDoe clearfix">
                     <span>支持的文件类型：.xlsx  ，成功上传的新数据将第2天生效。</span>
@@ -643,6 +643,12 @@ export default {
                 formData.append('id', this.id);
                 this.loadClicking=this.loading=true;
 
+                var btnsave=document.querySelector('#pushBtn');
+                btnsave.setAttribute('disabled','true');
+                btnsave.style.cursor='default';
+                btnsave.style.background='#ddd';
+                btnsave.style.color='#333';
+
                 this.$http.post('/api/tagWhiteList/importDetail.gm',formData).then(function(res){
                     if(res.data.code==200){
                         let resd=res.data.dataInfo;
@@ -652,6 +658,10 @@ export default {
                         this.pushMsg=res.data.msg.replace('参数校验不通过:','');;
                     }
                     this.loading=false;
+                    btnsave.removeAttribute('disabled');
+                    btnsave.style.cursor='pointer';
+                    btnsave.style.background='#1078f5';
+                    btnsave.style.color='#fff';
                 })
                 /*var vFD = new FormData(document.getElementById('uploadForm')),    //建立请求和数据
                     oXHR = new XMLHttpRequest();
@@ -683,6 +693,12 @@ export default {
             fileInput.value='';
             this.inputCon='未选择任何文件';
             this.loadClicking=false;
+            this.loading=false;
+            var btnsave=document.querySelector('#pushBtn');
+                btnsave.removeAttribute('disabled');
+                btnsave.style.cursor='pointer';
+                btnsave.style.background='#1078f5';
+                btnsave.style.color='#fff';
         },
         //下载模板
         downModel(){
@@ -690,7 +706,7 @@ export default {
         },
         toolEnterW(){
             clearTimeout(this.timer);
-            this.showTool=true;
+            this.showTool=true;  
         },
         toolLeaveW(){  
             this.timer=setTimeout(()=> {
