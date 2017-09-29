@@ -341,12 +341,15 @@
                 whiteScroll:null,
                 addUserLeftScroll:null,
                 fourTreeScroll:null,
+                parentId:'',//当前选中的三级id
             }
         },
         mounted(){
             //判断显示哪个选项卡
             if(this.$route.query.tagBack){
                 this.showCon='vipWrap';
+            }else{
+                this.showCon='tagWrap';
             }
 
             this.getData();
@@ -368,7 +371,7 @@
         watch:{
             showCon(str){
                 if(str=='vipWrap'){
-                    this.getWhiteData();//得到白名单列表
+                    this.getWhiteData();//得到白名单列表 
                 }
             },
             threeId(str){
@@ -430,6 +433,7 @@
             },
             /*显示四级*/
             showFourTree(id){
+                this.parentId=id;
                 if(this.j==id){
                     //console.log('同一个');
                     return;
@@ -672,12 +676,15 @@
                         setTimeout(()=>{
                             this.showSuccess=false;
                         },2000);
-                        this.showLoading=true;
-                        this.$http.get('/api/baseTag/queryByParentId.gm?parentId=defined_tag').then(function (response) {
-                            this.showLoading=false;
-                            this.sortFlag=true;//排序恢复默认
-                            this.setFour(response);
-                        })
+                        if(this.parentId=='defined_tag'){
+                            this.showLoading=true;
+                            this.fourResData=[];
+                            this.$http.get('/api/baseTag/queryByParentId.gm?parentId=defined_tag').then(function (response) {
+                                this.showLoading=false;
+                                this.sortFlag=true;//排序恢复默认
+                                this.setFour(response);
+                            })
+                        } 
                     }else{
                         this.error=res.data.msg.replace('参数校验不通过:','');
                     }
@@ -745,15 +752,18 @@
                         overlay.style.display=markDelet.style.display='none';
                         /*前台页面列表数组删除此条数据  或者再走一次接口*/
                         this.getData();
-                        this.showLoading=true;
                         
                         if(listId=='white_list'){/*右侧白名单列表删除*/
                             this.getWhiteData();
-                            this.$http.get('/api/baseTag/queryByParentId.gm?parentId='+listId).then(function (response) {
-                                this.showLoading=false;
-                                this.sortFlag=true;//排序恢复默认
-                                this.setFour(response);
-                            })
+                            if(this.parentId=='white_list'){
+                                this.showLoading=true;
+                                this.fourResData=[];
+                                this.$http.get('/api/baseTag/queryByParentId.gm?parentId='+listId).then(function (response) {
+                                    this.showLoading=false;
+                                    this.sortFlag=true;//排序恢复默认
+                                    this.setFour(response);
+                                })
+                            }
                         }else{/*四级树删除*/
                             this.showLoading=false;
                             this.fourResData=this.fourResData.filter(item=>{
@@ -767,6 +777,7 @@
             getWhiteData(){
                 let biWrap=document.querySelector('.biWrap'),
                     whiteScroll=document.querySelector('.whiteScroll');
+                console.log(biWrap,whiteScroll)
                 whiteScroll.style.height=Number(biWrap.style.height.replace('px',''))-100+'px';         
                 this.$http.get('/api/tagWhiteList/queryList.gm').then(function(res){
                     if(res.data.code==200){
