@@ -93,7 +93,7 @@
                 </div>
                 <!--定制标签 end-->
                 <!--白名单  start-->
-                <div v-show="showCon=='vipWrap'" class="whiteScroll" v-if="$store.state.hasWhite">
+                <div v-show="showCon=='vipWrap'&&$store.state.hasWhite" class="whiteScroll">
                     <ul class="whiteListUl">
                         <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未生效'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
                             <ul>
@@ -348,10 +348,7 @@
             //判断显示哪个选项卡
             if(this.$route.query.tagBack){
                 this.showCon='vipWrap';
-            }else{
-                this.showCon='tagWrap';
             }
-
             this.getData();
             this.getUrlPage();//地址栏参数判断
             this.getState();
@@ -371,6 +368,7 @@
         watch:{
             showCon(str){
                 if(str=='vipWrap'){
+                    this.showCon='vipWrap';
                     this.getWhiteData();//得到白名单列表 
                 }
             },
@@ -777,7 +775,6 @@
             getWhiteData(){
                 let biWrap=document.querySelector('.biWrap'),
                     whiteScroll=document.querySelector('.whiteScroll');
-                console.log(biWrap,whiteScroll)
                 whiteScroll.style.height=Number(biWrap.style.height.replace('px',''))-100+'px';         
                 this.$http.get('/api/tagWhiteList/queryList.gm').then(function(res){
                     if(res.data.code==200){
