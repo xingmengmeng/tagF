@@ -90,7 +90,7 @@
                         <div class="left messTsDiv">
                             <i class="left messIcon" @mouseenter="showNext($event)" @mouseleave="hideNext($event)"></i>
                             <ul class="messConUl" style="display:none;">
-                                <li>1.昨日理财投资用户：昨日理财投资用户，包括投资失败的用户。投资的产品类型包含定期、债转和票据；</li>
+                                <li>1.昨日理财投资用户：包括投资失败的用户。投资的产品类型包含定期、债转和票据；</li>
                                 <li>2.全部理财投资用户：美易理财全量注册用户。</li>
                             </ul>
                         </div>
