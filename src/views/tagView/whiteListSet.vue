@@ -523,6 +523,7 @@ export default {
                         this.selectAryAll.push(item.id);
                     });
                 }
+                this.selectAllCheck=false;
             })
             this.$http.get('/api/tagWhiteList/querySummary.gm?whiteListId='+this.id).then(function(res){
                 if(res.data.code==200){
@@ -533,13 +534,13 @@ export default {
         //分页点击
         getPageData(e){
             if(e.target.innerHTML=='上一页'){
-            if(this.pageNum<=1) return;
-            this.pageNum--;
-            this.getTabList();/*ajax后台获取要显示数据*/
+                if(this.pageNum<=1) return;
+                this.pageNum--;
+                this.getTabList();/*ajax后台获取要显示数据*/
             }else if(e.target.innerHTML=='下一页'){
-            if(this.pageNum>=this.pageCount) return;
-            this.pageNum++;
-            this.getTabList();/*ajax后台获取要显示数据*/
+                if(this.pageNum>=this.pageCount) return;
+                this.pageNum++;
+                this.getTabList();/*ajax后台获取要显示数据*/
             }
         },
         //分页跳转
@@ -724,9 +725,13 @@ export default {
         selectAll(e){
             let sel=e.target.checked;
             if(sel){
-                this.selectAry=this.selectAryAll.concat();
+                this.selectAry=this.selectAryAll.concat(this.selectAry);
             }else{
-                this.selectAry=[];
+                for(var cur of this.selectAryAll){
+                    this.selectAry=this.selectAry.filter(item=>{
+                        return item!=cur;
+                    })
+                }
             }
         },
         hideOver(){
