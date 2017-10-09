@@ -569,9 +569,14 @@ export default {
         },
         //保存白名单
         saveWhite(){
-            var subjectLength=this.tagName.gblen();
+            var subjectLength=this.tagName.gblen(),
+                remarkLength=this.remark.gblen();
             if(subjectLength>20){
-                this.saveError='最多输入20个字符';
+                this.saveError='标签名称最多输入20个字符';
+                return false;
+            }
+            if(remarkLength>200){
+                this.saveError='标签描述最多输入200个字符';
                 return false;
             }
             let obj={};
