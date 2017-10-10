@@ -9,6 +9,12 @@ export default new Vuex.Store({
         authAry:[],
         hasWhite:false,
         hasTag:false,
+        tagTopScroll:null,
+        tagBottomScroll:null,
+        tagRightScroll:null,
+        fourTreeScroll:null,
+        whiteScroll:null,
+        addUserLeftScroll:null,
     },
     mutations:{
         changeNotice(state,con){

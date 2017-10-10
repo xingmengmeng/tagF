@@ -53,7 +53,13 @@
             'my-foot':Footer
         },
         methods:{
-            changeHeight(){}
+            changeHeight(){
+                setTimeout( ()=> {
+                    if(this.$store.state.tagTopScroll) this.$store.state.tagTopScroll.refresh(); 
+                    if(this.$store.state.tagBottomScroll) this.$store.state.tagBottomScroll.refresh(); 
+                    if(this.$store.state.fourTreeScroll) this.$store.state.fourTreeScroll.refresh(); 
+                }, 0);
+            }
         }
     }
 </script>

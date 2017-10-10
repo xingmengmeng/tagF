@@ -386,8 +386,8 @@
                     this.treeResData=response.data.dataInfo;
 
                     this.$nextTick(function(){
-                        if(this.addUserLeftScroll==null){
-                            this.addUserLeftScroll=new IScroll('.addUsersLeft',{
+                        if(this.$store.state.addUserLeftScroll==null){
+                            this.$store.state.addUserLeftScroll=new IScroll('.addUsersLeft',{
                                 mouseWheel: true,
                                 scrollbars: true,
                                 checkDOMChanges:true,
@@ -395,7 +395,7 @@
                                 interactiveScrollbars:true
                             });
                         }else{
-                            this.addUserLeftScroll.refresh();
+                            this.$store.state.addUserLeftScroll.refresh();
                         }
                     })
                 })
@@ -426,7 +426,7 @@
                     this.i=index;
                 }
                 this.$nextTick(function () {
-                    this.addUserLeftScroll.refresh();
+                    this.$store.state.addUserLeftScroll.refresh();
                 })
             },
             /*显示四级*/
@@ -483,8 +483,8 @@
                     this.comAllSelect();
                 }
                 this.$nextTick(function(){
-                    if(this.fourTreeScroll==null){
-                        this.fourTreeScroll=new IScroll('.fourWrap',{
+                    if(this.$store.state.fourTreeScroll==null){
+                        this.$store.state.fourTreeScroll=new IScroll('.fourWrap',{
                             mouseWheel: true,
                             scrollbars: true,
                             checkDOMChanges:true,
@@ -492,7 +492,7 @@
                             interactiveScrollbars:true
                         })
                     }else {
-                        this.fourTreeScroll.refresh();
+                        this.$store.state.fourTreeScroll.refresh();
                     }
                 });
             },
@@ -579,7 +579,7 @@
                 }
                 this.pingAry();
                 this.$nextTick(function () {
-                    this.addUserRightScroll.refresh();
+                    this.$store.state.addUserRightScroll.refresh();
                 });
             },
             //排序
@@ -780,8 +780,8 @@
                     if(res.data.code==200){
                         this.whiteData=res.data.dataInfo;
                         this.$nextTick(function(){
-                            if(this.whiteScroll==null){
-                                this.whiteScroll=new IScroll('.whiteScroll',{
+                            if(this.$store.state.whiteScroll==null){
+                                this.$store.state.whiteScroll=new IScroll('.whiteScroll',{
                                     mouseWheel: true,
                                     scrollbars: true,
                                     checkDOMChanges:true,
@@ -789,7 +789,7 @@
                                     interactiveScrollbars:true
                                 })
                             }else {
-                                this.whiteScroll.refresh();
+                                this.$store.state.whiteScroll.refresh();
                             }
                         })
                         

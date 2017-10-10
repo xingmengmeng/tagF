@@ -402,12 +402,6 @@
             LayOut.setHeight.init();
         },
         methods:{
-            changeHeight(){
-                setTimeout( ()=> {
-                    this.tagTopScroll.refresh();
-                    this.tagBottomScroll.refresh(); 
-                }, 0);
-            },
             //得到可选标签
             getData(){
                 this.$http.get('/api/tagPortrait/queryList.gm').then(function (res) {
@@ -419,8 +413,8 @@
                         //this.outChecks=this.tagResData.outputSelected;//得到初始选中数组
                         //this.getTemTabel();
                         this.$nextTick(function(){
-                            if(this.tagTopScroll==null){
-                                this.tagTopScroll=new IScroll('.tagSelect',{
+                            if(this.$store.state.tagTopScroll==null){
+                                this.$store.state.tagTopScroll=new IScroll('.tagSelect',{
                                     mouseWheel: true,
                                     scrollbars: true,
                                     checkDOMChanges:true,
@@ -428,11 +422,11 @@
                                     interactiveScrollbars:true
                                 });
                             }else{
-                                this.tagTopScroll.refresh();
+                                this.$store.state.tagTopScroll.refresh();
                             }
                             
-                            if(this.tagBottomScroll==null){
-                                this.tagBottomScroll=new IScroll('.tagPull',{
+                            if(this.$store.state.tagBottomScroll==null){
+                                this.$store.state.tagBottomScroll=new IScroll('.tagPull',{
                                     mouseWheel: true,
                                     scrollbars: true,
                                     checkDOMChanges:true,
@@ -440,7 +434,7 @@
                                     interactiveScrollbars:true
                                 });
                             }else{
-                                this.tagBottomScroll.refresh();
+                                this.$store.state.tagBottomScroll.refresh();
                             }
                             
                         })
