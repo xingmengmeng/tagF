@@ -136,5 +136,12 @@ new Vue({
     el: '#app',
     router:router,
     store:store,
-    components: { App }
+    components: { App },
+    watch:{
+        $route(){
+            this.$store.state.fourTreeScroll=null;
+            this.$store.state.tagTopScroll=null;
+            this.$store.state.tagBottomScroll=null;
+        }
+    }
 })

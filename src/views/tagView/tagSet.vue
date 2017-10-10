@@ -377,7 +377,7 @@
                     this.tagCon=null;
                 }
                 this.minTxt=this.maxTxt='';
-            }
+            },
         },
         methods:{
             /*得到树的数据*/
