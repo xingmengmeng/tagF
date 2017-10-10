@@ -386,8 +386,8 @@
                     this.treeResData=response.data.dataInfo;
 
                     this.$nextTick(function(){
-                        if(this.$store.state.addUserLeftScroll==null){
-                            this.$store.state.addUserLeftScroll=new IScroll('.addUsersLeft',{
+                        if(this.addUserLeftScroll==null){
+                            this.addUserLeftScroll=new IScroll('.addUsersLeft',{
                                 mouseWheel: true,
                                 scrollbars: true,
                                 checkDOMChanges:true,
@@ -395,7 +395,7 @@
                                 interactiveScrollbars:true
                             });
                         }else{
-                            this.$store.state.addUserLeftScroll.refresh();
+                            this.addUserLeftScroll.refresh();
                         }
                     })
                 })
@@ -426,7 +426,7 @@
                     this.i=index;
                 }
                 this.$nextTick(function () {
-                    this.$store.state.addUserLeftScroll.refresh();
+                    this.addUserLeftScroll.refresh();
                 })
             },
             /*显示四级*/
@@ -780,8 +780,8 @@
                     if(res.data.code==200){
                         this.whiteData=res.data.dataInfo;
                         this.$nextTick(function(){
-                            if(this.$store.state.whiteScroll==null){
-                                this.$store.state.whiteScroll=new IScroll('.whiteScroll',{
+                            if(this.whiteScroll==null){
+                                this.whiteScroll=new IScroll('.whiteScroll',{
                                     mouseWheel: true,
                                     scrollbars: true,
                                     checkDOMChanges:true,
@@ -789,7 +789,7 @@
                                     interactiveScrollbars:true
                                 })
                             }else {
-                                this.$store.state.whiteScroll.refresh();
+                                this.whiteScroll.refresh();
                             }
                         })
                         

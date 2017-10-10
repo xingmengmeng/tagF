@@ -13,8 +13,6 @@ export default new Vuex.Store({
         tagBottomScroll:null,
         tagRightScroll:null,
         fourTreeScroll:null,
-        whiteScroll:null,
-        addUserLeftScroll:null,
     },
     mutations:{
         changeNotice(state,con){
