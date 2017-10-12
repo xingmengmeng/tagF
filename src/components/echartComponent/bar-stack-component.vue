@@ -1,5 +1,5 @@
 <template>
-    <div id="mainStack">多系列层叠图</div>
+    <div id="mainStack"></div>
 </template>
 <script type="text/ecmascript-6">
     const echarts = require('echarts');
