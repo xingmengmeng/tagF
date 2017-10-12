@@ -94,6 +94,8 @@
                 <!--定制标签 end-->
                 <!--白名单  start-->
                 <div v-show="showCon=='vipWrap'&&$store.state.hasWhite" class="whiteScroll">
+                    <loading v-show="showWihteLoading"></loading>
+                    <no-con v-show="hasCon&&!showWihteLoading"></no-con>
                     <ul class="whiteListUl">
                         <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未生效'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
                             <ul>
@@ -302,6 +304,7 @@
 </style>
 <script>
     import loading from '../../components/loading.vue';
+    import noCon from '../../components/noCon.vue';
     import successBox from '../../components/successBox.vue';
 
     const IScroll = require('iscroll');
@@ -316,6 +319,8 @@
                 checkdId: [], /*checked为true的标签*/
                 biAllAry: [], /*点击四级后添加的数组  所有标签数组*/
                 showLoading: false,
+                showWihteLoading:false,
+                hasCon:false,
                 addGroupSearchCon: '',
                 allSelect:false,//全选
                 sortFlag:true,//排序
@@ -364,6 +369,7 @@
         components:{
             'loading': loading,
             'success-box':successBox,
+            'no-con':noCon,
         },
         watch:{
             showCon(str){
@@ -775,10 +781,20 @@
             getWhiteData(){
                 let biWrap=document.querySelector('.biWrap'),
                     whiteScroll=document.querySelector('.whiteScroll');
-                whiteScroll.style.height=Number(biWrap.style.height.replace('px',''))-100+'px';         
+                whiteScroll.style.height=Number(biWrap.style.height.replace('px',''))-100+'px';  
+                this.showWihteLoading=true;
+                this.hasCon=false;
+                this.whiteData=[];       
                 this.$http.get('/api/tagWhiteList/queryList.gm').then(function(res){
+                    this.showWihteLoading=false; 
                     if(res.data.code==200){
                         this.whiteData=res.data.dataInfo;
+                        //是否显示暂无数据
+                        if(this.whiteData.length==0){
+                            this.hasCon=true;
+                        }else{
+                            this.hasCon=false;
+                        }
                         this.$nextTick(function(){
                             if(this.whiteScroll==null){
                                 this.whiteScroll=new IScroll('.whiteScroll',{
