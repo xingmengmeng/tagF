@@ -5,7 +5,8 @@
             <ul class="left leftUl" style="position:relative;">
                 <li class="clearfix">
                     <label class="lab"><strong>*</strong>标签名称：</label>
-                    <input v-show="id!=''" type="text" v-model="tagName" class="langTxt" placeholder="限制20个字符，支持中英文数字" readonly>
+                    <span v-show="id!=''" class="hg30">{{tagName}}</span>
+                    <!--<input v-show="id!=''" type="text" v-model="tagName" class="langTxt" placeholder="限制20个字符，支持中英文数字" readonly>-->
                     <input v-show="id==''" type="text" v-model="tagName" class="langTxt" placeholder="限制20个字符，支持中英文数字">
                 </li>
                 <li class="clearfix">
@@ -15,10 +16,12 @@
                 </li>
                 <li class="clearfix">
                     <label class="lab"><strong>*</strong>有效时间：</label>
-                    <input v-show="id!=''" type="text" v-model="startTimes" class="smallTxt" readonly>
+                    <span v-show="id!=''" class="hg30">{{startTimes}}</span>
+                    <!--<input v-show="id!=''" type="text" v-model="startTimes" class="smallTxt" readonly>-->
                     <input v-show="id==''" type="text" id="startTime" v-model="startTimes" class="smallTxt" readonly>
                     <span>~</span>
-                    <input v-show="id!=''" type="text" v-model="endTimes" class="smallTxt" readonly>
+                    <span v-show="id!=''" class="hg30">{{endTimes}}</span>
+                    <!--<input v-show="id!=''" type="text" v-model="endTimes" class="smallTxt" readonly>-->
                     <input v-show="id==''" type="text" id="endTime" v-model="endTimes" class="smallTxt" readonly>
                 </li>
                 <li>
@@ -156,6 +159,11 @@
         height: 300px;
         box-sizing: border-box;
         overflow: hidden;
+    }
+    .hg30{
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
     }
     .messWrap{
         width: 100%;
