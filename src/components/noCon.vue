@@ -5,7 +5,10 @@
         </ul>
     </div>
 </template>
-<style>
-
+<style lang="less" scoped>
+    .loadings{
+        top:32px;
+    }
 </style>
+
 
