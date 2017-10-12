@@ -93,24 +93,27 @@
                 </div>
                 <!--定制标签 end-->
                 <!--白名单  start-->
-                <div v-show="showCon=='vipWrap'&&$store.state.hasWhite" class="whiteScroll">
+                <div  v-show="showCon=='vipWrap'&&$store.state.hasWhite">
                     <loading v-show="showWihteLoading"></loading>
                     <no-con v-show="hasCon&&!showWihteLoading"></no-con>
-                    <ul class="whiteListUl">
-                        <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未生效'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
-                            <ul>
-                                <li class="whiteTitle clearfix" @click="whiteClickFn(curWhite.id,'white',$event)">
-                                    <span class="left whiteSpan">{{curWhite.name}}</span>
-                                    <i class="right delWhite" v-if="curWhite.createrId&&curWhite.createrId=='canDel'"></i>
-                                </li>
-                                <li class="whiteMess clearfix">
-                                    <span class="left">有效期：{{curWhite.beginTime}}~{{curWhite.endTime}}</span>
-                                    <span class="right">用户数：{{curWhite.userCount}}</span>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <div class="whiteScroll">
+                        <ul class="whiteListUl">
+                            <li class="whiteList" :class="curWhite.statusStr=='禁用'?'unable':(curWhite.statusStr=='正常'?'normal':(curWhite.statusStr=='未生效'?'nostart':(curWhite.statusStr=='过期'?'outTime':'')))" v-for="(curWhite,index) in whiteData" :key="index">
+                                <ul>
+                                    <li class="whiteTitle clearfix" @click="whiteClickFn(curWhite.id,'white',$event)">
+                                        <span class="left whiteSpan">{{curWhite.name}}</span>
+                                        <i class="right delWhite" v-if="curWhite.createrId&&curWhite.createrId=='canDel'"></i>
+                                    </li>
+                                    <li class="whiteMess clearfix">
+                                        <span class="left">有效期：{{curWhite.beginTime}}~{{curWhite.endTime}}</span>
+                                        <span class="right">用户数：{{curWhite.userCount}}</span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                
                 <!--白名单  end-->
             </div>
             <!--滚动块下方内容 start-->
