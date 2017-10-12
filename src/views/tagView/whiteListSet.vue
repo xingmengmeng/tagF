@@ -5,7 +5,8 @@
             <ul class="left leftUl" style="position:relative;">
                 <li class="clearfix">
                     <label class="lab"><strong>*</strong>标签名称：</label>
-                    <input type="text" v-model="tagName" class="langTxt" placeholder="限制20个字符，支持中英文数字">
+                    <input v-show="id!=''" type="text" v-model="tagName" class="langTxt" placeholder="限制20个字符，支持中英文数字" readonly>
+                    <input v-show="id==''" type="text" v-model="tagName" class="langTxt" placeholder="限制20个字符，支持中英文数字">
                 </li>
                 <li class="clearfix">
                     <label class="lab"><strong>*</strong>状态：</label>
@@ -14,9 +15,11 @@
                 </li>
                 <li class="clearfix">
                     <label class="lab"><strong>*</strong>有效时间：</label>
-                    <input type="text" id="startTime" v-model="startTimes" class="smallTxt" readonly>
+                    <input v-show="id!=''" type="text" v-model="startTimes" class="smallTxt" readonly>
+                    <input v-show="id==''" type="text" id="startTime" v-model="startTimes" class="smallTxt" readonly>
                     <span>~</span>
-                    <input type="text" id="endTime" v-model="endTimes" class="smallTxt" readonly>
+                    <input v-show="id!=''" type="text" v-model="endTimes" class="smallTxt" readonly>
+                    <input v-show="id==''" type="text" id="endTime" v-model="endTimes" class="smallTxt" readonly>
                 </li>
                 <li>
                     <span class="redFont">{{saveError}}</span>
