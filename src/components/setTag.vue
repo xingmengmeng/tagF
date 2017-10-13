@@ -196,11 +196,23 @@ export default {
         this.outputAry=this.outputSelected.concat();
         this.filterSelected.forEach(item=>{
             var oRadio=document.querySelector('#radio'+item);
-            if(oRadio) oRadio.checked=true;
+            if(oRadio){
+                oRadio.checked=true;
+            }else{
+                this.filterAry=this.filterAry.filter(cur=>{
+                    return cur!=item;
+                })
+            }
         });
         this.outputSelected.forEach(item=>{
             var oRadio=document.querySelector('#radio2'+item);
-            if(oRadio) oRadio.checked=true;
+            if(oRadio){
+                oRadio.checked=true;
+            }else{
+                this.outputAry=this.outputAry.filter(cur=>{
+                    return cur!=item;
+                })
+            }
         })
     },
     //得到筛选项数组
