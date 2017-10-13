@@ -196,11 +196,11 @@ export default {
         this.outputAry=this.outputSelected.concat();
         this.filterSelected.forEach(item=>{
             var oRadio=document.querySelector('#radio'+item);
-            oRadio.checked=true;
+            if(oRadio) oRadio.checked=true;
         });
         this.outputSelected.forEach(item=>{
             var oRadio=document.querySelector('#radio2'+item);
-            oRadio.checked=true;
+            if(oRadio) oRadio.checked=true;
         })
     },
     //得到筛选项数组
