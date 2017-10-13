@@ -669,7 +669,7 @@ export default {
                 this.$http.post('/api/tagWhiteList/importDetail.gm',formData).then(function(res){
                     if(res.data.code==200){
                         let resd=res.data.dataInfo;
-                        this.pushMsg='成功上传了'+resd.successCount+'条数据，失败'+resd.failCount+'条，已删除重复数据'+resd.coverCount+'条';
+                        this.pushMsg='成功上传了'+resd.successCount+'条数据，失败'+resd.failCount+'条';
                         this.getTabList();
                     }else{
                         this.pushMsg=res.data.msg.replace('参数校验不通过:','');
