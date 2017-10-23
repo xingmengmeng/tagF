@@ -30,6 +30,8 @@ import ideaList from './views/setting/ideaList.vue';
 import auth from './views/setting/auth.vue';
 import authList from './views/setting/authList.vue';
 import authSet from './views/setting/authSet.vue';
+import versionSet from './views/setting/versionSet.vue';
+import tagProSet from './views/setting/tagProSet.vue';
 
 import tagView from './views/tagView/tagMain.vue';
 import tagMap from './views/tagView/tagView.vue';
@@ -113,7 +115,8 @@ const router = new VueRouter({
                         { path:'authSet',component:authSet},
                     ]
                 },
-                
+                { path:'versionSet',component:versionSet},/*版本说明*/
+                { path:'tagProSet',component:tagProSet},/*标签加工*/
                 /*{ path:'authSet/:id',component:authSet},*/
             ]
         },
