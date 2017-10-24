@@ -49,7 +49,7 @@
                                     <th>创建时间</th>
                                     <th>使用情况</th>
                                     <th>使用时间</th>
-                                    <th width="9%">&nbsp;</th>
+                                    <th width="12%">&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -65,6 +65,7 @@
                                     <td v-cloak>{{item.useTime}}</td>
                                     <td>
                                         <a href="javascript:;" class="listDetailLink" @click="showActDetail(item.id,$event)">详情</a>
+                                        <a href="javascript:;" class="resDetailLink" @click="showResDetail(item.id)">短信发送结果</a>
                                         <a :href="'activity.html?sno='+item.sno" target="_blank" class="actInfoLink" v-show="item.useStatus=='已使用'">活动分析</a>
                                         <a href="javascript:;" @click="deleteUserGroup(item.id)" class="listDeleteBtn" v-show="item.useStatus!='已使用'" v-if="item.createrId&&item.createrId=='canDel'">删除</a>
                                     </td>
@@ -191,6 +192,106 @@
                                 </ul>
                             </div>
                             <!--详情弹框  end-->
+                            
+                            <!--效果报告弹框 start-->
+                            <div class="markWarp resDetail">
+                                <div class="markTitle clearfix">
+                                    <h5 class="resD">效果报告</h5>
+                                    <i class="right close" @click="hideMark">关闭</i>
+                                </div>
+                                <div class="resDetailScroll">
+                                    <div>
+                                        <div class="everyRes">
+                                            <span>推送记录1</span>
+                                            <table width="100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="hasBg">推送开始时间</td>
+                                                        <td>2017-08-12 19:21:12</td>
+                                                        <td class="hasBg">推送结束时间</td>
+                                                        <td>2017-08-12 19:21:12</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="hasBg">推送用户人数</td>
+                                                        <td>32,320</td>
+                                                        <td class="hasBg">推送手机号</td>
+                                                        <td>32,320</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="hasBg">成功发送短信</td>
+                                                        <td>32,320</td>
+                                                        <td class="hasBg">失败发送短信</td>
+                                                        <td>32,320</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="hasBg">短信内容</td>
+                                                        <td colspan="3">【国美金融】幸运818，我们是送5000元旅行基金的圆梦家</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="everyRes">
+                                            <span>推送记录1</span>
+                                            <table width="100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="hasBg">推送开始时间</td>
+                                                        <td>2017-08-12 19:21:12</td>
+                                                        <td class="hasBg">推送结束时间</td>
+                                                        <td>2017-08-12 19:21:12</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="hasBg">推送用户人数</td>
+                                                        <td>32,320</td>
+                                                        <td class="hasBg">推送手机号</td>
+                                                        <td>32,320</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="hasBg">成功发送短信</td>
+                                                        <td>32,320</td>
+                                                        <td class="hasBg">失败发送短信</td>
+                                                        <td>32,320</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="hasBg">短信内容</td>
+                                                        <td colspan="3">【国美金融】幸运818，我们是送5000元旅行基金的圆梦家</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="everyRes">
+                                            <span>推送记录1</span>
+                                            <table width="100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="hasBg">推送开始时间</td>
+                                                        <td>2017-08-12 19:21:12</td>
+                                                        <td class="hasBg">推送结束时间</td>
+                                                        <td>2017-08-12 19:21:12</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="hasBg">推送用户人数</td>
+                                                        <td>32,320</td>
+                                                        <td class="hasBg">推送手机号</td>
+                                                        <td>32,320</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="hasBg">成功发送短信</td>
+                                                        <td>32,320</td>
+                                                        <td class="hasBg">失败发送短信</td>
+                                                        <td>32,320</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="hasBg">短信内容</td>
+                                                        <td colspan="3">【国美金融】幸运818，我们是送5000元旅行基金的圆梦家</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--效果报告弹框  end-->
 
                             <!--删除弹框-->
                             <div class="markDelet">
@@ -232,11 +333,32 @@
             text-align: center;
         }
     }
+    .resDetailScroll{
+        margin-top:10px;
+        position: relative;
+        padding:0px 20px;
+        width: 100%;
+        height: 380px;
+        overflow: hidden;
+        box-sizing: border-box;
+        table{
+            margin:10px 0;
+            td{
+                padding:5px 0;
+                border: 1px solid #DDEDFF;
+                text-align: center;
+                &.hasBg{
+                    background: #F7FAFE;
+                }
+            }
+        }
+    }
 </style>
 
 <script type="text/ecmascript-6">
     import LayOut from '../../assets/js/layout';
     import Footer from '../../components/footer.vue';
+    const IScroll = require('iscroll');
     export default {
         data(){
             return{
@@ -263,7 +385,8 @@
 
                 },/*活动详情*/
                 shContent:'',/*搜索内容*/
-                saveError:''
+                saveError:'',
+                resDetailScroll:null,
             }
         },
         components:{
@@ -346,8 +469,9 @@
                 var overlay=document.querySelector('.overlay'),
                         markWarp=document.querySelector('.markAddAct'),
                         markActDetail=document.querySelector('.markActDetail'),
-                        markDelet=document.querySelector('.markDelet');
-                overlay.style.display=markWarp.style.display=markActDetail.style.display=markDelet.style.display='none';
+                        markDelet=document.querySelector('.markDelet'),
+                        resDetail=document.querySelector('.resDetail');
+                overlay.style.display=markWarp.style.display=markActDetail.style.display=markDelet.style.display=resDetail.style.display='none';
             },
             /*提交事件*/
             addUserGroupFn(){
@@ -400,8 +524,7 @@
             /*活动详情*/
             showActDetail(item,e){
                 var event=window.event||e;
-                console.log(e.target.title);
-                if(event.target.innerHTML!='活动分析'&&event.target.innerHTML!='删除'&&e.target.title!='用户群名称'){
+                if(event.target.innerHTML!='活动分析'&&event.target.innerHTML!='删除'&&e.target.title!='用户群名称'&&e.target.innerHTML!='短信发送结果'){
                     var overlay=document.querySelector('.overlay'),
                             markActDetail=document.querySelector('.markActDetail');
                     overlay.style.display=markActDetail.style.display='block';
@@ -413,6 +536,26 @@
                     this.$router.push({path:'userGroup/userDetail/groupMain'});
                     localStorage.thisGroupId=item.userGroupId;
                 }
+            },
+            /*短信发送结果弹框*/
+            showResDetail(item,e){
+                var overlay=document.querySelector('.overlay'),
+                    markRes=document.querySelector('.resDetail');
+                overlay.style.display=markRes.style.display='block';
+                console.log(item);
+                this.$nextTick(function(){
+                    if(!this.resDetailScroll){
+                        this.resDetailScroll=new IScroll('.resDetailScroll',{
+                            mouseWheel: true,
+                            scrollbars: true,
+                            checkDOMChanges:true,
+                            bounce: false,
+                            interactiveScrollbars:true
+                        });
+                    }else{
+                        this.ideaScroll.refresh();
+                    }
+                });
             },
             deleteUserGroup(id){
                 /*显示弹框  确定否  然后点确定  则删除*/

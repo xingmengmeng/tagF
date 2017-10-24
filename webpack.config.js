@@ -24,7 +24,7 @@ var config = {
             'vue$':'vue/dist/vue.js'
         }
     },
-    devtool: "inline-source-map",/*开启错误提示  生产环境不使用此处配置*/
+    //devtool: "inline-source-map",/*开启错误提示  生产环境不使用此处配置*/
     module: {
         // 一些特定的编译规则
         loaders: [
