@@ -16,6 +16,7 @@
             </li>
         </ul>
         <input type="button" @click="saveFn" class="saveBtn" value="保存">
+        <span class="errorSpan redFont">{{errorV}}</span>
         <transition name="slide-fade">
             <success-box v-show="showSuccess"></success-box>
         </transition>
@@ -74,6 +75,10 @@
         float: right;
         font-size: 13px;
     }
+    .errorSpan{
+        float: right;
+        margin-top:29px;
+    }
 </style>
 <script>
     import successBox from '../../components/successBox.vue';
@@ -84,6 +89,7 @@
                 monthAllTag:'',
                 yearTag:'',
                 showSuccess:false,
+                errorV:'',
             }
         },
         components:{
@@ -92,15 +98,19 @@
         methods:{
             //保存
             saveFn(){
-                /*this.$http.post('/api/notice/save.gm',{"message":this.noticeCon},{emulateJSON:true}).then(function(res){
+                if(this.monthTag==''||this.monthAllTag==''||this.yearTag==''){
+                    this.errorV='三个字段必填，不能为空！';
+                    return;
+                }
+
+                this.$http.post('/api/handleProcess/save.gm',{"monthCount":this.monthTag,"quarterCount":this.monthAllTag,"yearCount":this.yearTag},{emulateJSON:true}).then(function(res){
                     if(res.data.code=='200'){
                         this.showSuccess=true;
                         setTimeout(()=>{
                             this.showSuccess=false;
                         },2000);
-                        this.$store.state.notice=this.noticeCon;
                     }
-                })*/
+                })
             }
         }
     }

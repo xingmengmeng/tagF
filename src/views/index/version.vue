@@ -6,7 +6,7 @@
                 <h4>版本说明</h4>
                 <div class="clearfix versionWrap"> 
                     <div>
-                        <h5>V2.3 版本</h5>
+                        <!--<h5>V2.3 版本</h5>
                         <p>更新时间：2017-10-19</p>
                         <h5>产品功能</h5>
                         <p> 1、修改了用户群CSV下载文件内容，1万条数据修改成10万条数据一张表以及标签id与Passportid 进行区分，并明确手机号所属业务线；</br>
@@ -77,7 +77,21 @@
                         <h5>产品功能</h5>
                         <p> 1、	完成标签工厂系统框架搭建 </br>
                             2、	上线了创建用户群、人群筛选、营销活动、美易理财昨日用户画像等页面功能</br>
-                        </p>
+                        </p>-->
+                        <div v-for="item in versionData">
+                            <h5>{{item.versionName}}</h5>
+                            <p>上线时间：{{item.versionDate}}</p>
+                            <h5 v-if="item.tagContent">原子标签</h5>
+                            <p v-if="item.tagContent">
+                                <pre>{{item.tagContent}}</pre>
+                            </p>
+                            <h5 v-if="item.functionContent">产品功能</h5>
+                            <p v-if="item.functionContent">
+                                <pre>{{item.functionContent}}</pre>
+                            </p>
+                            <i></i>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -119,6 +133,10 @@
                 font-size: 12px;
                 line-height: 180%;
             }
+            pre{
+                font-size: 12px;
+                line-height: 180%;
+            }
             i{
                 display: inline-block;
                 width: 100%;
@@ -141,9 +159,11 @@
         data(){
             return{
                 versionScroll:null,
+                versionData:[],
             }
         },
         mounted(){
+            this.getVersion();
             this.$on('showVersion',()=>{
                 setTimeout(()=>{
                     if(this.versionScroll){
@@ -157,6 +177,13 @@
             }) 
         },
         methods:{
+            getVersion(){
+                this.$http.get('/api/version/queryList.gm').then(function(res){
+                    if(res.data.code==200){
+                        this.versionData=res.data.dataInfo;
+                    }
+                })
+            },
             setScroll(){
                 this.versionScroll=new IScroll('.versionWrap',{
                     mouseWheel: true,
