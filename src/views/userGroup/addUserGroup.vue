@@ -59,42 +59,19 @@
                 </div>
                 <div class="left addUsersRight">
                     <div class="biWrap">
-                        <div class="scroll_wrap">
-                            <h6>所有标签 (所有标签都必须满足)</h6>
-                            <div class="clearfix">
-                                <ul class="clearfix andUl" v-show="biAllAry.length!=0">
-                                    <li class="clearfix" v-for="biValue in biAllAry">
-                                        <div class="rightTool">
-                                            <a href="javascript:;" @click="toDown(biValue.parentId)">下移</a>
-                                            <a href="javascript:;" class="tool-delete" @click="deleteData(biValue.parentId)">删除</a>
-                                        </div>
-                                        <div class="leftCon">
-                                            <span v-cloak>{{biValue.value}}</span>
-                                        </div>
-                                    </li>
-                                </ul>
+                        <draggable id="biSelectAry" :list="biSelectAry" class="dragArea" :options="{group:{name:'people', pull:'clone', put:false }}">
+                            <div v-for="fourData in biSelectAry" class="left">
+                                <label class="checkLabel">{{fourData.name}}</label>
                             </div>
-
-                            <h6>任意标签 (必须至少一个标签满足)</h6>
-                            <div class="clearfix">
-                                <ul class="clearfix andUl" v-show="biEveryAry.length!=0">
-                                    <li class="clearfix" v-for="biEvery in biEveryAry">
-                                        <div class="rightTool">
-                                            <a href="javascript:;" @click="toUp(biEvery.parentId)">上移</a>
-                                            <a href="javascript:;" class="tool-delete" @click="deleteData(biEvery.parentId)">删除</a>
-                                        </div>
-                                        <div class="leftCon">
-                                            <span v-cloak>{{biEvery.value}}</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        </draggable>
+                        <draggable id="list2" :list="list2" class="dragArea" :options="{group:'people'}" @change="log">
+                            <div v-for="(element, index)  in list2"  :key="index">{{element.name}}</div>
+                        </draggable>
                     </div>
 
                     <!--滚动块下方内容 start-->
                     <div class="clearfix biFooter">
-                        <div class="clearfix allNum">
+                        <!--<div class="clearfix allNum">
                             <p class="left" v-cloak>已选择了 {{n}}个标签，统计用户数：  {{statisUsers.count}}， {{statisUsers.rate}}</p>
                             <button class="clear_btn" @click="clearList">清空</button>
                         </div>
@@ -102,36 +79,36 @@
                             <input type="button" value="取消" @click="goList">
 
                             <input type="button" value="提交" @click="showMark" disabled id="saveGroup">
-                        </div>
+                        </div>-->
                     </div>
                     <!--滚动块下方内容 end-->
-
-                    <!--弹框遮罩 start-->
-                    <div class="overlay"></div>
-                    <div class="markWarp">
-                        <div class="markTitle clearfix">
-                            <h5>创建用户群</h5>
-                            <i class="right close" @click="hideMark">关闭</i>
-                        </div>
-                        <ul class="clearfix addUserGroup">
-                            <li class="clearfix">
-                                <label class="left"><strong>*</strong>用户群名称：</label>
-                                <input type="text" v-model="userGroupName" placeholder="最多可输入20个字符" class="left txt">
-                            </li>
-                            <li class="errorLi clearfix" style="padding:0px 0 0 95px;height: 14px; font-size: 12px; color: #B40606;">
-                                <span v-cloak>{{savaError}}</span>
-                            </li>
-                            <li class="btnWrap" style="margin-top: 10px">
-                                <input type="button" value="取消" @click="hideMark">
-                                <input type="button" value="确定" @click="addUserGroupFn">
-                            </li>
-                        </ul>
-                    </div>
-                    <!--弹框遮罩 end-->
                 </div>
             </div>
         </section>
         <!--右侧大块 end-->
+
+        <!--弹框遮罩 start-->
+        <div class="overlay"></div>
+        <div class="markWarp">
+            <div class="markTitle clearfix">
+                <h5>创建用户群</h5>
+                <i class="right close" @click="hideMark">关闭</i>
+            </div>
+            <ul class="clearfix addUserGroup">
+                <li class="clearfix">
+                    <label class="left"><strong>*</strong>用户群名称：</label>
+                    <input type="text" v-model="userGroupName" placeholder="最多可输入20个字符" class="left txt">
+                </li>
+                <li class="errorLi clearfix" style="padding:0px 0 0 95px;height: 14px; font-size: 12px; color: #B40606;">
+                    <span v-cloak>{{savaError}}</span>
+                </li>
+                <li class="btnWrap" style="margin-top: 10px">
+                    <input type="button" value="取消" @click="hideMark">
+                    <input type="button" value="确定" @click="addUserGroupFn">
+                </li>
+            </ul>
+        </div>
+        <!--弹框遮罩 end-->
     </section>
 </template>
 <style scoped lang="less">
@@ -155,6 +132,7 @@
 
 <script type="text/ecmascript-6">
     import loading from '../../components/loading.vue';
+    import draggable from 'vuedraggable'
 
     const IScroll = require('iscroll');
     import LayOut from '../../assets/js/layout';
@@ -176,23 +154,8 @@
                 addUserLeftScroll: null, /*用户群树结构的iscroll实例*/
                 fourTreeScroll: null, /*中间四级结构的iscroll*/
                 biSelectAry: [], /*点击四级后添加的数组 总数据数组*/
-                /**
-                 * [
-                 *  {"id":232,"name":"二线城市","parentId":230,"level":4,"checked":true},
-                 *  {"id":233,"name":"三线城市","parentId":230,"level":4,"checked":true}
-                 * ]
-                 */
-                biAllAry: [], /*点击四级后添加的数组  所有标签数组*/
-                /**
-                 * [
-                 *  {parentId:1,'value':'本科，专科，研究生','idAry':[12,13,14,15]}，
-                 *  {parentId:2,'value':'本科，专科，研究生'}，
-                 * ]
-                 */
-                biEveryAry: [], /*点击四级后添加的数组  任意标签数组*/
                 tagRelations: [], /*点击提交向后台发送的数据数组*/
                 checkdId: [], /*checked为true的标签*/
-
                 userGroupName: '',
                 addGroupSearchCon: '',
                 n: '0', /*选择的标签数*/
@@ -203,6 +166,9 @@
                 addGroupGotoPage:'/#/userGroup',//添加成功后跳转地址
                 allSelect:false,//全选
                 sortFlag:true,
+                list2:[{name:"Juan", id:5}, 
+                        {name:"Edgard", id:6}, 
+                        {name:"Johnson", id:7} ],
             }
         },
         mounted(){
@@ -219,6 +185,7 @@
         },
         components: {
             'loading': loading,
+            draggable,
         },
         methods:{
             /*得到树的数据*/
@@ -228,19 +195,6 @@
 
                     this.$nextTick(function(){
                         this.addUserLeftScroll=new IScroll('.addUsersLeft',{
-                            mouseWheel: true,
-                            scrollbars: true,
-                            checkDOMChanges:true,
-                            bounce: false,
-                            interactiveScrollbars:true
-                        });
-                        /*this.addUserCenterScroll=new IScroll('.fourWrap',{
-                         mouseWheel: true,
-                         scrollbars: true,
-                         checkDOMChanges:true,
-                         bounce: false
-                         });*/
-                        this.addUserRightScroll=new IScroll('.biWrap',{
                             mouseWheel: true,
                             scrollbars: true,
                             checkDOMChanges:true,
@@ -282,295 +236,8 @@
                     this.sortFlag=true;//排序恢复默认
                     this.setFour(response);
                 })
-
             },
-            /*点击四级标签事件  添加到右侧*/
-            getSendData(checkData){
-
-                if(navigator.userAgent.toLowerCase().indexOf('firefox')!='-1'){//火狐浏览器兼容
-                    if(checkData.checked==undefined||checkData.checked==false){
-                        checkData.checked=true;
-                    }else {
-                        checkData.checked=false;
-                    }
-                };
-
-                if(checkData.checked){/*选中状态  查找放好的数组中有没有padrentid相同的  有的话拼到一个数组中，没有的话拼到另一个数组中  整体是一个大数组*/
-                    /*查找已有数组，看是否存有当前的父级id*/
-                    /*var isHave=this.biAllAry.filter(function (item) {
-                     return item.parentId==checkData.parentId
-                     });
-                     if(isHave.length!=0){/!*有当前父级  向后追加*!/
-                     this.biAllAry.map(function (item) {
-                     if(item.parentId==checkData.parentId){
-                     item.value=item.value+'，'+checkData.name;
-                     item.idAry.push(checkData.id);
-                     }
-                     })
-                     }else{
-                     var idAry=new Array;/!*存放逻辑数组*!/
-                     idAry.push(checkData.id);
-                     var obj={
-                     "parentId":checkData.parentId,
-                     "value":checkData.name,
-                     "idAry":idAry
-                     }
-                     this.biAllAry.push(obj);
-                     }
-                     this.biSelectAry.push(checkData);/!*选中的数组*!/
-                     this.checkdId.push(checkData.id);/!*选中项的id数组*!/*/
-                    var biAllAryNohas=this.biAllAry.filter(function (item) {
-                        return item.parentId==checkData.parentId;
-                    })
-                    var biEveryAryHas=this.biEveryAry.filter(function (item) {
-                        return item.parentId==checkData.parentId;
-                    })
-                    if(biAllAryNohas.length==0&&biEveryAryHas.length!=0){
-                        this.checkTrue(checkData,this.biEveryAry);
-                    }else{
-                        this.checkTrue(checkData,this.biAllAry);
-                    }
-
-                    /*判断全选*/
-                    this.comAllSelect();
-                }
-                else{/*不选中状态   看原数组中有无这项  有：删除总数组中此项   拼好的数组中  删除此项*/
-                    var biAllAryNohas=this.biAllAry.filter(function (item) {
-                        return item.parentId==checkData.parentId;
-                    })
-                    var biEveryAryHas=this.biEveryAry.filter(function (item) {
-                        return item.parentId==checkData.parentId;
-                    })
-                    if(biAllAryNohas.length==0&&biEveryAryHas.length!=0){
-                        this.checkFalse(checkData,this.biEveryAry);
-                    }else{
-                        this.checkFalse(checkData,this.biAllAry);
-                    }
-                    /*判断全选*/
-                    this.comAllSelect();
-                }
-                /*点击复选按钮以后得到的新的数组  所有标签都必须满足的数组
-                 * 循环拿到的biAllAry数组，把idAry中的数组拼为一个新数组
-                 * this.tagRelations先致空  再拼接
-                 * */
-                this.pingAry();
-                this.$nextTick(function () {
-                    this.addUserRightScroll.refresh();
-                })
-            },
-            /*全选*/
-            comAllSelect(){
-                var cc=this.fourResData.filter(item=>{
-                    return item.checked!=true;
-                })
-                if(cc.length==0){
-                    this.allSelect=true;
-                }else{
-                    this.allSelect=false;
-                }
-            },
-            /*全选 实现*/
-            checkedAll(e) {
-                console.log(e.target.checked);
-                if (!e.target.checked) {//实现反选
-                    this.fourResData.forEach((item)=> {
-                        item.checked=false;
-                        var biAllAryNohas=this.biAllAry.filter(function (itemStr) {
-                            return item.parentId==itemStr.parentId;
-                        })
-                        var biEveryAryHas=this.biEveryAry.filter(function (itemStr) {
-                            return item.parentId==itemStr.parentId;
-                        })
-                        if(biAllAryNohas.length==0&&biEveryAryHas.length!=0){
-                            this.checkFalse(item,this.biEveryAry);
-                        }else{
-                            this.checkFalse(item,this.biAllAry);
-                        }
-                        //this.checkFalse(item,this.biAllAry);
-                    });
-                }else{//实现全选
-                    this.fourResData.forEach((item)=> {
-                        if(this.checkdId.indexOf(item.id)==-1){
-                            item.checked=true;
-                            var biAllAryNohas=this.biAllAry.filter(function (itemStr) {
-                                return item.parentId==itemStr.parentId;
-                            })
-                            var biEveryAryHas=this.biEveryAry.filter(function (itemStr) {
-                                return item.parentId==itemStr.parentId;
-                            })
-                            if(biAllAryNohas.length==0&&biEveryAryHas.length!=0){
-                                this.checkTrue(item,this.biEveryAry);
-                            }else{
-                                this.checkTrue(item,this.biAllAry);
-                            }
-                            //this.checkTrue(item,this.biAllAry);
-                        } 
-                    });
-                }
-                this.pingAry();
-                this.$nextTick(function () {
-                    this.addUserRightScroll.refresh();
-                });
-            },
-            /*选中状态*/
-            checkTrue(checkData,aryData){
-                this.n++;
-                var isHave=aryData.filter(function (item) {
-                    return item.parentId==checkData.parentId
-                });
-                if(isHave.length!=0){/*有当前父级  向后追加*/
-                    aryData.map(function (item) {
-                        if(item.parentId==checkData.parentId){
-                            item.value=item.value+'，'+checkData.name;
-                            item.idAry.push(checkData.id);
-                        }
-                    })
-                }else{
-                    var idAry=new Array;/*存放逻辑数组*/
-                    idAry.push(checkData.id);
-                    var obj={
-                        "parentId":checkData.parentId,
-                        "value":checkData.name,
-                        "idAry":idAry
-                    }
-                    aryData.push(obj);
-                }
-                this.biSelectAry.push(checkData);/*选中的数组*/
-                this.checkdId.push(checkData.id);/*选中项的id数组*/
-            },
-            /*从选中到未选中状态*/
-            checkFalse(checkData,aryData){
-                this.n--;
-                aryData.map(function (item) {
-                    if(item.parentId==checkData.parentId){
-                        //item.value=item.value.split('').removeByValue(checkData.value).join(' ，');
-                        var tmpl=item.value.split('，');
-                        for(var i=0; i<tmpl.length; i++) {
-                            if(tmpl[i] == checkData.name) {
-                                tmpl.splice(i, 1);
-                                break;
-                            }
-                        }
-                        for(var i=0;i<item.idAry.length;i++){
-                            if(item.idAry[i] == checkData.id) {
-                                item.idAry.splice(i, 1);
-                                break;
-                            }
-                        }
-                        item.value=tmpl.join('，');
-                    }
-                });
-                for(var i=0;i<aryData.length;i++){
-                    if(aryData[i].value==''&&aryData[i].parentId){
-                        aryData.splice(i,1);
-                        break;
-                    }
-                }
-                this.checkdId=this.checkdId.filter(function (item) {
-                    return item!=checkData.id;
-                });
-                /*this.biSelectAry=this.biSelectAry.filter(function (item) {
-                 return item.id!=checkData.id;
-                 });*/
-            },
-            /*下移*/
-            toDown(pId){
-                /*通过父级的id  得到上个模块数组总的此项数据  上级块数组删掉此数据  下块增加此条数据*/
-                var dowData;
-                this.biAllAry.forEach( (item,index)=> {
-                    if(item.parentId==pId){
-                        this.biEveryAry.push(item);
-                        this.biAllAry.splice(index,1);
-                    }
-                });
-                this.pingAry();/*拼接数组函数（得到tagRelations）*/
-                this.$nextTick(function () {
-                    this.addUserRightScroll.refresh();
-                })
-            },
-            /*上移*/
-            toUp(pId){
-                /*通过父级的id  得到上个模块数组总的此项数据  上级块数组增加此数据  下块删除此条数据*/
-                var dowData;
-                this.biEveryAry.forEach( (item,index)=> {
-                    if(item.parentId==pId){
-                        this.biAllAry.push(item);
-                        this.biEveryAry.splice(index,1);
-                    }
-                });
-                this.pingAry();/*拼接数组函数（得到tagRelations）*/
-                this.$nextTick(function () {
-                    this.addUserRightScroll.refresh();
-                })
-            },
-            /*拼接数组函数（得到tagRelations）*/
-            pingAry(){
-                this.tagRelations=[];
-                this.biAllAry.forEach( (item) =>{
-                    this.tagRelations.push(item.idAry);
-                });
-                var biTmpAry=[];
-                this.biEveryAry.forEach( (item) =>{
-                    item.idAry.forEach( (curId) =>{
-                        biTmpAry.push(curId);
-                    })
-                })
-                this.tagRelations.push(biTmpAry);/*得到向后台发送的总数组*/
-
-                var tagRelationsStr=JSON.stringify(this.tagRelations);
-                //console.log('统计用户数');
-                this.$http.get('/api/baseTag/queryCount.gm?tagRelations='+tagRelationsStr).then(function (res) {
-                    if(res.data.code==200){
-                        this.statisUsers=res.data.dataInfo;
-                        this.saveGroup();
-                    }
-                });
-                console.log(JSON.stringify(this.tagRelations));
-            },
-            /*删除*/
-            deleteData(pId){
-                /*
-                 * 上下两块的数组查找删掉此项
-                 * 向后台发送的数据重新拼接(两个接口的数据都要变)
-                 * 存储的checkid数组（checkdId）更新删除里面的id
-                 * */
-                var tmId;
-                this.biEveryAry.forEach( (item,index) =>{
-                    if(item.parentId==pId){
-                        this.biEveryAry.splice(index,1);
-                        tmId=item.idAry;
-                        return false;
-                    }
-                });
-                this.biAllAry.forEach( (item,index) =>{
-                    if(item.parentId==pId){
-                        this.biAllAry.splice(index,1);
-                        tmId=item.idAry;
-                        return false;
-                    }
-                });
-
-                /*checkid的变化*/
-                tmId.forEach((item)=>{
-                    this.checkdId=this.checkdId.filter((curid)=>{
-                        return curid!=item;
-                    })
-                });
-                this.fourResData.forEach( (item) =>{
-                    tmId.forEach(function (cur) {
-                        if(item.id==cur){
-                            item.checked=false;
-                        }
-                    })
-                });
-                this.n=this.checkdId.length;
-                this.pingAry();
-                this.$nextTick(function () {
-                    this.addUserRightScroll.refresh();
-                });
-                this.saveGroup();
-                this.comAllSelect();
-            },
+            
             /*显示弹框*/
             showMark(){
                 this.savaError='';
@@ -590,18 +257,7 @@
             },
             /*清空列表*/
             clearList(){
-                this.checkdId=[];
-                this.biSelectAry=[];
-                this.biAllAry=[];
-                this.biEveryAry=[];
-                this.tagRelations=[];
-                this.fourResData.forEach(function (item) {
-                    item.checked=false;
-                });
-                this.n=0;
-                this.statisUsers={rate: "0%", count: 0};
-                this.saveGroup();
-                this.comAllSelect();
+                
             },
             /*弹框中 确定按钮事件  提交信息 */
             addUserGroupFn(){
@@ -666,7 +322,7 @@
             },
             /*设置提交按钮状态*/
             saveGroup(){
-                var btnsave=document.querySelector('#saveGroup');
+                /*var btnsave=document.querySelector('#saveGroup');
                 console.log(this.statisUsers.count);
                 if(this.statisUsers.count==0){
                     btnsave.style.background='#ddd';
@@ -678,7 +334,7 @@
                     btnsave.style.color='#fff';
                     btnsave.style.cursor='pointer';
                     btnsave.removeAttribute('disabled');
-                }
+                }*/
             },
             //得到地址栏中的当前页码数  history设置
             getUrlPage(){
@@ -709,7 +365,56 @@
                     this.fourResData=this.temConAry.concat();
                 }
                 this.sortFlag=!this.sortFlag;
-            }
+            },
+            //选中、不选中
+            getSendData(item){
+                if(item.checked){//选中
+                    this.biSelectAry.push(item);
+                    this.checkdId.push(item.id);
+                    this.biSelectAry=[...new Set(this.biSelectAry)];
+                    this.checkdId=[...new Set(this.checkdId)];
+                }else{//不选中
+                    this.biSelectAry=this.biSelectAry.filter(cur=>cur.id!=item.id);
+                    this.checkdId=this.checkdId.filter(cur=>cur!=item.id);
+                }
+                this.comAllSelect();
+            },
+            /*全选*/
+            comAllSelect(){
+                var cc=this.fourResData.filter(item=>{
+                    return item.checked!=true;
+                })
+                if(cc.length==0){
+                    this.allSelect=true;
+                }else{
+                    this.allSelect=false;
+                }
+            },
+            //全选与反选
+            checkedAll(e){
+                if (!e.target.checked) {//实现反选
+                    this.fourResData.forEach((item)=> {
+                        item.checked=false;
+                        this.biSelectAry=this.biSelectAry.filter(function (itemStr) {
+                            return item.id!=itemStr.id;
+                        })
+                        this.checkdId=this.checkdId.filter(itemStr=>{
+                            return item.id!=itemStr;
+                        })
+                    });
+                }else{
+                    this.fourResData.forEach(item=>{
+                        item.checked=true;
+                        this.biSelectAry.push(item);
+                        this.checkdId.push(item.id);
+                    })
+                    this.biSelectAry=[...new Set(this.biSelectAry)];
+                    this.checkdId=[...new Set(this.checkdId)];
+                }
+            },           
+            log(evt){
+				//console.log(JSON.stringify(this.list2));
+			}
         }
     }
 </script>
