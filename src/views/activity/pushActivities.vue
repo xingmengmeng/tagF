@@ -55,7 +55,7 @@
                                 <tbody>
                                 <tr v-for="item in list" @click="showActDetail(item,$event)">
                                     <td v-cloak>{{item.sno}}</td>
-                                    <td v-cloak title="用户群名称">{{item.userGroupName}}</td>
+                                    <td v-cloak title="用户群名称" :data-status="item.status">{{item.userGroupName}}</td>
                                     <td v-cloak>{{item.systemName}}</td>
                                     <td v-cloak>{{item.subject}}</td>
                                     <td v-cloak>{{item.coverUserCount}}</td>
@@ -532,7 +532,7 @@
                         this.actDetail=res.data.dataInfo;
                     })
                 }
-                if(e.target.title=='用户群名称'){
+                if(e.target.title=='用户群名称'&&e.target.dataset.status!=2){
                     this.$router.push({path:'userGroup/userDetail/groupMain'});
                     localStorage.thisGroupId=item.userGroupId;
                 }

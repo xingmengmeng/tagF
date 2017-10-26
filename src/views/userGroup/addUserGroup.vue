@@ -59,13 +59,21 @@
                 </div>
                 <div class="left addUsersRight">
                     <div class="biWrap">
-                        <draggable id="biSelectAry" :list="biSelectAry" class="dragArea" :options="{group:{name:'people', pull:'clone', put:false }}">
-                            <div v-for="fourData in biSelectAry" class="left">
-                                <label class="checkLabel">{{fourData.name}}</label>
+                        <span class="left">已选标签：</span>
+                        <draggable id="biSelectAry" :list="biSelectAry" class="dragArea clearfix" :options="{group:{name:'people', pull:'clone', put:false }}">
+                            <div v-for="(fourData,index) in biSelectAry" :key="index" class="left tagWrap">{{fourData.name}}</div>
+                        </draggable>
+                        <span class="left">组合公式：</span>
+                        <draggable id="addOr" :list="addOr" class="dragArea clearfix" :options="{group:{name:'people', pull:'clone', put:false }}">
+                            <div v-for="(item,index) in addOr" :key="index" class="left addOrList">
+                                {{item.name}}
                             </div>
                         </draggable>
-                        <draggable id="list2" :list="list2" class="dragArea" :options="{group:'people'}" @change="log">
-                            <div v-for="(element, index)  in list2"  :key="index">{{element.name}}</div>
+                        <draggable id="targetData" :list="targetData" class="dragArea addArea clearfix" :options="{group:'people'}" @change="log">
+                            <div v-for="(item,index) in targetData" :key="index" class="left targetList">
+                                <i @click="deleteTag(item)" class="deleteTag"></i>
+                                <span>{{item.name}}</span>
+                            </div>
                         </draggable>
                     </div>
 
@@ -112,22 +120,68 @@
     </section>
 </template>
 <style scoped lang="less">
-.checkboxClass{
-    float: left;
-    opacity: 0;
-}
-.allSelectLabel{
-    float: left;
-    margin: 15px 0 0 20px;
-    color:#919191;
-    cursor: pointer;
-    &.active{
-        color:#1078f5;
+    .checkboxClass{
+        float: left;
+        opacity: 0;
     }
-}
-.sortSpan{
-    .allSelectLabel;
-}
+    .allSelectLabel{
+        float: left;
+        margin: 15px 0 0 20px;
+        color:#919191;
+        cursor: pointer;
+        &.active{
+            color:#1078f5;
+        }
+    }
+    .sortSpan{
+        .allSelectLabel;
+    }
+    .dragArea{
+        display: block;
+        width: 100%;
+    }
+    .addArea{
+        width: 100%;
+        height:200px;
+        border:1px #ddd solid;
+        box-sizing: border-box;
+        .targetList{
+            position: relative;
+            i{
+                position: absolute;
+                top: 10px;
+                right: 0;
+                width: 15px;
+                height: 15px;
+                
+                cursor: pointer;
+            }
+            span{
+                float: left;
+                display: block;
+                padding: 2px 15px;
+                margin: 0 3px 10px 3px;
+                background: #FFFFFF;
+                border: 1px solid #9BC9FF;
+                border-radius: 25px;
+                cursor: pointer;
+            }
+        }
+    }
+    .addOrList{
+        margin:0 5px;
+        cursor: pointer;
+    }
+    .tagWrap{
+        float: left;
+        display: block;
+        padding: 3px 20px;
+        margin: 0 3px 10px 3px;
+        background: #FFFFFF;
+        border: 1px solid #9BC9FF;
+        border-radius: 57px;
+        cursor: pointer;
+    }
 </style>
 
 <script type="text/ecmascript-6">
@@ -166,9 +220,13 @@
                 addGroupGotoPage:'/#/userGroup',//添加成功后跳转地址
                 allSelect:false,//全选
                 sortFlag:true,
-                list2:[{name:"Juan", id:5}, 
-                        {name:"Edgard", id:6}, 
-                        {name:"Johnson", id:7} ],
+                addOr:[
+                    {"value":"AND","name":'and'},
+                    {"value":"OR","name":'or'},
+                    {"value":"(","name":'('},
+                    {"value":")","name":')'},
+                ],
+                targetData:[],
             }
         },
         mounted(){
@@ -369,13 +427,20 @@
             //选中、不选中
             getSendData(item){
                 if(item.checked){//选中
-                    this.biSelectAry.push(item);
+                    let obj={
+                        "tagId":item.id,
+                        "name":item.name,
+                    }
+                    this.biSelectAry.push(obj);
                     this.checkdId.push(item.id);
                     this.biSelectAry=[...new Set(this.biSelectAry)];
                     this.checkdId=[...new Set(this.checkdId)];
                 }else{//不选中
-                    this.biSelectAry=this.biSelectAry.filter(cur=>cur.id!=item.id);
+                    this.biSelectAry=this.biSelectAry.filter(cur=>cur.tagId!=item.id);
                     this.checkdId=this.checkdId.filter(cur=>cur!=item.id);
+                    this.targetData=this.targetData.filter(itemStr=>{
+                        return item.id!=itemStr.tagId;
+                    })
                 }
                 this.comAllSelect();
             },
@@ -396,16 +461,33 @@
                     this.fourResData.forEach((item)=> {
                         item.checked=false;
                         this.biSelectAry=this.biSelectAry.filter(function (itemStr) {
-                            return item.id!=itemStr.id;
+                            return item.id!=itemStr.tagId;
                         })
                         this.checkdId=this.checkdId.filter(itemStr=>{
                             return item.id!=itemStr;
                         })
+                        this.targetData=this.targetData.filter(itemStr=>{
+                            return item.id!=itemStr.tagId;
+                        })
                     });
                 }else{
                     this.fourResData.forEach(item=>{
-                        item.checked=true;
-                        this.biSelectAry.push(item);
+                        //判断已选标签中有无当前四级的选项  没有的话添加进数组中
+                        var hasId=false;
+                        for(let seBi of this.biSelectAry){
+                            if(seBi.tagId==item.id){
+                                hasId=true;
+                                break;
+                            }
+                        }
+                        if(!hasId){
+                            let obj={
+                                "tagId":item.id,
+                                "name":item.name,
+                            }
+                            item.checked=true;
+                            this.biSelectAry.push(obj);
+                        }
                         this.checkdId.push(item.id);
                     })
                     this.biSelectAry=[...new Set(this.biSelectAry)];
@@ -413,7 +495,7 @@
                 }
             },           
             log(evt){
-				//console.log(JSON.stringify(this.list2));
+				console.log(JSON.stringify(this.targetData));
 			}
         }
     }

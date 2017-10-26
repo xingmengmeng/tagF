@@ -70,7 +70,7 @@
 
                 <!--删除弹框-->
                 <div class="markDelet">
-                    <p>删除此用户群将删除其相关的活动信息和标签信息，您确定要删除该用户群吗？</p>
+                    <p>删除此用户群将导致相关的活动失效，您确定要删除该用户群吗？</p>
                     <div class="btnWrap">
                         <input type="button" value="否" @click="deletFalse">
                         <input type="button" value="是" @click="deleteTrue">

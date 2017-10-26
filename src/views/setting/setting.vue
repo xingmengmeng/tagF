@@ -122,7 +122,6 @@
         },
         methods: {
             navShow(id){
-                console.log(id);
                 if(this.showMenu==id){/*同一个*/
                     this.showMenu=-1;
                 }else{/*不同个*/
@@ -135,7 +134,6 @@
                     var aA=aDiv[i].querySelectorAll('a');
                     for(var j=0;j<aA.length;j++){
                         if(aA[j].className=='active'){
-                            console.log(aA[j].parentNode.dataset.menu);
                             this.showMenu=aA[j].parentNode.dataset.menu;
                         }
                     }
