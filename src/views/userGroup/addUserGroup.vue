@@ -69,7 +69,7 @@
                                 {{item.name}}
                             </div>
                         </draggable>
-                        <draggable id="targetData" :list="targetData" class="dragArea addArea clearfix" :options="{group:'people'}" @change="log">
+                        <draggable id="targetData" :list="targetData" class="dragArea addArea clearfix" :options="{group:'people'}" @change="getPingData">
                             <div v-for="(item,index) in targetData" :key="index" class="left targetList">
                                 <i @click="deleteTag(item)" class="deleteTag"></i>
                                 <span>{{item.name}}</span>
@@ -79,15 +79,17 @@
 
                     <!--滚动块下方内容 start-->
                     <div class="clearfix biFooter">
-                        <!--<div class="clearfix allNum">
-                            <p class="left" v-cloak>已选择了 {{n}}个标签，统计用户数：  {{statisUsers.count}}， {{statisUsers.rate}}</p>
+                        <div class="clearfix allNum">
+                            <p class="left" v-cloak>统计用户数：  {{statisUsers.count}}， {{statisUsers.rate}}</p>
                             <button class="clear_btn" @click="clearList">清空</button>
                         </div>
+                        <div class="clearfix redFont">{{comError}}</div>
                         <div class="btnWrap">
-                            <input type="button" value="取消" @click="goList">
+                            <input type="button" value="计算" @click="comTagRelations">
 
                             <input type="button" value="提交" @click="showMark" disabled id="saveGroup">
-                        </div>-->
+                        </div>
+                        
                     </div>
                     <!--滚动块下方内容 end-->
                 </div>
@@ -227,6 +229,7 @@
                     {"value":")","name":')'},
                 ],
                 targetData:[],
+                comError:'',//计算的错误提示
             }
         },
         mounted(){
@@ -327,7 +330,7 @@
                     this.savaError='最多输入20个字符';
                     return false;
                 }
-                this.$http.post(this.addGroupUrl,{"name":this.userGroupName,"tagRelations":JSON.stringify(this.tagRelations)},{emulateJSON:true}).then(function (response) {
+                this.$http.post(this.addGroupUrl,{"name":this.userGroupName,"tagRelations":JSON.stringify(this.targetData)},{emulateJSON:true}).then(function (response) {
                     if(response.data.code==200){
                         window.location.href=this.addGroupGotoPage;
                     }
@@ -380,8 +383,7 @@
             },
             /*设置提交按钮状态*/
             saveGroup(){
-                /*var btnsave=document.querySelector('#saveGroup');
-                console.log(this.statisUsers.count);
+                var btnsave=document.querySelector('#saveGroup');
                 if(this.statisUsers.count==0){
                     btnsave.style.background='#ddd';
                     btnsave.style.color='#333';
@@ -392,7 +394,7 @@
                     btnsave.style.color='#fff';
                     btnsave.style.cursor='pointer';
                     btnsave.removeAttribute('disabled');
-                }*/
+                }
             },
             //得到地址栏中的当前页码数  history设置
             getUrlPage(){
@@ -493,10 +495,25 @@
                     this.biSelectAry=[...new Set(this.biSelectAry)];
                     this.checkdId=[...new Set(this.checkdId)];
                 }
-            },           
-            log(evt){
-				console.log(JSON.stringify(this.targetData));
-			}
+            },
+            //得到拼接的数组  向后台传值           
+            getPingData(){
+				let tagRelations=JSON.stringify(this.targetData);
+                //console.log(tagRelations);
+			},
+            comTagRelations(){
+                var tagRelations=encodeURI(JSON.stringify(this.targetData));
+                this.$http.get('/api/baseTag/queryCount.gm?tagRelations='+tagRelations).then(function(res){
+                    if(res.data.code==200){
+                        this.comError='';
+                        this.statisUsers=res.data.dataInfo;
+                        this.saveGroup();
+                    }else{
+                        this.statisUsers={rate: "0%", count: 0};
+                        this.comError=res.data.msg.replace('参数校验不通过:','')
+                    }
+                })
+            }
         }
     }
 </script>
