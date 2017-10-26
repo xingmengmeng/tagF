@@ -71,7 +71,7 @@
                         </draggable>
                         <draggable id="targetData" :list="targetData" class="dragArea addArea clearfix" :options="{group:'people'}" @change="getPingData">
                             <div v-for="(item,index) in targetData" :key="index" class="left targetList">
-                                <i @click="deleteTag(item)" class="deleteTag"></i>
+                                <i @click="deleteTag(index)" class="deleteTag"></i>
                                 <span>{{item.name}}</span>
                             </div>
                         </draggable>
@@ -79,7 +79,7 @@
 
                     <!--滚动块下方内容 start-->
                     <div class="clearfix biFooter">
-                        <div class="clearfix allNum">
+                        <div class="clearfix allNum" v-show="showCount">
                             <p class="left" v-cloak>统计用户数：  {{statisUsers.count}}， {{statisUsers.rate}}</p>
                             <button class="clear_btn" @click="clearList">清空</button>
                         </div>
@@ -151,11 +151,11 @@
             position: relative;
             i{
                 position: absolute;
-                top: 10px;
-                right: 0;
+                top: -5px;
+                right: -5px;
                 width: 15px;
                 height: 15px;
-                
+                background: url(../../assets/images/vclose.png);
                 cursor: pointer;
             }
             span{
@@ -230,6 +230,7 @@
                 ],
                 targetData:[],
                 comError:'',//计算的错误提示
+                showCount:false,//是否显示统计人数
             }
         },
         mounted(){
@@ -247,6 +248,17 @@
         components: {
             'loading': loading,
             draggable,
+        },
+        watch:{
+            showCount(ble){
+                if(!ble){//不显示统计人数时  设置提交按钮为灰色
+                    var btnsave=document.querySelector('#saveGroup');
+                    btnsave.style.background='#ddd';
+                    btnsave.style.color='#333';
+                    btnsave.style.cursor='default';
+                    btnsave.setAttribute('disabled','true');
+                }
+            },
         },
         methods:{
             /*得到树的数据*/
@@ -346,6 +358,7 @@
                     var reg=/\s+/g;
                     var searchContent=this.addGroupSearchCon.replace(reg,'');
                     this.showLoading=true;
+                    this.fourResData=[];
                     this.$http.get('/api/baseTag/queryListBySearch.gm?searchContent='+searchContent).then(function (response) {
                         this.showLoading=false;
                         this.setFour(response);
@@ -498,9 +511,11 @@
             },
             //得到拼接的数组  向后台传值           
             getPingData(){
+                this.showCount=false;
 				let tagRelations=JSON.stringify(this.targetData);
                 //console.log(tagRelations);
 			},
+            //计算组合标签覆盖人数
             comTagRelations(){
                 var tagRelations=encodeURI(JSON.stringify(this.targetData));
                 this.$http.get('/api/baseTag/queryCount.gm?tagRelations='+tagRelations).then(function(res){
@@ -508,11 +523,18 @@
                         this.comError='';
                         this.statisUsers=res.data.dataInfo;
                         this.saveGroup();
+                        this.showCount=true;
                     }else{
                         this.statisUsers={rate: "0%", count: 0};
+                        this.showCount=false;
                         this.comError=res.data.msg.replace('参数校验不通过:','')
                     }
                 })
+            },
+            //删除拖进来的标签
+            deleteTag(index){
+                this.showCount=false;
+                this.targetData.splice(index,1);
             }
         }
     }
