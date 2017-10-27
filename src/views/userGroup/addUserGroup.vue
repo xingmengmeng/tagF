@@ -61,7 +61,10 @@
                     <div class="biWrap">
                         <span class="left">已选标签：</span>
                         <draggable id="biSelectAry" :list="biSelectAry" class="dragArea clearfix" :options="{group:{name:'people', pull:'clone', put:false }}">
-                            <div v-for="(fourData,index) in biSelectAry" :key="index" class="left tagWrap">{{fourData.name}}</div>
+                            <div v-for="(fourData,index) in biSelectAry" :key="index" class="left tagWrap">
+                                <i @click="deleteSelectTag(fourData.tagId)" class="deleteTag"></i>
+                                <span>{{fourData.name}}</span>
+                            </div>
                         </draggable>
                         <span class="left">组合公式：</span>
                         <draggable id="addOr" :list="addOr" class="dragArea clearfix" :options="{group:{name:'people', pull:'clone', put:false }}">
@@ -175,14 +178,27 @@
         cursor: pointer;
     }
     .tagWrap{
-        float: left;
-        display: block;
-        padding: 3px 20px;
-        margin: 0 3px 10px 3px;
-        background: #FFFFFF;
-        border: 1px solid #9BC9FF;
-        border-radius: 57px;
-        cursor: pointer;
+        padding-top:5px;
+        position: relative;
+        i{
+            position: absolute;
+            top: 0px;
+            right: -5px;
+            width: 15px;
+            height: 15px;
+            background: url(../../assets/images/vclose.png);
+            cursor: pointer;
+        }
+        span{
+            float: left;
+            display: block;
+            padding: 2px 15px;
+            margin: 0 3px 10px 3px;
+            background: #FFFFFF;
+            border: 1px solid #9BC9FF;
+            border-radius: 25px;
+            cursor: pointer;
+        }
     }
 </style>
 
@@ -535,6 +551,20 @@
             deleteTag(index){
                 this.showCount=false;
                 this.targetData.splice(index,1);
+            },
+            //删除已选标签
+            deleteSelectTag(id){
+                this.biSelectAry=this.biSelectAry.filter(cur=>cur.tagId!=id);
+                this.checkdId=this.checkdId.filter(cur=>cur!=id);
+                this.targetData=this.targetData.filter(itemStr=>{
+                    return id!=itemStr.tagId;
+                })
+                this.fourResData.forEach(cur=>{
+                    if(cur.id==id){
+                        cur.checked=false;
+                    }
+                })
+                this.comAllSelect();
             }
         }
     }
