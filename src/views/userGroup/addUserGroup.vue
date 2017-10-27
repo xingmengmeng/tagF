@@ -346,7 +346,8 @@
             },
             /*清空列表*/
             clearList(){
-                
+                this.targetData=[];
+                this.showCount=false;
             },
             /*弹框中 确定按钮事件  提交信息 */
             addUserGroupFn(){
