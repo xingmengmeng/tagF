@@ -73,7 +73,7 @@
                             </div>
                         </draggable>
                         <draggable id="targetData" :list="targetData" class="dragArea addArea clearfix" :options="{group:'people'}" @change="getPingData">
-                            <div v-for="(item,index) in targetData" :key="index" class="left targetList">
+                            <div v-for="(item,index) in targetData" :key="index" class="left targetList" @mouseenter="showI" @mouseleave="hideI">
                                 <i @click="deleteTag(index)" class="deleteTag"></i>
                                 <span>{{item.name}}</span>
                             </div>
@@ -82,17 +82,17 @@
 
                     <!--滚动块下方内容 start-->
                     <div class="clearfix biFooter">
-                        <div class="clearfix allNum" v-show="showCount">
-                            <p class="left" v-cloak>统计用户数：  {{statisUsers.count}}， {{statisUsers.rate}}</p>
-                            <button class="clear_btn" @click="clearList">清空</button>
+                        <div class="clearfix allNum">
+                            <div class="left countDiv">
+                                <p class="left" v-cloak  v-show="showCount">统计用户数：  {{statisUsers.count}}， {{statisUsers.rate}}</p>
+                                <div class="clearfix redFont">{{comError}}</div>
+                            </div>
+                            <div class="right">
+                                <input type="button" value="计算" @click="comTagRelations" class="btnR comBtn">
+                                <input type="button" value="提交" @click="showMark" disabled class="btnR" id="saveGroup">
+                                <button class="clear_btn" @click="clearList">清空</button>
+                            </div>
                         </div>
-                        <div class="clearfix redFont">{{comError}}</div>
-                        <div class="btnWrap">
-                            <input type="button" value="计算" @click="comTagRelations">
-
-                            <input type="button" value="提交" @click="showMark" disabled id="saveGroup">
-                        </div>
-                        
                     </div>
                     <!--滚动块下方内容 end-->
                 </div>
@@ -145,6 +145,19 @@
         display: block;
         width: 100%;
     }
+    .deleteTag{
+        display: none;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 15px;
+        height: 15px;
+        background: url(../../assets/images/vclose.png);
+        cursor: pointer;
+        &.active{
+            display: block;
+        }
+    }
     .addArea{
         width: 100%;
         height:200px;
@@ -152,15 +165,6 @@
         box-sizing: border-box;
         .targetList{
             position: relative;
-            i{
-                position: absolute;
-                top: -5px;
-                right: -5px;
-                width: 15px;
-                height: 15px;
-                background: url(../../assets/images/vclose.png);
-                cursor: pointer;
-            }
             span{
                 float: left;
                 display: block;
@@ -180,15 +184,6 @@
     .tagWrap{
         padding-top:5px;
         position: relative;
-        i{
-            position: absolute;
-            top: 0px;
-            right: -5px;
-            width: 15px;
-            height: 15px;
-            background: url(../../assets/images/vclose.png);
-            cursor: pointer;
-        }
         span{
             float: left;
             display: block;
@@ -566,6 +561,16 @@
                     }
                 })
                 this.comAllSelect();
+            },
+            showI(e){
+                let oDiv=e.target,
+                    oI=oDiv.getElementsByTagName('i')[0];
+                    oI.classList.add('active');
+            },
+            hideI(e){
+                let oDiv=e.target,
+                    oI=oDiv.getElementsByTagName('i')[0];
+                    oI.classList.remove('active');
             }
         }
     }

@@ -233,24 +233,26 @@
 
       .allNum{
         width: 100%;
+        .countDiv{
+          padding-top:7px;
+        }
 
         .clear_btn{
           float: right;
-          width: 45px;
+          margin-top:5px;
           height: 20px;
-          font-size: 12px;
+          font-size: 14px;
           color:#333;
-          background: #bad8fc;
+          background: none;
           border: 0;
           border-radius: 2px;
           cursor: pointer;
         }
       }
-      .btnWrap{
-        margin: 10px auto 0 auto;
-        width: 190px;
-        input{
-          width: 80px;
+     
+      .btnR{
+          margin-right:8px;
+          width: 70px;
           height: 30px;
           border: 0;
           border-radius: 3px;
@@ -258,18 +260,16 @@
           cursor: pointer;
 
           &:nth-child(1){
-            float: left;;
-            background: #ddd;
+            background: #00cc33;
+            color:#fff;
           }
           &:nth-child(2){
-            float: right;
             color: #fff;
             background: #1078f5;
             &:hover{
               background: #0a5fc5;
             }
           }
-        }
       }
     }
   }
