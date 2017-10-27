@@ -174,6 +174,7 @@
             padding: 2px 10px;
             margin: 0 3px 10px 3px;
             background: #FFFFFF;
+            font-size: 13px;
             border: 1px solid #9BC9FF;
             border-radius: 20px;
             cursor: pointer;
@@ -560,6 +561,8 @@
                     }
                 })
                 this.comAllSelect();
+                this.showCount=false;
+                this.showError=false;
             },
             showI(e){
                 let oDiv=e.target,
