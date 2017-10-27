@@ -59,23 +59,23 @@
                 </div>
                 <div class="left addUsersRight">
                     <div class="biWrap">
-                        <span class="left">已选标签：</span>
+                        <span class="left selectSpan">已选标签：</span>
                         <draggable id="biSelectAry" :list="biSelectAry" class="dragArea clearfix" :options="{group:{name:'people', pull:'clone', put:false }}">
-                            <div v-for="(fourData,index) in biSelectAry" :key="index" class="left tagWrap">
+                            <div v-for="(fourData,index) in biSelectAry" :key="index" class="left targetList selectWrap" @mouseenter="showI" @mouseleave="hideI">
                                 <i @click="deleteSelectTag(fourData.tagId)" class="deleteTag"></i>
                                 <span>{{fourData.name}}</span>
                             </div>
                         </draggable>
                         <span class="left">组合公式：</span>
                         <draggable id="addOr" :list="addOr" class="dragArea clearfix" :options="{group:{name:'people', pull:'clone', put:false }}">
-                            <div v-for="(item,index) in addOr" :key="index" class="left addOrList">
-                                {{item.name}}
+                            <div v-for="(item,index) in addOr" :key="index" class="left addOrList targetList">
+                                <span class="toolS">{{item.name}}</span>
                             </div>
                         </draggable>
                         <draggable id="targetData" :list="targetData" class="dragArea addArea clearfix" :options="{group:'people'}" @change="getPingData">
                             <div v-for="(item,index) in targetData" :key="index" class="left targetList" @mouseenter="showI" @mouseleave="hideI">
                                 <i @click="deleteTag(index)" class="deleteTag"></i>
-                                <span>{{item.name}}</span>
+                                <span :class="!item.tagId?'toolS':''">{{item.name}}</span>
                             </div>
                         </draggable>
                     </div>
@@ -84,8 +84,8 @@
                     <div class="clearfix biFooter">
                         <div class="clearfix allNum">
                             <div class="left countDiv">
-                                <p class="left" v-cloak  v-show="showCount">统计用户数：  {{statisUsers.count}}， {{statisUsers.rate}}</p>
-                                <div class="clearfix redFont">{{comError}}</div>
+                                <p class="left" v-cloak v-show="showCount">统计用户数：  {{statisUsers.count}}， {{statisUsers.rate}}</p>
+                                <div class="clearfix redFont" v-show="showError">{{comError}}</div>
                             </div>
                             <div class="right">
                                 <input type="button" value="计算" @click="comTagRelations" class="btnR comBtn">
@@ -163,17 +163,23 @@
         height:200px;
         border:1px #ddd solid;
         box-sizing: border-box;
-        .targetList{
-            position: relative;
-            span{
-                float: left;
-                display: block;
-                padding: 2px 15px;
-                margin: 0 3px 10px 3px;
-                background: #FFFFFF;
-                border: 1px solid #9BC9FF;
-                border-radius: 25px;
-                cursor: pointer;
+        
+    }
+    .targetList{
+        position: relative;
+        margin-right:5px;
+        span{
+            float: left;
+            display: block;
+            padding: 2px 10px;
+            margin: 0 3px 10px 3px;
+            background: #FFFFFF;
+            border: 1px solid #9BC9FF;
+            border-radius: 20px;
+            cursor: pointer;
+            &.toolS{
+                background: #f2f2f2;
+                border: 1px solid #f2f2f2;
             }
         }
     }
@@ -181,19 +187,8 @@
         margin:0 5px;
         cursor: pointer;
     }
-    .tagWrap{
-        padding-top:5px;
-        position: relative;
-        span{
-            float: left;
-            display: block;
-            padding: 2px 15px;
-            margin: 0 3px 10px 3px;
-            background: #FFFFFF;
-            border: 1px solid #9BC9FF;
-            border-radius: 25px;
-            cursor: pointer;
-        }
+    .selectWrap{
+        margin-top:5px;
     }
 </style>
 
@@ -242,6 +237,7 @@
                 targetData:[],
                 comError:'',//计算的错误提示
                 showCount:false,//是否显示统计人数
+                showError:false,//显示错误提示
             }
         },
         mounted(){
@@ -343,6 +339,7 @@
             clearList(){
                 this.targetData=[];
                 this.showCount=false;
+                this.showError=false;
             },
             /*弹框中 确定按钮事件  提交信息 */
             addUserGroupFn(){
@@ -524,8 +521,7 @@
             //得到拼接的数组  向后台传值           
             getPingData(){
                 this.showCount=false;
-				let tagRelations=JSON.stringify(this.targetData);
-                //console.log(tagRelations);
+                this.showError=false;
 			},
             //计算组合标签覆盖人数
             comTagRelations(){
@@ -536,9 +532,11 @@
                         this.statisUsers=res.data.dataInfo;
                         this.saveGroup();
                         this.showCount=true;
+                        this.showError=false;
                     }else{
                         this.statisUsers={rate: "0%", count: 0};
                         this.showCount=false;
+                        this.showError=true;
                         this.comError=res.data.msg.replace('参数校验不通过:','')
                     }
                 })
@@ -546,6 +544,7 @@
             //删除拖进来的标签
             deleteTag(index){
                 this.showCount=false;
+                this.showError=false;
                 this.targetData.splice(index,1);
             },
             //删除已选标签
