@@ -131,7 +131,7 @@ var serBiWrap=(function () {
                 searchWrap=document.querySelector('.searchWrap'),
                 fourWrap=document.querySelector('.fourWrap');
             var biWrapHeight=addUsersRight.offsetHeight-biFooter.offsetHeight;
-            biWrap.style.height=biWrapHeight-40+'px';
+            biWrap.style.height=biWrapHeight-10+'px';
 
             var fourWrapHeight=addUsersCenter.offsetHeight-searchWrap.offsetHeight;
             fourWrap.style.height=fourWrapHeight-50-20+'px';

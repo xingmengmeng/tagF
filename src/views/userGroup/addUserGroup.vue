@@ -59,7 +59,7 @@
                 </div>
                 <div class="left addUsersRight">
                     <div class="biWrap">
-                        <span class="left selectSpan">已选标签：</span>
+                        <span class="left selectSpan">已选标签：（拖动标签和公式至输入框内进行计算）</span>
                         <draggable id="biSelectAry" :list="biSelectAry" class="dragArea clearfix" :options="{group:{name:'people', pull:'clone', put:false }}">
                             <div v-for="(fourData,index) in biSelectAry" :key="index" class="left targetList selectWrap" @mouseenter="showI" @mouseleave="hideI">
                                 <i @click="deleteSelectTag(fourData.tagId)" class="deleteTag"></i>
@@ -165,6 +165,16 @@
         box-sizing: border-box;
         
     }
+    #biSelectAry{
+        padding-top: 5px;
+        margin-bottom: 10px;
+        overflow-y: scroll;
+    }
+    #targetData{
+        padding:5px;
+        box-sizing: border-box;
+        overflow-y: scroll;
+    }
     .targetList{
         position: relative;
         margin-right:5px;
@@ -252,6 +262,7 @@
         updated(){
             LayOut.setHeight.init();
             LayOut.serBiWrap.init();
+            this.setScrollHeight();
         },
         components: {
             'loading': loading,
@@ -269,6 +280,14 @@
             },
         },
         methods:{
+            setScrollHeight(){
+                let winHeight=document.getElementsByClassName("addUsersRight")[0].clientHeight,
+                    biFooterHeight=document.getElementsByClassName("biFooter")[0].clientHeight;
+                let divHeight=winHeight-biFooterHeight-33-60;
+                let aDiv=document.getElementById("targetData"),
+                    biSelectAry=document.getElementById("biSelectAry");
+                aDiv.style.height=biSelectAry.style.height=divHeight/2+'px';
+            },
             /*得到树的数据*/
             getData(){
                 this.$http.get('/api/baseTag/queryTree.gm').then(function (response) {
