@@ -174,6 +174,14 @@
                                         <span class="actSpan" v-cloak>{{actDetail.pushFieldName}} &nbsp; {{actDetail.pushFieldCount}}</span>
                                     </li>
                                     <li class="clearfix">
+                                        <label>状态：</label>
+                                        <div v-if="getStatus==2" class="actSpan">失效</div>
+                                        <select v-if="actDetail.status==0||actDetail.status==1" v-model="actDetail.status" @change="saveAct(actDetail.id,actDetail.status)">
+                                            <option value="0">禁用</option>
+                                            <option value="1">启用</option>
+                                        </select>
+                                    </li>
+                                    <li class="clearfix">
                                         <label>创建人：</label>
                                         <span class="actSpan" v-cloak>{{actDetail.creater}}</span>
                                     </li>
@@ -205,89 +213,31 @@
                                 </div>
                                 <div class="resDetailScroll">
                                     <div>
-                                        <div class="everyRes">
-                                            <span>推送记录1</span>
+                                        <div class="everyRes" v-for="(item,index) in effectData" :key="index">
+                                            <span>推送记录{{index+1}}</span>
                                             <table width="100%">
                                                 <tbody>
                                                     <tr>
-                                                        <td class="hasBg">推送开始时间</td>
-                                                        <td>2017-08-12 19:21:12</td>
-                                                        <td class="hasBg">推送结束时间</td>
-                                                        <td>2017-08-12 19:21:12</td>
+                                                        <td class="hasBg" width="99">推送开始时间</td>
+                                                        <td>{{item.beginTime}}</td>
+                                                        <td class="hasBg" width="99">推送结束时间</td>
+                                                        <td>{{item.endTime}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="hasBg">推送用户人数</td>
-                                                        <td>32,320</td>
-                                                        <td class="hasBg">推送手机号</td>
-                                                        <td>32,320</td>
+                                                        <td class="hasBg" width="99">推送用户人数</td>
+                                                        <td>{{item.userCount}}</td>
+                                                        <td class="hasBg" width="99">推送手机号</td>
+                                                        <td>{{item.mobileCount}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="hasBg">成功发送短信</td>
-                                                        <td>32,320</td>
-                                                        <td class="hasBg">失败发送短信</td>
-                                                        <td>32,320</td>
+                                                        <td class="hasBg" width="99">成功发送短信</td>
+                                                        <td>{{item.successCount}}</td>
+                                                        <td class="hasBg" width="99">失败发送短信</td>
+                                                        <td>{{item.failCount}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="hasBg">短信内容</td>
-                                                        <td colspan="3">【国美金融】幸运818，我们是送5000元旅行基金的圆梦家</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="everyRes">
-                                            <span>推送记录1</span>
-                                            <table width="100%">
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="hasBg">推送开始时间</td>
-                                                        <td>2017-08-12 19:21:12</td>
-                                                        <td class="hasBg">推送结束时间</td>
-                                                        <td>2017-08-12 19:21:12</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="hasBg">推送用户人数</td>
-                                                        <td>32,320</td>
-                                                        <td class="hasBg">推送手机号</td>
-                                                        <td>32,320</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="hasBg">成功发送短信</td>
-                                                        <td>32,320</td>
-                                                        <td class="hasBg">失败发送短信</td>
-                                                        <td>32,320</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="hasBg">短信内容</td>
-                                                        <td colspan="3">【国美金融】幸运818，我们是送5000元旅行基金的圆梦家</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="everyRes">
-                                            <span>推送记录1</span>
-                                            <table width="100%">
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="hasBg">推送开始时间</td>
-                                                        <td>2017-08-12 19:21:12</td>
-                                                        <td class="hasBg">推送结束时间</td>
-                                                        <td>2017-08-12 19:21:12</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="hasBg">推送用户人数</td>
-                                                        <td>32,320</td>
-                                                        <td class="hasBg">推送手机号</td>
-                                                        <td>32,320</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="hasBg">成功发送短信</td>
-                                                        <td>32,320</td>
-                                                        <td class="hasBg">失败发送短信</td>
-                                                        <td>32,320</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="hasBg">短信内容</td>
-                                                        <td colspan="3">【国美金融】幸运818，我们是送5000元旅行基金的圆梦家</td>
+                                                        <td class="hasBg" width="99">短信内容</td>
+                                                        <td colspan="3">{{item.pushContent}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -395,7 +345,9 @@
                 shContent:'',/*搜索内容*/
                 saveError:'',
                 resDetailScroll:null,
-                agreeOa:false,
+                agreeOa:false,//是否同意发OA
+                getStatus:2,//弹框失效
+                effectData:[],//短信结果
             }
         },
         components:{
@@ -420,7 +372,7 @@
                     this.gropId=val;
                     this.countNum();
                 }
-            }
+            },
         },
         methods:{
             getData(){
@@ -454,6 +406,15 @@
             /*通过监听select框变化  得到用户群id*/
             getGroupId(){
 
+            },
+            //活动启用禁用保存
+            saveAct(id,curstatus){
+                this.$http.post('/api/marketActivity/update.gm',{"id":id,"status":curstatus},{emulateJSON:true}).then(function(res){
+                    if(res.data.code==200){
+                        this.getTabList();
+                        this.hideMark();
+                    }
+                })
             },
             /*显示弹框*/
             showMark(){
@@ -543,6 +504,8 @@
                     overlay.style.display=markActDetail.style.display='block';
                     this.$http.get('/api/marketActivity/getById.gm?id='+item.id).then(function (res) {
                         this.actDetail=res.data.dataInfo;
+                        this.getStatus=this.actDetail.status;
+                        console.log(this.getStatus);
                     })
                 }
                 if(e.target.title=='用户群名称'&&e.target.dataset.status!=2){
@@ -551,24 +514,29 @@
                 }
             },
             /*短信发送结果弹框*/
-            showResDetail(item,e){
+            showResDetail(id,e){
                 var overlay=document.querySelector('.overlay'),
                     markRes=document.querySelector('.resDetail');
                 overlay.style.display=markRes.style.display='block';
-                console.log(item);
-                this.$nextTick(function(){
-                    if(!this.resDetailScroll){
-                        this.resDetailScroll=new IScroll('.resDetailScroll',{
-                            mouseWheel: true,
-                            scrollbars: true,
-                            checkDOMChanges:true,
-                            bounce: false,
-                            interactiveScrollbars:true
+                this.$http.get('/api/marketActivity/queryEffectList.gm?id='+id).then(function(res){
+                    if(res.data.code==200){
+                        this.effectData=res.data.dataInfo;
+                        this.$nextTick(function(){
+                            if(!this.resDetailScroll){
+                                this.resDetailScroll=new IScroll('.resDetailScroll',{
+                                    mouseWheel: true,
+                                    scrollbars: true,
+                                    checkDOMChanges:true,
+                                    bounce: false,
+                                    interactiveScrollbars:true
+                                });
+                            }else{
+                                this.ideaScroll.refresh();
+                            }
                         });
-                    }else{
-                        this.ideaScroll.refresh();
                     }
-                });
+                })
+                
             },
             deleteUserGroup(id){
                 /*显示弹框  确定否  然后点确定  则删除*/
