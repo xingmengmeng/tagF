@@ -132,8 +132,12 @@
                                             </table>
                                         </div>
                                     </li>
+                                    <li class="clearfix">
+                                        <strong style="margin-left:50px;">*</strong><input type="checkbox" v-model="agreeOa">
+                                       同意系统自动发起OA工作流审批
+                                    </li>
                                     <li class="clearfix saveErrorLi">
-                                        <span>{{saveError}}</span>
+                                        <span class="errorSpan">{{saveError}}</span>
                                     </li>
                                     <li class="clearfix btnWrap fixBtn">
                                         <input type="button" value="取消" @click="hideMark">
@@ -318,6 +322,10 @@
         bottom: 10px;
         left:160px;
     }
+    .markWarp ul li.saveErrorLi span.errorSpan{
+        padding-left: 0;
+        text-align: center;
+    }
     .tabWrap{
         float: left;
         width: 270px;
@@ -387,6 +395,7 @@
                 shContent:'',/*搜索内容*/
                 saveError:'',
                 resDetailScroll:null,
+                agreeOa:false,
             }
         },
         components:{
@@ -478,6 +487,10 @@
                 var subjectLength=this.subject.gblen();
                 if(subjectLength>20){
                     this.saveError='主题最多输入20个字符';
+                    return false;
+                }
+                if(!this.agreeOa){
+                    this.saveError='勾选项未空，请勾选后再提交';
                     return false;
                 }
                 this.$http.post('/api/marketActivity/save.gm',{"systemCode":this.systemId,"userGroupId":this.gropId,"subject":this.subject,"systemService":this.selectedSer,"pushField":this.servicCode},{emulateJSON:true}).then(function (res) {

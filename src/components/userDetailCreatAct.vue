@@ -60,6 +60,10 @@
                         </table>
                     </div>
                 </li>
+                <li class="clearfix">
+                    <strong style="margin-left:50px;">*</strong><input type="checkbox" v-model="agreeOa">
+                    同意系统自动发起OA工作流审批
+                </li>
                 <li class="clearfix saveErrorLi">
                     <span>{{saveError}}</span>
                 </li>
@@ -77,6 +81,10 @@
         position: absolute;
         bottom: 10px;
         left:160px;
+    }
+    .markWarp ul li.saveErrorLi span.errorSpan{
+        padding-left: 0;
+        text-align: center;
     }
     .tabWrap{
         float: left;
@@ -112,6 +120,7 @@
                 selectedSerList:null,/*短信业务下拉*/
                 serviceList:null,/*对接字段数据*/
                 servicCode:'',
+                agreeOa:false,
             }
         },
         components:{
@@ -141,6 +150,10 @@
             /*提交事件*/
             addUserGroupFn(){
                 this.getLocalStatus();
+                if(!this.agreeOa){
+                    this.saveError='勾选项未空，请勾选后再提交';
+                    return false;
+                }
                 if(this.status==2){
                     this.saveError='该用户群已失效，不支持创建活动。';
                     return;
@@ -149,7 +162,6 @@
                     this.saveError='对接系统、主题不能为空';
                     return;
                 }
-                console.log(this.subject);
                 var subjectLength=this.subject.gblen();
                 if(subjectLength>20){
                     this.saveError='主题最多输入20个字符';
