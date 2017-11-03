@@ -413,13 +413,16 @@
                 }
                 this.lineTotal=null;
                 this.chartData=null;
+                this.showData=null;
                 this.$http.get('/api/userGroupPortrait/queryChartList.gm?ids='+this.ids).then(function(res){
                     if(res.data.code==200){
                         this.lineTotal=res.data.dataInfo.lineTotal;
                         this.chartData=res.data.dataInfo.charts;
-                        for(let key in this.lineTotal){
-                            this.showStr=key;
-                            break;
+                        if(this.showStr==''){
+                            for(let key in this.lineTotal){
+                                this.showStr=key;
+                                break;
+                            }
                         }
                         //默认显示返回的第一条业务线的内容
                         this.showData=this.chartData[this.showStr];
