@@ -178,6 +178,10 @@ export default {
         })
     },
     saveSet(){
+        if(this.selectData.length==0){
+            this.err='最少勾选一项指标。';
+            return;
+        }
         var fil=this.selectData.join(',');
         this.$http.post('/api/userGroupPortrait/saveSelfConfig.gm',{"list":fil},{emulateJSON:true}).then(function(res){
             if(res.data.code==200){

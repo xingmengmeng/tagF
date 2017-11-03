@@ -418,13 +418,11 @@
                     if(res.data.code==200){
                         this.lineTotal=res.data.dataInfo.lineTotal;
                         this.chartData=res.data.dataInfo.charts;
-                        if(this.showStr==''){
-                            for(let key in this.lineTotal){
-                                this.showStr=key;
-                                break;
-                            }
-                        }
                         //默认显示返回的第一条业务线的内容
+                        for(let key in this.lineTotal){
+                            this.showStr=key;
+                            break;
+                        }
                         this.showData=this.chartData[this.showStr];
                         //循环拿到的图表refid  去渲染数据  考虑正则匹配
                         this.showCharts();
