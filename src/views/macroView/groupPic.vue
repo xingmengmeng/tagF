@@ -75,27 +75,29 @@
         <!--地域分布  年龄分布  性别分布 end-->
 
         <div class="lineNav clearfix">
-            <ul>
-                <li>美易理财（10/20）</li>
+            <ul class="personUl left">
+                <li v-for="(item,index) in lineTotal" :key="index" @click="changeBussineLine(index)" :class="showStr==index?'active':''">
+                    <span>{{index}}</span>（{{item[ids[0]]}}<span v-if="item[ids[1]]">/{{item[ids[1]]}}</span>）
+                </li>
             </ul>
             <div @click="showSetFn" class="right setDiv">自定义设置</div>
         </div>
 
-        <!--理财投资四块 start-->
-        <div class="fourWrap clearfix" v-show="showLine==0">
-            <!--客户类型-->
-            <div class="left picWrap">
+        <!--图表大块 start-->
+        <div class="fourWrap clearfix">
+            <!--图表 类型 名称-->
+            <div class="left picWrap" v-for="(item,everyChart) in showData" :key="everyChart">
                 <div class="wrapMainDiv">
                     <div class="clearfix">
-                        <h3 class="left picH3">客户类型</h3>
+                        <h3 class="left picH3">{{everyChart}}</h3><!--名称-->
                     </div>
-                    <div class="chartWrap"><!--cur-id代表每个图表id  只需唯一即可  agerefId表示图表发射事件  唯一即可-->
-                        <mac-age cur-id="picId" ref="picrefId"></mac-age>
+                    <div class="chartWrap"><!--cur-id代表每个图表id  只需唯一即可  ref表示图表发射事件  唯一即可-->
+                        <mac-age :cur-id="'mapId'+everyChart" :ref="'mapId'+everyChart" class="mapCharts"></mac-age>
                     </div>
                 </div>
             </div>
         </div>
-        <!--理财投资四块 end-->
+        <!--图表大块 end-->
 
         <!--选择对比人群弹框 start-->
         <div class="overlayNew" v-show="showMarker"></div>
@@ -131,9 +133,9 @@
     require('../../assets/css/groupPic.less');
     import areas from '../../components/echartComponent/areas.vue';//地图
     import macArea from '../../components/echartComponent/macAreaDetail.vue';//地图右侧省份
-    import macAge from '../../components/echartComponent/macAge.vue';//年龄分布
+    import macAge from '../../components/echartComponent/macAge.vue';//年龄分布 及下方大块展示图表
     import macSex from '../../components/macSex.vue';/*性别分布*/
-    import macMapSet from '../../components/macMapSet.vue';
+    import macMapSet from '../../components/macMapSet.vue';/*配置弹框*/
     export default {
         data(){
             return{
@@ -148,13 +150,13 @@
                 error:'',
                 showLine:'0',//显示的业务线模块
                 groupId:'',//当前用户群id  由用户群列表得来
-                personNum:'',
-                fNum:'',
-                jieNum:'',
-
                 areaData:[],//地域分布的返回值
                 noActive:1,//不是当前选择的地域分布的索引
                 showSet:false,//是否显示配置弹框
+                lineTotal:null,//人数
+                chartData:[],//下方图表数据
+                showData:[],
+                showStr:'',//当前显示图表区域 名称
             }
         },
         components:{
@@ -384,16 +386,58 @@
                 this.noActive=1;
                 this.getAgeData();/*年龄分布加载*/
                 this.getSexData();/*性别分布加载*/
-                this.hideMark();//隐藏弹框
+                this.getDetailMap();//宏观画像自定义配置或默认图表
+                this.hideMark();//隐藏弹框   
             },
-            showLineFn(index){
-                this.showLine=index;
+            //切换业务线
+            changeBussineLine(index){
+                this.showStr=index;
+                let reg=/mapId/;
+                for(let key in this.$refs){
+                    if(reg.test(key)){//表示为下方所要展示图表的refid
+                        let str=key.replace(/mapId/,'');
+                        delete(this.$refs[key]);
+                    }
+                }
+                this.showData=this.chartData[this.showStr];
+                this.showCharts();
             },
             //宏观画像自定义配置或默认图表
             getDetailMap(){
+                let reg=/mapId/;
+                for(let key in this.$refs){
+                    if(reg.test(key)){//表示为下方所要展示图表的refid
+                        let str=key.replace(/mapId/,'');
+                        delete(this.$refs[key]);
+                    }
+                }
+                this.lineTotal=null;
+                this.chartData=null;
                 this.$http.get('/api/userGroupPortrait/queryChartList.gm?ids='+this.ids).then(function(res){
                     if(res.data.code==200){
-                       
+                        this.lineTotal=res.data.dataInfo.lineTotal;
+                        this.chartData=res.data.dataInfo.charts;
+                        for(let key in this.lineTotal){
+                            this.showStr=key;
+                            break;
+                        }
+                        //默认显示返回的第一条业务线的内容
+                        this.showData=this.chartData[this.showStr];
+                        //循环拿到的图表refid  去渲染数据  考虑正则匹配
+                        this.showCharts();
+                    }
+                })
+            },
+            //图表设置
+            showCharts(){
+                //循环拿到的图表refid  去渲染数据  考虑正则匹配
+                this.$nextTick(function(){
+                    let reg=/mapId/;
+                    for(let key in this.$refs){
+                        if(reg.test(key)){//表示为下方所要展示图表的refid
+                            let str=key.replace(/mapId/,'');
+                            this.$refs[key][0].$emit('changeData',this.ids,this.nameAry,this.chartData[this.showStr][str]);
+                        }
                     }
                 })
             },

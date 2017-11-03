@@ -161,22 +161,21 @@ export default {
       loading,
   },
   mounted(){
-      this.getData();
       this.$on('showSetWrap',()=>{
           this.err='';
+          this.getData();
       });
   },
   methods:{
     getData(){
-        if(this.resData.length==0){
-            this.showLoading=true;
-            this.$http.get('/api/userGroupPortrait/queryConfigList.gm').then(function(res){
-                this.showLoading=false;
-                if(res.data.code==200){
-                    this.resData=res.data.dataInfo.allTag;
-                }
-            })
-        }  
+        this.showLoading=true;
+        this.$http.get('/api/userGroupPortrait/queryConfigList.gm').then(function(res){
+            this.showLoading=false;
+            if(res.data.code==200){
+                this.resData=res.data.dataInfo.allTag;
+                this.selectData=res.data.dataInfo.selected;
+            }
+        })
     },
     saveSet(){
         var fil=this.selectData.join(',');
