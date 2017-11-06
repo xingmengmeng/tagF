@@ -7,7 +7,7 @@
         <ul class="ulWrap">
             <li v-for="(item,index) in resData" :key="index" class="wrapLi">
                 <span class="firTitle" @click="changeShowIndex(index)" :class="showIndex==index?'active':''">{{index}}</span>
-                <table width="100%" v-show="showIndex==index">
+                <table width="100%" v-show="showIndex==index" class="maxMapTab">
                     <thead>
                         <tr>
                             <th>二级标签</th>
@@ -16,7 +16,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(curTr,index) in item" :key="index">
+                        <tr v-for="(curTr,curIndex) in item" :key="curIndex">
                             <td>{{curTr.parentName}}</td>
                             <td>{{curTr.name}}</td>
                             <td><input type="checkbox" :value="curTr.id" v-model="selectData"></td>
@@ -160,6 +160,11 @@ export default {
   components:{
       loading,
   },
+  watch:{
+      selectData(){
+          this.err='';
+      }
+  },
   mounted(){
       this.$on('showSetWrap',()=>{
           this.err='';
@@ -174,12 +179,20 @@ export default {
             if(res.data.code==200){
                 this.resData=res.data.dataInfo.allTag;
                 this.selectData=res.data.dataInfo.selected;
+                this.$nextTick(function(res){
+                    this.countLineNum();
+                })
             }
         })
     },
     saveSet(){
         if(this.selectData.length==0){
             this.err='最少勾选一项指标。';
+            return;
+        }
+        let maxLine=this.countLineNum();
+        if(maxLine>10){
+            this.err='单条业务线最多勾选10项指标。';
             return;
         }
         var fil=this.selectData.join(',');
@@ -207,6 +220,26 @@ export default {
         }else{
             this.showIndex=index;
         }
+    },
+    //业务线选中条数
+    countLineNum(){
+        //得到所有table
+        let aTab=document.querySelectorAll('.maxMapTab');
+        var max=0;
+        for(let i=0;i<aTab.length;i++){
+            //得到每个table下的input
+            var aInput=aTab[i].querySelectorAll('input');
+            var nums=0;
+            for(let j=0;j<aInput.length;j++){
+                if(aInput[j].checked){
+                    nums++;
+                }
+            }
+            if(nums>max){
+                max=nums;
+            }
+        }
+        return max;
     }
   }
   
