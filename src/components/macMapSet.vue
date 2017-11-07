@@ -179,9 +179,6 @@ export default {
             if(res.data.code==200){
                 this.resData=res.data.dataInfo.allTag;
                 this.selectData=res.data.dataInfo.selected;
-                this.$nextTick(function(res){
-                    this.countLineNum();
-                })
             }
         })
     },
