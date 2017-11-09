@@ -86,8 +86,8 @@
                             <span>~</span>
                             <input type="text" v-model="maxTxt" @blur="valiMin(maxTxt)" placeholder="< 数值">
                             <span>{{tagCon.unit}}</span>
-                            <span v-if="tagCon.decimalPoint==2">(小数点后2位)</span>
-                            <span v-if="tagCon.decimalPoint==1">(小数点后1位)</span>
+                            <span v-if="tagCon.decimalPoint==2">(最多小数点后2位)</span>
+                            <span v-if="tagCon.decimalPoint==1">(最多小数点后1位)</span>
                             <span v-if="tagCon.decimalPoint==0||tagCon.decimalPoint==null">(输入整数)</span>
                         </li>  
                     </ul>
