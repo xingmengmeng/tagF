@@ -27,6 +27,12 @@
         },
         methods:{
             drawChart(data){
+                //如果数据大于30列 则柱形图宽度自适应
+                for(let curData in data){
+                    if(data[curData].length>30){
+                        this.serWidth=null;
+                    };
+                }
                 var xData=[],series1=[],series2=[],valuess0=[],valuess1=[];
                 if(data[this.ids[0]]){
                     data[this.ids[0]].forEach( (item)=> {
@@ -55,24 +61,7 @@
                             /*tooltip : {trigger: 'item'},*/
                             itemStyle: {
                                 normal: {
-                                    color: new echarts.graphic.LinearGradient(
-                                            0, 0, 0, 1,
-                                            [
-                                                {offset: 1, color: '#6d8ffa'},
-                                                {offset: 0.5, color: '#6ea6fc'},
-                                                {offset: 0, color: '#6fc2ff'}
-                                            ]
-                                    )
-                                },
-                                emphasis: {
-                                    color: new echarts.graphic.LinearGradient(
-                                            0, 0, 0, 1,
-                                            [
-                                                {offset: 1, color: '#2378f7'},
-                                                {offset: 0.7, color: '#2378f7'},
-                                                {offset: 0, color: '#83bff6'}
-                                            ]
-                                    )
+                                    color: '#6ea1fc',
                                 }
                             },
                         }
@@ -87,24 +76,7 @@
                             /*tooltip : {trigger: 'item'},*/
                             itemStyle: {
                                 normal: {
-                                    color: new echarts.graphic.LinearGradient(
-                                            0, 0, 0, 1,
-                                            [
-                                                {offset: 1, color: '#6d8ffa'},
-                                                {offset: 0.5, color: '#6ea6fc'},
-                                                {offset: 0, color: '#6fc2ff'}
-                                            ]
-                                    )
-                                },
-                                emphasis: {
-                                    color: new echarts.graphic.LinearGradient(
-                                            0, 0, 0, 1,
-                                            [
-                                                {offset: 1, color: '#2378f7'},
-                                                {offset: 0.7, color: '#2378f7'},
-                                                {offset: 0, color: '#83bff6'}
-                                            ]
-                                    )
+                                    color: '#6ea1fc',
                                 }
                             },
                         },
