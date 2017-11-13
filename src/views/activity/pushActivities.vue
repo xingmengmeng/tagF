@@ -451,7 +451,7 @@
                     return false;
                 }
                 if(!this.agreeOa){
-                    this.saveError='勾选项未空，请勾选后再提交';
+                    this.saveError='勾选项为空，请勾选后再提交';
                     return false;
                 }
                 this.$http.post('/api/marketActivity/save.gm',{"systemCode":this.systemId,"userGroupId":this.gropId,"subject":this.subject,"systemService":this.selectedSer,"pushField":this.servicCode},{emulateJSON:true}).then(function (res) {
