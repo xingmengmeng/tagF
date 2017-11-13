@@ -151,7 +151,7 @@
             addUserGroupFn(){
                 this.getLocalStatus();
                 if(!this.agreeOa){
-                    this.saveError='勾选项未空，请勾选后再提交';
+                    this.saveError='勾选项为空，请勾选后再提交';
                     return false;
                 }
                 if(this.status==2){
