@@ -134,10 +134,11 @@
                 line-height: 180%;
             }
             pre{
+                white-space: pre-wrap;
+                word-wrap:break-word;
                 font-size: 12px;
                 line-height: 180%;
-                word-wrap: break-word;
-                white-space: normal;
+               
             }
             i{
                 display: inline-block;
