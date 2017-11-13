@@ -199,6 +199,7 @@
                 var overlay=document.querySelector('.overlay'),
                         markWarp=document.querySelector('.markWarp');
                 overlay.style.display=markWarp.style.display='block';
+                this.versionName='';
             },
             hideMark(){
                 var overlay=document.querySelector('.overlay'),
@@ -207,13 +208,15 @@
             },
             //保存版本号
             addVersionbFn(){
-                var versionNameLength=this.versionName.gblen();
                 if(this.versionName==''){
                     this.savaError='版本号不能为空';
                     return false;
-                }else if(versionNameLength>20){
-                    this.savaError='最多输入20个字符';
-                    return false;
+                }else{
+                    var versionNameLength=this.versionName.gblen();
+                    if(versionNameLength>20){
+                        this.savaError='最多输入20个字符';
+                        return false;
+                    }  
                 }
                 this.$http.post('/api/version/save.gm',{"versionName":this.versionName},{emulateJSON:true}).then(function (res) {
                    if(res.data.code==200){
