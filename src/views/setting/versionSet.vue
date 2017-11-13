@@ -234,16 +234,21 @@
                 }else{
                     this.errorV='';
                 }
-                var tagConLength=this.tagCon.gblen();
-                if(tagConLength>1000){
-                    this.errorV='原子标签描述最多只能输入500个字';
-                    return false;
+                if(this.tagCon!=''){
+                    var tagConLength=this.tagCon.gblen();
+                    if(tagConLength>1000){
+                        this.errorV='原子标签描述最多只能输入500个字';
+                        return false;
+                    }
                 }
-                var proCon=this.proCon.gblen();
-                if(proCon>1000){
-                    this.errorV='功能描述最多只能输入500个字';
-                    return false;
+                if(this.proCon!=''){
+                    var proCon=this.proCon.gblen();
+                    if(proCon>1000){
+                        this.errorV='功能描述最多只能输入500个字';
+                        return false;
+                    }
                 }
+                
                 this.$http.post('/api/version/update.gm',{"id":this.versonNo,"versionDate":this.updateTime,"tagContent":this.tagCon,"functionContent":this.proCon},{emulateJSON:true}).then(function (res) {
                    if(res.data.code==200){
                         this.succCon="保存成功！";
