@@ -65,7 +65,7 @@
                                     <td v-cloak>{{item.useTime}}</td>
                                     <td>
                                         <a href="javascript:;" class="listDetailLink" @click="showActDetail(item.id,$event)">详情</a>
-                                        <a href="javascript:;" class="resDetailLink" @click="showResDetail(item.id)">短信发送结果</a>
+                                        <a href="javascript:;" class="resDetailLink" @click="showResDetail(item.id)" v-show="item.isEffect=='1'">短信发送结果</a>
                                         <a :href="'activity.html?sno='+item.sno" target="_blank" class="actInfoLink" v-show="item.useStatus=='已使用'">活动分析</a>
                                         <a href="javascript:;" @click="deleteUserGroup(item.id)" class="listDeleteBtn" v-show="item.useStatus!='已使用'" v-if="item.createrId&&item.createrId=='canDel'">删除</a>
                                     </td>
@@ -531,7 +531,9 @@
                                     interactiveScrollbars:true
                                 });
                             }else{
-                                this.ideaScroll.refresh();
+                                setTimeout(()=>{
+                                    this.ideaScroll.refresh();
+                                },0)
                             }
                         });
                     }
