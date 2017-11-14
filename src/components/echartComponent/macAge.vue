@@ -32,6 +32,7 @@
                     if(data[curData].length>30){
                         this.serWidth=null;
                     };
+                    break;
                 }
                 var xData=[],series1=[],series2=[],valuess0=[],valuess1=[];
                 if(data[this.ids[0]]){
