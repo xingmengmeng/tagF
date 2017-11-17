@@ -364,7 +364,7 @@
             /*弹框中 确定按钮事件  提交信息 */
             addUserGroupFn(){
                 var userGroupNameLength=this.userGroupName.gblen();
-                let reg=/[\\\/\:\*\?\'\'\<\>\|]/g;
+                let reg=/[\\\/\:\*\?\'\'\<\>\|\~]/g;
 
                 if(this.userGroupName==''){
                     this.savaError='用户群名称不能为空';
