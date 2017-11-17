@@ -105,6 +105,7 @@
 
                 this.$http.post('/api/handleProcess/save.gm',{"monthCount":this.monthTag,"quarterCount":this.monthAllTag,"yearCount":this.yearTag},{emulateJSON:true}).then(function(res){
                     if(res.data.code=='200'){
+                        this.errorV='';
                         this.showSuccess=true;
                         setTimeout(()=>{
                             this.showSuccess=false;
