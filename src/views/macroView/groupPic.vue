@@ -445,10 +445,12 @@
             //点击配置  执行
             showSetFn(){
                 this.showSet=true;
+                document.body.style.overflow='hidden';
                 this.$refs.setTag.$emit('showSetWrap');
             },
             hideMarkWrap(cur){
                 this.showSet=false;
+                document.body.style.overflow='scroll';
                 if(cur){
                     this.getDetailMap();
                 }
