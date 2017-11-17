@@ -427,6 +427,7 @@
                 var overlay=document.querySelector('.overlay'),
                         markWarp=document.querySelector('.markAddAct');
                 overlay.style.display=markWarp.style.display='block';
+                document.body.style.overflow='hidden';
                 this.$http.get('/api/userGroup/querySelectList.gm').then(function (response) {
                     this.groupData=response.data.dataInfo;
                 });
@@ -442,6 +443,7 @@
                         markDelet=document.querySelector('.markDelet'),
                         resDetail=document.querySelector('.resDetail');
                 overlay.style.display=markWarp.style.display=markActDetail.style.display=markDelet.style.display=resDetail.style.display='none';
+                document.body.style.overflow='scroll';
             },
             /*提交事件*/
             addUserGroupFn(){
@@ -460,6 +462,7 @@
                                 markWarp=document.querySelector('.markAddAct');
                         /*弹框消失  列表刷新*/
                         overlay.style.display=markWarp.style.display='none';
+                        document.body.style.overflow='scroll';
                         this.getTabList();
                     }else{
                         this.saveError=res.data.msg.replace('参数校验不通过:','');
@@ -502,6 +505,7 @@
                     var overlay=document.querySelector('.overlay'),
                             markActDetail=document.querySelector('.markActDetail');
                     overlay.style.display=markActDetail.style.display='block';
+                    document.body.style.overflow='hidden';
                     this.$http.get('/api/marketActivity/getById.gm?id='+item.id).then(function (res) {
                         this.actDetail=res.data.dataInfo;
                         this.getStatus=this.actDetail.status;
@@ -515,14 +519,16 @@
             },
             /*短信发送结果弹框*/
             showResDetail(id,e){
+                this.effectData=null;
                 var overlay=document.querySelector('.overlay'),
                     markRes=document.querySelector('.resDetail');
                 overlay.style.display=markRes.style.display='block';
+                document.body.style.overflow='hidden';
                 this.$http.get('/api/marketActivity/queryEffectList.gm?id='+id).then(function(res){
                     if(res.data.code==200){
                         this.effectData=res.data.dataInfo;
                         this.$nextTick(function(){
-                            if(!this.resDetailScroll){
+                            if(this.resDetailScroll==null){
                                 this.resDetailScroll=new IScroll('.resDetailScroll',{
                                     mouseWheel: true,
                                     scrollbars: true,
@@ -532,7 +538,8 @@
                                 });
                             }else{
                                 setTimeout(()=>{
-                                    this.ideaScroll.refresh();
+                                    this.resDetailScroll.refresh();
+                                    this.resDetailScroll.scrollTo(0, 0);
                                 },0)
                             }
                         });
@@ -547,12 +554,14 @@
                 overlay.style.display=markDelet.style.display='block';
                 console.log(id);
                 localStorage.actDeleteId=id;
+                document.body.style.overflow='hidden';
             },
             deletFalse(){
                 /*取消  关弹框*/
                 var overlay=document.querySelector('.overlay'),
                         markDelet=document.querySelector('.markDelet');
                 overlay.style.display=markDelet.style.display='none';
+                document.body.style.overflow='scroll';
             },
             deleteTrue(){
                 /*确定  删除  关弹框*/
@@ -560,9 +569,7 @@
                 console.log(id);
                 this.$http.delete('/api/marketActivity/delete.gm?id='+id).then(function (res) {
                     if(res.data.code==200){
-                        var overlay=document.querySelector('.overlay'),
-                                markDelet=document.querySelector('.markDelet');
-                        overlay.style.display=markDelet.style.display='none';
+                        this.deletFalse();
                         /*前台页面列表数组删除此条数据  或者再走一次接口*/
                         this.list=this.list.filter( (item)=> {
                             return id!=item.id;
