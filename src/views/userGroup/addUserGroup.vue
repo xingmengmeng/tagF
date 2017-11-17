@@ -110,7 +110,7 @@
             <ul class="clearfix addUserGroup">
                 <li class="clearfix">
                     <label class="left"><strong>*</strong>用户群名称：</label>
-                    <input type="text" v-model="userGroupName" placeholder="最多可输入20个字符" class="left txt">
+                    <input type="text" v-model="userGroupName" placeholder="最多可输入40个字符" class="left txt">
                 </li>
                 <li class="errorLi clearfix" style="padding:0px 0 0 95px;height: 14px; font-size: 12px; color: #B40606;">
                     <span v-cloak>{{savaError}}</span>
@@ -364,11 +364,16 @@
             /*弹框中 确定按钮事件  提交信息 */
             addUserGroupFn(){
                 var userGroupNameLength=this.userGroupName.gblen();
+                let reg=/[\\\/\:\*\?\'\'\<\>\|]/g;
+
                 if(this.userGroupName==''){
                     this.savaError='用户群名称不能为空';
                     return false;
-                }else if(userGroupNameLength>20){
-                    this.savaError='最多输入20个字符';
+                }else if(userGroupNameLength>40){
+                    this.savaError='最多输入40个字符';
+                    return false;
+                }else if(reg.test(this.userGroupName)){
+                    this.savaError='不能包含下列任何字符：\ / : * ? " < > |';
                     return false;
                 }
                 this.$http.post(this.addGroupUrl,{"name":this.userGroupName,"tagRelations":JSON.stringify(this.targetData)},{emulateJSON:true}).then(function (response) {
