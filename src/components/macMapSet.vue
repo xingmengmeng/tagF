@@ -2,7 +2,7 @@
   <div>
       <div class="overlayNew"></div>
       <div class="markWrap">
-        <div class="top">人群画像指标设置（单条业务线最多勾选10项）<i class="close" @click="hideOneLine">关闭</i></div>
+        <div class="top">人群画像指标设置（单条业务线最多勾4项）<i class="close" @click="hideOneLine">关闭</i></div>
         <loading v-show="showLoading"></loading> 
         <ul class="ulWrap">
             <li v-for="(item,index) in resData" :key="index" class="wrapLi">
@@ -188,8 +188,8 @@ export default {
             return;
         }
         let maxLine=this.countLineNum();
-        if(maxLine>10){
-            this.err='单条业务线最多勾选10项指标。';
+        if(maxLine>4){
+            this.err='单条业务线最多勾选4项指标。';
             return;
         }
         var fil=this.selectData.join(',');

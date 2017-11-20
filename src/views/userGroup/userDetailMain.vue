@@ -16,6 +16,9 @@
                                     <button class="saveBtn" v-show="editing" @click="editMess">保存</button>
                                     <button class="saveBtn" v-show="editing" @click="editBack">取消</button>
                                 </li>
+                                <li class="savaError redFont">
+                                    {{savaError}}
+                                </li>
                                 <li>
                                     <label>序列号</label>
                                     <span v-cloak>{{resData.sno}}</span>
@@ -120,6 +123,11 @@
         </div>
     </section>
 </template>
+<style lang="less" scoped>
+    .savaError{
+        padding-left: 84px;
+    }
+</style>
 
 <script type='text/ecmascript-6'>
     import rightMenu from '../../components/userGroupRightMenu.vue';
@@ -155,6 +163,7 @@
                 editTem:'',
                 hasAuth:true,//是否有权限
                 hasCsv:'false',//是否有csv下载权限
+                savaError:'',
             }
         },
         watch: {
@@ -223,11 +232,24 @@
             /*点击保存  修改并改状态*/
             editMess(){
                 var val=this.resData.name;
-                console.log(val);
+                var userGroupNameLength=val.gblen();
+                let reg=/[\\\/\:\*\?\'\"\<\>\|\~]/g;
+
+                if(this.resData.name==''){
+                    this.savaError='用户群名称不能为空';
+                    return false;
+                }else if(userGroupNameLength>40){
+                    this.savaError='最多输入40个字符';
+                    return false;
+                }else if(reg.test(this.resData.name)){
+                    this.savaError='不能包含下列任何字符：\\ / : * ? \' " < > | ~';
+                    return false;
+                }
                 localStorage.thisGroupStatus=this.status;
                 this.$http.post('/api/userGroup/update.gm',{"id":this.gropId,"name":val},{emulateJSON:true}).then(function (response) {
                     /*操作日志*/
                     this.editing=false;
+                    this.savaError='';
                     var editInput=document.querySelector('#editInput');
                     editInput.setAttribute('disabled',true);
 
@@ -240,6 +262,7 @@
             editBack(){
                 this.resData.name=this.editTem;
                 this.editing=false;
+                this.savaError='';
                 var editInput=document.querySelector('#editInput');
                 editInput.setAttribute('disabled',true);
             },
