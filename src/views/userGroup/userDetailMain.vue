@@ -125,7 +125,7 @@
 </template>
 <style lang="less" scoped>
     .savaError{
-        padding-left: 84px;
+        padding-left: 89px;
     }
 </style>
 
