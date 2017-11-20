@@ -55,7 +55,7 @@
                                 <tbody>
                                 <tr v-for="item in list" @click="showActDetail(item,$event)">
                                     <td v-cloak>{{item.sno}}</td>
-                                    <td v-cloak title="用户群名称" :data-status="item.status">{{item.userGroupName}}</td>
+                                    <td v-cloak title="用户群名称" :data-status="item.status" class="groupName" :class="item.status!=2?'active':''">{{item.userGroupName}}</td>
                                     <td v-cloak>{{item.systemName}}</td>
                                     <td v-cloak>{{item.subject}}</td>
                                     <td v-cloak>{{item.coverUserCount}}</td>
@@ -275,6 +275,11 @@
     .markWarp ul li.saveErrorLi span.errorSpan{
         padding-left: 0;
         text-align: center;
+    }
+    .groupName{
+        &.active:hover{
+            text-decoration: underline;
+        }
     }
     .tabWrap{
         float: left;

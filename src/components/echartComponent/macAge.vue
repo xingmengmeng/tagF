@@ -114,8 +114,8 @@
                     grid:{
                         top:20,
                         bottom:80,
-                        left: '45',
-			            right: '45',
+                        left: '65',
+			            right: '65',
                     },
                     legend: {
                         data:this.nameAry,
