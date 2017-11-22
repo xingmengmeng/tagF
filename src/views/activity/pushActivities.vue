@@ -520,6 +520,7 @@
                 if(e.target.title=='用户群名称'&&e.target.dataset.status!=2){
                     this.$router.push({path:'userGroup/userDetail/groupMain'});
                     localStorage.thisGroupId=item.userGroupId;
+                    localStorage.thisGroupName=item.userGroupName;
                 }
             },
             /*短信发送结果弹框*/
