@@ -64,7 +64,7 @@
                                     <td v-cloak>{{item.useStatus}}</td>
                                     <td v-cloak>{{item.useTime}}</td>
                                     <td>
-                                        <a href="javascript:;" class="listDetailLink" @click="showActDetail(item.id,$event)">详情</a>
+                                        <a href="javascript:;" class="listDetailLink">详情</a>
                                         <a href="javascript:;" class="resDetailLink" @click="showResDetail(item.id)" v-show="item.isEffect=='1'">短信发送结果</a>
                                         <a :href="'activity.html?sno='+item.sno" target="_blank" class="actInfoLink" style="display:none">活动分析</a>
                                         <a href="javascript:;" @click="deleteUserGroup(item.id)" class="listDeleteBtn" v-if="item.createrId&&item.createrId=='canDel'">删除</a>
@@ -531,7 +531,6 @@
                     this.$http.get('/api/marketActivity/getById.gm?id='+item.id).then(function (res) {
                         this.actDetail=res.data.dataInfo;
                         this.getStatus=this.actDetail.status;
-                        console.log(this.getStatus);
                     })
                 }
                 if(e.target.title=='用户群名称'&&e.target.dataset.status!=2){
@@ -575,7 +574,6 @@
                 var overlay=document.querySelector('.overlay'),
                         markDelet=document.querySelector('.markDelet');
                 overlay.style.display=markDelet.style.display='block';
-                console.log(id);
                 localStorage.actDeleteId=id;
                 document.body.style.overflow='hidden';
             },
@@ -589,7 +587,6 @@
             deleteTrue(){
                 /*确定  删除  关弹框*/
                 var id=localStorage.actDeleteId;
-                console.log(id);
                 this.$http.delete('/api/marketActivity/delete.gm?id='+id).then(function (res) {
                     if(res.data.code==200){
                         this.deletFalse();
