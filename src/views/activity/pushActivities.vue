@@ -141,7 +141,7 @@
                                     </li>
                                     <li class="clearfix btnWrap fixBtn">
                                         <input type="button" value="取消" @click="hideMark">
-                                        <input type="button" value="确定" @click="addUserGroupFn">
+                                        <input type="button" value="确定" @click="addUserGroupFn" id="addAct">
                                     </li>
                                 </ul>
                             </div>
@@ -429,6 +429,8 @@
                 this.counts=0;
                 this.saveError='';
                 this.serviceList=null;
+                this.agreeOa=false;
+                this.changeBtn();
                 var overlay=document.querySelector('.overlay'),
                         markWarp=document.querySelector('.markAddAct');
                 overlay.style.display=markWarp.style.display='block';
@@ -450,6 +452,20 @@
                 overlay.style.display=markWarp.style.display=markActDetail.style.display=markDelet.style.display=resDetail.style.display='none';
                 document.body.style.overflow='scroll';
             },
+            changeBtn(unclicks){
+                var addAct=document.querySelector('#addAct');
+                if(unclicks){
+                    addAct.style.background='#ddd';
+                    addAct.style.color='#333';
+                    addAct.style.cursor='default';
+                    addAct.setAttribute('disabled','true');
+                }else{
+                    addAct.style.background='#1078f5';
+                    addAct.style.color='#fff';
+                    addAct.style.cursor='pointer';
+                    addAct.removeAttribute('disabled');
+                }
+            },
             /*提交事件*/
             addUserGroupFn(){
                 var subjectLength=this.subject.gblen();
@@ -461,11 +477,12 @@
                     this.saveError='勾选项为空，请勾选后再提交';
                     return false;
                 }
+                this.changeBtn('unclicks');
                 this.$http.post('/api/marketActivity/save.gm',{"systemCode":this.systemId,"userGroupId":this.gropId,"subject":this.subject,"systemService":this.selectedSer,"pushField":this.servicCode},{emulateJSON:true}).then(function (res) {
+                    this.changeBtn();
                     if(res.data.code==200){
                         var overlay=document.querySelector('.overlay'),
                                 markWarp=document.querySelector('.markAddAct');
-                        /*弹框消失  列表刷新*/
                         overlay.style.display=markWarp.style.display='none';
                         document.body.style.overflow='scroll';
                         this.getTabList();

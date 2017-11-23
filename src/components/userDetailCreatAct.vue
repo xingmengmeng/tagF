@@ -69,7 +69,7 @@
                 </li>
                 <li class="clearfix btnWrap fixBtn" style="margin-top: 10px">
                     <input type="button" value="取消" @click="hideMark">
-                    <input type="button" value="确定" @click="addUserGroupFn">
+                    <input type="button" value="确定" @click="addUserGroupFn" id="addAct">
                 </li>
             </ul>
         </div>
@@ -167,7 +167,9 @@
                     this.saveError='主题最多输入20个字符';
                     return false;
                 }
+                this.changeBtn('unclicks');
                 this.$http.post('/api/marketActivity/save.gm',{"systemCode":this.systemId,"userGroupId":this.gropId,"subject":this.subject,"systemService":this.selectedSer,"pushField":this.servicCode},{emulateJSON:true}).then(function (res) {
+                    this.changeBtn();
                     if(res.data.code==200){
                         //window.location.href='pushActivities.html';
                         this.$router.push({path:'/pushActivities'})
@@ -185,12 +187,28 @@
                     this.serviceList=response.data.dataInfo;
                 })
             },
+            changeBtn(unclicks){
+                var addAct=document.querySelector('#addAct');
+                if(unclicks){
+                    addAct.style.background='#ddd';
+                    addAct.style.color='#333';
+                    addAct.style.cursor='default';
+                    addAct.setAttribute('disabled','true');
+                }else{
+                    addAct.style.background='#1078f5';
+                    addAct.style.color='#fff';
+                    addAct.style.cursor='pointer';
+                    addAct.removeAttribute('disabled');
+                }
+            },
             /*显示创建活动弹框*/
             showMark(){
                 this.saveError='';
                 this.selected='';
                 this.subject='';
                 this.serviceList=null;
+                this.serviceList=null;
+                this.agreeOa=false;
                 var overlay=document.querySelector('.overlay'),
                         markWarp=document.querySelector('.markAddAct');
                 overlay.style.display=markWarp.style.display='block';
