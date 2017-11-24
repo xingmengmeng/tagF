@@ -26,8 +26,8 @@
                         _this.activityCountData.push(item.activityCount);/*活动用户群数据*/
                         _this.pushCountData.push(item.pushCount);/*推送成功群数据*/
                         _this.yAxisData.push(item.pushedName);/*y轴 即每行*/
-                        /*_this.legendData=['未使用活动数','推送成功活动数'];*/
-                        _this.legendData=['未使用活动数'];
+                        _this.legendData=['未使用活动数','已使用活动数'];
+                       /* _this.legendData=['未使用活动数'];*/
                     })
                     _this.drawPie('mainStack');/*画图*/
                 },(response) => {
@@ -38,7 +38,7 @@
                 if(document.getElementById(id)){
                     this.chart = echarts.init(document.getElementById(id))
                     this.chart.setOption({
-                        color:['#b9caf6','#8eb2f6'],
+                        color:['#6ea1fc','#2fcacc'],
                         tooltip : {
                             trigger: 'axis',
                             axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -86,19 +86,15 @@
                             {
                                 name:this.legendData[0],
                                 type:'bar',
-                                stack: '总量',
-                                itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
                                 data:this.activityCountData,
-                                barWidth : 48,
+                                barWidth : 11,
                             },
-                            /*{
+                            {
                                 name:this.legendData[1],
                                 type:'bar',
-                                stack: '总量',
-                                itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
                                 data:this.pushCountData,
-                                barWidth : 48,
-                            },*/
+                                barWidth : 11,
+                            },
                         ]
                     })
                 }
