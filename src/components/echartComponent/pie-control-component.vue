@@ -3,7 +3,7 @@
         <div class="clearfix">
             <div class="dataControl">四级标签数：<span>{{tagTotalData}}个</span></div>
         </div>
-        <div id="pieControlWrap">带环饼图</div>
+        <div id="pieControlWrap"><!--带环饼图--></div>
     </div>
 </template>
 <script type="text/ecmascript-6">
