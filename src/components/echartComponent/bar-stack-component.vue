@@ -71,7 +71,7 @@
                                 data : this.yAxisData,
                                 axisLabel:{
                                     textStyle:{
-                                        fontSize:10,
+                                        fontSize:12,
                                     }
                                 },
                                 axisLine: {
