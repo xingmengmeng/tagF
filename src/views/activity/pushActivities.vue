@@ -310,6 +310,7 @@
                 padding:5px 0;
                 border: 1px solid #DDEDFF;
                 text-align: center;
+                word-break : break-all;
                 &.hasBg{
                     background: #F7FAFE;
                 }
