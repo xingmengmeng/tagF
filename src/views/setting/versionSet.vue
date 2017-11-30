@@ -234,14 +234,14 @@
                 }else{
                     this.errorV='';
                 }
-                if(this.tagCon!=''){
+                if(this.tagCon&&this.tagCon!=''){
                     var tagConLength=this.tagCon.gblen();
                     if(tagConLength>1000){
                         this.errorV='原子标签描述最多只能输入500个字';
                         return false;
                     }
                 }
-                if(this.proCon!=''){
+                if(this.proCon&&this.proCon!=''){
                     var proCon=this.proCon.gblen();
                     if(proCon>1000){
                         this.errorV='功能描述最多只能输入500个字';
