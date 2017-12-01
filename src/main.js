@@ -32,6 +32,7 @@ import authList from './views/setting/authList.vue';
 import authSet from './views/setting/authSet.vue';
 import versionSet from './views/setting/versionSet.vue';
 import tagProSet from './views/setting/tagProSet.vue';
+import setAPI from './views/setting/setAPI.vue';
 
 import tagView from './views/tagView/tagMain.vue';
 import tagMap from './views/tagView/tagView.vue';
@@ -117,7 +118,12 @@ const router = new VueRouter({
                 },
                 { path:'versionSet',component:versionSet},/*版本说明*/
                 { path:'tagProSet',component:tagProSet},/*标签加工*/
-                /*{ path:'authSet/:id',component:authSet},*/
+                { path:'api',component:auth,redirect:'api/apiAdd',
+                    children:[
+                        { path:'apiAdd',component:setAPI},/*api新增  首页*/
+                        
+                    ]
+                },/*API接口*/
             ]
         },
         /*{ path: "*", redirect: '/index' },*/
