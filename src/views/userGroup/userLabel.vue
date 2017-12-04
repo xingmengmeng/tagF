@@ -12,6 +12,10 @@
                                 {{resData}}
                             </span>-->
                             <div v-for="(item,index) in resDataAry" :key="index">
+                                <span class="left" :class="item=='或'?'orClass':(item=='且'?'andClass':'')">{{item}}</span>
+                            </div>
+
+                            <!--<div v-for="(item,index) in resDataAry" :key="index">
                                 <span class="left" v-if="item.length>1">（</span>
                                 <div class="left" v-for="(curTag,index) in item" :key="index">
                                     <span class="left ffTag">{{curTag}} </span>
@@ -19,7 +23,7 @@
                                 </div>
                                 <span class="left" v-if="item.length>1">）</span>
                                 <i v-if="index!=resDataAry.length-1" class="left andClass">且</i>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -87,8 +91,12 @@
                     this.resData=this.resData.replace(/and/ig,function () {
                         return '且';
                     });
+                    var reg1=' ';
+                    this.resDataAry=this.resData.split(reg1);
+                    /*console.log(this.resData);
                     var reg1=/\s+且\s+/g,reg2=/\s+或\s+/g;
                     var array1=this.resData.split(reg1);
+                    console.log(array1);
                     var newAry=[],aryss=[];
                     array1.forEach((item)=> {
                         var newAry=[];
@@ -99,6 +107,7 @@
                         })
                         this.resDataAry.push(newAry);
                     }, this);
+                    console.log(this.resDataAry);*/
                 });
             },
             /*从localstorage里拿到当前的用户群id*/
