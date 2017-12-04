@@ -33,6 +33,7 @@ import authSet from './views/setting/authSet.vue';
 import versionSet from './views/setting/versionSet.vue';
 import tagProSet from './views/setting/tagProSet.vue';
 import setAPI from './views/setting/setAPI.vue';
+import apiDetail from './views/setting/apiDetail.vue';
 
 import tagView from './views/tagView/tagMain.vue';
 import tagMap from './views/tagView/tagView.vue';
@@ -121,7 +122,7 @@ const router = new VueRouter({
                 { path:'api',component:auth,redirect:'api/apiAdd',
                     children:[
                         { path:'apiAdd',component:setAPI},/*api新增  首页*/
-                        
+                        { path:'apiDetail',component:apiDetail},
                     ]
                 },/*API接口*/
             ]

@@ -4,7 +4,7 @@
             +添加对接业务
         </div>
         <div class="listWrap apiListDiv">
-            <ul>
+            <ul @click="goDetail">
                 <li>国美app首页模块个性化服务</li>
                 <li>对接系统：金控cms后台系统</li>
                 <li>服务编号：001</li>
@@ -34,7 +34,7 @@
                     <input type="text" v-model="businessName" placeholder="最多可输入20个字符" class="left txt">
                 </li>
                 <li class="errorLi clearfix" style="padding:0px 0 0 95px;height: 14px; font-size: 12px; color: #B40606;">
-                    <span v-cloak>{{savaError}}</span>
+                    <span v-cloak>{{saveError}}</span>
                 </li>
                 <li class="btnWrap" style="margin-top: 10px">
                     <input type="button" value="取消" @click="hideMark">
@@ -55,6 +55,12 @@
 </template>
 <script>
     export default {
+        data(){
+            return{
+                businessName:'',
+                saveError:'',
+            }
+        },
         methods:{
             showAdd(){
                 var overlay=document.querySelector('.overlay'),
@@ -68,15 +74,22 @@
             },
             addFn(){
 
+            },
+            deletFalse(){
+
+            },
+            deleteTrue(){
+                
+            },
+            goDetail(){
+                console.log(1);
+                this.$router.push({path:'apiDetail',query: {id:"1"}});
             }
         },
     }
 </script>
 
 <style lang="less" scoped>
-    .addMess{
-
-    }
     .listWrap{
         margin-top:20px;
         float: left;
