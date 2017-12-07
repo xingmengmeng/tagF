@@ -270,7 +270,21 @@
                         }
                     }
                 }
-                
+                &:nth-of-type(6){
+                    h5{
+                        span{
+                            background: url('../../assets/images/myc.png') left center no-repeat;
+                            background-size: 34px 34px;
+                        }
+                    }
+                    .countWrap{
+                        .lineWrap{
+                            div{
+                                background: -webkit-linear-gradient( left,#02ada2,#70f2f7);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
